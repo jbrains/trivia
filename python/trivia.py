@@ -48,7 +48,7 @@ class Game:
         
         if self.in_penalty_box[self.current_player]:
             if roll % 2 != 0:
-                is_getting_out_of_penalty_box = True
+                self.is_getting_out_of_penalty_box = True
                 
                 print "%s is getting out of the penalty box" % self.players[self.current_player]
                 self.places[self.current_player] = self.places[self.current_player] + roll
@@ -56,20 +56,20 @@ class Game:
                     self.places[self.current_player] = self.places[self.current_player] - 12
                 
                 print self.players[self.current_player] + \
-                            '\'s new location is' + \
+                            '\'s new location is ' + \
                             str(self.places[self.current_player])
                 print "The category is %s" % self._current_category
                 self._ask_question()
             else:
                 print "%s is not getting out of the penalty box" % self.players[self.current_player]
-                is_getting_out_of_penalty_box = False
+                self.is_getting_out_of_penalty_box = False
         else:
             self.places[self.current_player] = self.places[self.current_player] + roll
             if self.places[self.current_player] > 11:
                 self.places[self.current_player] = self.places[self.current_player] - 12
             
             print self.players[self.current_player] + \
-                        '\'s new location is' + \
+                        '\'s new location is ' + \
                         str(self.places[self.current_player])
             print "The category is %s" % self._current_category
             self._ask_question()
@@ -100,7 +100,7 @@ class Game:
                 self.purses[self.current_player] += 1
                 print self.players[self.current_player] + \
                     ' now has ' + \
-                    self.purses[self.current_player] + \
+                    str(self.purses[self.current_player]) + \
                     ' Gold Coins.'
                 
                 winner = self._did_player_win()
