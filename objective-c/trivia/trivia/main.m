@@ -2,7 +2,8 @@
 
 int main(int argc, const char * argv[])
 {
-
+    srand ( (int)time(NULL) );
+    
     @autoreleasepool {
         BOOL notAWinner;
         
