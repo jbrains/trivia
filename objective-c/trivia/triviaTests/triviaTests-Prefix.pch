@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'triviaTests' target in the 'triviaTests' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <SenTestingKit/SenTestingKit.h>
+#endif

@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		62479B5315E7EE5A00AF78F3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62479B5215E7EE5A00AF78F3 /* SenTestingKit.framework */; };
+		62479B5515E7EE5A00AF78F3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62479B5415E7EE5A00AF78F3 /* Cocoa.framework */; };
+		62479B6215E7EE5A00AF78F3 /* triviaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62479B6115E7EE5A00AF78F3 /* triviaTests.m */; };
+		62479B6815E7EE7F00AF78F3 /* LCRGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D02AF015E6CCC20089D9F2 /* LCRGame.m */; };
+		62D02AE215E6CC250089D9F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D02AE115E6CC250089D9F2 /* Foundation.framework */; };
+		62D02AE515E6CC250089D9F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D02AE415E6CC250089D9F2 /* main.m */; };
+		62D02AF115E6CCC20089D9F2 /* LCRGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D02AF015E6CCC20089D9F2 /* LCRGame.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		62D02ADB15E6CC250089D9F2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		62479B5115E7EE5A00AF78F3 /* triviaTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = triviaTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		62479B5215E7EE5A00AF78F3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		62479B5415E7EE5A00AF78F3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		62479B5715E7EE5A00AF78F3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		62479B5815E7EE5A00AF78F3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		62479B5915E7EE5A00AF78F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		62479B5C15E7EE5A00AF78F3 /* triviaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "triviaTests-Info.plist"; sourceTree = "<group>"; };
+		62479B6115E7EE5A00AF78F3 /* triviaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = triviaTests.m; sourceTree = "<group>"; };
+		62479B6315E7EE5A00AF78F3 /* triviaTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "triviaTests-Prefix.pch"; sourceTree = "<group>"; };
+		62D02ADD15E6CC250089D9F2 /* trivia */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = trivia; sourceTree = BUILT_PRODUCTS_DIR; };
+		62D02AE115E6CC250089D9F2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		62D02AE415E6CC250089D9F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		62D02AE715E6CC250089D9F2 /* trivia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "trivia-Prefix.pch"; sourceTree = "<group>"; };
+		62D02AEF15E6CCC20089D9F2 /* LCRGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCRGame.h; sourceTree = "<group>"; };
+		62D02AF015E6CCC20089D9F2 /* LCRGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCRGame.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		62479B4D15E7EE5A00AF78F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62479B5315E7EE5A00AF78F3 /* SenTestingKit.framework in Frameworks */,
+				62479B5515E7EE5A00AF78F3 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62D02ADA15E6CC250089D9F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62D02AE215E6CC250089D9F2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		62479B5615E7EE5A00AF78F3 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62479B5715E7EE5A00AF78F3 /* AppKit.framework */,
+				62479B5815E7EE5A00AF78F3 /* CoreData.framework */,
+				62479B5915E7EE5A00AF78F3 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		62479B5A15E7EE5A00AF78F3 /* triviaTests */ = {
+			isa = PBXGroup;
+			children = (
+				62479B6115E7EE5A00AF78F3 /* triviaTests.m */,
+				62479B5B15E7EE5A00AF78F3 /* Supporting Files */,
+			);
+			path = triviaTests;
+			sourceTree = "<group>";
+		};
+		62479B5B15E7EE5A00AF78F3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				62479B5C15E7EE5A00AF78F3 /* triviaTests-Info.plist */,
+				62479B6315E7EE5A00AF78F3 /* triviaTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		62D02AD215E6CC250089D9F2 = {
+			isa = PBXGroup;
+			children = (
+				62D02AE315E6CC250089D9F2 /* trivia */,
+				62479B5A15E7EE5A00AF78F3 /* triviaTests */,
+				62D02AE015E6CC250089D9F2 /* Frameworks */,
+				62D02ADE15E6CC250089D9F2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		62D02ADE15E6CC250089D9F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62D02ADD15E6CC250089D9F2 /* trivia */,
+				62479B5115E7EE5A00AF78F3 /* triviaTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62D02AE015E6CC250089D9F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62D02AE115E6CC250089D9F2 /* Foundation.framework */,
+				62479B5215E7EE5A00AF78F3 /* SenTestingKit.framework */,
+				62479B5415E7EE5A00AF78F3 /* Cocoa.framework */,
+				62479B5615E7EE5A00AF78F3 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		62D02AE315E6CC250089D9F2 /* trivia */ = {
+			isa = PBXGroup;
+			children = (
+				62D02AE415E6CC250089D9F2 /* main.m */,
+				62D02AEF15E6CCC20089D9F2 /* LCRGame.h */,
+				62D02AF015E6CCC20089D9F2 /* LCRGame.m */,
+				62D02AE615E6CC250089D9F2 /* Supporting Files */,
+			);
+			path = trivia;
+			sourceTree = "<group>";
+		};
+		62D02AE615E6CC250089D9F2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				62D02AE715E6CC250089D9F2 /* trivia-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		62479B5015E7EE5A00AF78F3 /* triviaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62479B6615E7EE5A00AF78F3 /* Build configuration list for PBXNativeTarget "triviaTests" */;
+			buildPhases = (
+				62479B4C15E7EE5A00AF78F3 /* Sources */,
+				62479B4D15E7EE5A00AF78F3 /* Frameworks */,
+				62479B4E15E7EE5A00AF78F3 /* Resources */,
+				62479B4F15E7EE5A00AF78F3 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = triviaTests;
+			productName = triviaTests;
+			productReference = 62479B5115E7EE5A00AF78F3 /* triviaTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		62D02ADC15E6CC250089D9F2 /* trivia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62D02AEC15E6CC250089D9F2 /* Build configuration list for PBXNativeTarget "trivia" */;
+			buildPhases = (
+				62D02AD915E6CC250089D9F2 /* Sources */,
+				62D02ADA15E6CC250089D9F2 /* Frameworks */,
+				62D02ADB15E6CC250089D9F2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = trivia;
+			productName = trivia;
+			productReference = 62D02ADD15E6CC250089D9F2 /* trivia */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		62D02AD415E6CC250089D9F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Legacy Coderetreat";
+			};
+			buildConfigurationList = 62D02AD715E6CC250089D9F2 /* Build configuration list for PBXProject "trivia" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 62D02AD215E6CC250089D9F2;
+			productRefGroup = 62D02ADE15E6CC250089D9F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62D02ADC15E6CC250089D9F2 /* trivia */,
+				62479B5015E7EE5A00AF78F3 /* triviaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		62479B4E15E7EE5A00AF78F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		62479B4F15E7EE5A00AF78F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		62479B4C15E7EE5A00AF78F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62479B6215E7EE5A00AF78F3 /* triviaTests.m in Sources */,
+				62479B6815E7EE7F00AF78F3 /* LCRGame.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62D02AD915E6CC250089D9F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62D02AE515E6CC250089D9F2 /* main.m in Sources */,
+				62D02AF115E6CCC20089D9F2 /* LCRGame.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		62479B6415E7EE5A00AF78F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "triviaTests/triviaTests-Prefix.pch";
+				INFOPLIST_FILE = "triviaTests/triviaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		62479B6515E7EE5A00AF78F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "triviaTests/triviaTests-Prefix.pch";
+				INFOPLIST_FILE = "triviaTests/triviaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		62D02AEA15E6CC250089D9F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		62D02AEB15E6CC250089D9F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		62D02AED15E6CC250089D9F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "trivia/trivia-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		62D02AEE15E6CC250089D9F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "trivia/trivia-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62479B6615E7EE5A00AF78F3 /* Build configuration list for PBXNativeTarget "triviaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62479B6415E7EE5A00AF78F3 /* Debug */,
+				62479B6515E7EE5A00AF78F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		62D02AD715E6CC250089D9F2 /* Build configuration list for PBXProject "trivia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D02AEA15E6CC250089D9F2 /* Debug */,
+				62D02AEB15E6CC250089D9F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62D02AEC15E6CC250089D9F2 /* Build configuration list for PBXNativeTarget "trivia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D02AED15E6CC250089D9F2 /* Debug */,
+				62D02AEE15E6CC250089D9F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 62D02AD415E6CC250089D9F2 /* Project object */;
+}
