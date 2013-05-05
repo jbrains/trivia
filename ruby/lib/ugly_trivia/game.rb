@@ -4,7 +4,7 @@ module UglyTrivia
       @players = []
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
-      @in_penalty_box = Array.new(6, 0)
+      @in_penalty_box = Array.new(6, nil)
 
       @pop_questions = []
       @science_questions = []

@@ -1,4 +1,6 @@
-Game = ->
+exports = window ? global
+
+exports.Game = ->
   players = new Array()
   places = new Array(6)
   purses = new Array(6)
