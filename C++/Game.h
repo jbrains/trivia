@@ -4,6 +4,9 @@
 #include <iostream>
 #include <list>
 #include <vector>
+
+#include "Player.h"
+
 using namespace std;
 
 class Game
@@ -26,13 +29,7 @@ public:
     bool wrongAnswer ();
 
 private:
-    vector<string> players;
-
-    int places[6];
-
-    int purses[6];
-
-    bool inPenaltyBox[6];
+    vector<Player*> players;
 
     list<string> popQuestions;
 

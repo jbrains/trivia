@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Game::Game () : currentPlayer (0), places ({}), purses ({})
+Game::Game () : currentPlayer (0)
 {
     for (int i = 0; i < 50; i++)
     {
@@ -25,6 +25,8 @@ Game::Game () : currentPlayer (0), places ({}), purses ({})
         sportsQuestions.push_back (str1);
 
         rockQuestions.push_back (createRockQuestion (i));
+
+	Player::set_max_place (12);
     }
 }
 
@@ -45,10 +47,7 @@ bool Game::isPlayable ()
 
 bool Game::add (string playerName)
 {
-    players.push_back (playerName);
-    places[howManyPlayers ()] = 0;
-    purses[howManyPlayers ()] = 0;
-    inPenaltyBox[howManyPlayers ()] = false;
+    players.push_back (new Player (playerName));
 
     cout << playerName << " was added" << endl;
     cout << "They are player number " << players.size () << endl;
@@ -64,25 +63,24 @@ int Game::howManyPlayers ()
 
 void Game::roll (int roll)
 {
-    cout << players[currentPlayer] << " is the current player" << endl;
+    Player *player = players[currentPlayer];
+
+    cout << player->get_name () << " is the current player" << endl;
     cout << "They have rolled a " << roll << endl;
 
-    if (inPenaltyBox[currentPlayer])
+    if (player->is_in_penalty_box ())
     {
         if (roll % 2 != 0)
         {
             isGettingOutOfPenaltyBox = true;
 
-            cout << players[currentPlayer] <<
+            cout << player->get_name () <<
 		    " is getting out of the penalty box" << endl;
 
-            places[currentPlayer] = places[currentPlayer] + roll;
+            player->inc_place (roll);
 
-            if (places[currentPlayer] > 11)
-		    places[currentPlayer] = places[currentPlayer] - 12;
-
-            cout << players[currentPlayer] << "'s new location is "
-		    << places[currentPlayer] << endl;
+            cout << player->get_name () << "'s new location is "
+		    << player->get_place () << endl;
 
             cout << "The category is " << currentCategory () << endl;
 
@@ -90,7 +88,7 @@ void Game::roll (int roll)
         }
         else
         {
-            cout << players[currentPlayer] <<
+            cout << player->get_name () <<
 		    " is not getting out of the penalty box" << endl;
 
             isGettingOutOfPenaltyBox = false;
@@ -98,13 +96,10 @@ void Game::roll (int roll)
     }
     else
     {
-        places[currentPlayer] = places[currentPlayer] + roll;
+        player->inc_place (roll);
 
-        if (places[currentPlayer] > 11)
-		places[currentPlayer] = places[currentPlayer] - 12;
-
-        cout << players[currentPlayer] << "'s new location is " <<
-		places[currentPlayer] << endl;
+        cout << player->get_name () << "'s new location is " <<
+		player->get_place () << endl;
         cout << "The category is " << currentCategory () << endl;
 
         askQuestion ();
@@ -141,31 +136,38 @@ void Game::askQuestion ()
 
 string Game::currentCategory ()
 {
-    if (places[currentPlayer] == 0) return "Pop";
-    if (places[currentPlayer] == 4) return "Pop";
-    if (places[currentPlayer] == 8) return "Pop";
-    if (places[currentPlayer] == 1) return "Science";
-    if (places[currentPlayer] == 5) return "Science";
-    if (places[currentPlayer] == 9) return "Science";
-    if (places[currentPlayer] == 2) return "Sports";
-    if (places[currentPlayer] == 6) return "Sports";
-    if (places[currentPlayer] == 10) return "Sports";
+    const int place = players[currentPlayer]->get_place ();
+
+    if (place == 0) return "Pop";
+    if (place == 4) return "Pop";
+    if (place == 8) return "Pop";
+    if (place == 1) return "Science";
+    if (place == 5) return "Science";
+    if (place == 9) return "Science";
+    if (place == 2) return "Sports";
+    if (place == 6) return "Sports";
+    if (place == 10) return "Sports";
 
     return "Rock";
 }
 
 bool Game::wasCorrectlyAnswered ()
 {
-    if (inPenaltyBox[currentPlayer])
+    Player *player = players[currentPlayer];
+
+    if (player->is_in_penalty_box ())
     {
         if (isGettingOutOfPenaltyBox)
         {
             cout << "Answer was correct!!!!" << endl;
-            purses[currentPlayer]++;
-            cout << players[currentPlayer]
+
+	    player->inc_purse ();
+
+            cout << player->get_name ()
                  << " now has "
-                 << purses[currentPlayer]
-                <<  " Gold Coins." << endl;
+                 << player->get_purse ()
+                 <<  " Gold Coins."
+		 << endl;
 
             bool winner = didPlayerWin ();
             currentPlayer++;
@@ -184,12 +186,12 @@ bool Game::wasCorrectlyAnswered ()
     {
         cout << "Answer was corrent!!!!" << endl;
 
-        purses[currentPlayer]++;
+        player->inc_purse ();
 
-        cout << players[currentPlayer]
-                << " now has "
-                << purses[currentPlayer]
-            << " Gold Coins." << endl;
+        cout << player->get_name ()
+             << " now has "
+             << player->get_purse ()
+             << " Gold Coins." << endl;
 
         bool winner = didPlayerWin ();
         currentPlayer++;
@@ -203,10 +205,12 @@ bool Game::wasCorrectlyAnswered ()
 
 bool Game::wrongAnswer ()
 {
-    cout << "Question was incorrectly answered" << endl;
-    cout << players[currentPlayer] + " was sent to the penalty box" << endl;
+    Player *player = players[currentPlayer];
 
-    inPenaltyBox[currentPlayer] = true;
+    cout << "Question was incorrectly answered" << endl;
+    cout << player->get_name () + " was sent to the penalty box" << endl;
+
+    player->send_to_penalty ();
 
     currentPlayer++;
 
@@ -218,5 +222,5 @@ bool Game::wrongAnswer ()
 
 bool Game::didPlayerWin ()
 {
-    return (purses[currentPlayer] != 6);
+    return (players[currentPlayer]->get_purse () != 6);
 }
