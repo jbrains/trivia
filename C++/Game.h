@@ -18,8 +18,6 @@ public:
 
     bool add (string playerName);
 
-    int howManyPlayers ();
-
     void roll (int roll);
 
     bool wasCorrectlyAnswered ();
@@ -41,11 +39,7 @@ private:
 
     vector<Player*>::iterator currentPlayer;
 
-    bool isGettingOutOfPenaltyBox;
-
     void askQuestion ();
-
-    string currentCategory ();
 
     bool didPlayerWin ();
 

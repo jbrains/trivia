@@ -48,7 +48,7 @@ QuestionCategory* Game::generate_questions (std::string topic)
 
 bool Game::isPlayable ()
 {
-    return (howManyPlayers () >= 2);
+    return (players.size () >= 2);
 }
 
 
@@ -62,12 +62,6 @@ bool Game::add (string playerName)
     currentPlayer = players.begin ();
 
     return true;
-}
-
-
-int Game::howManyPlayers ()
-{
-    return players.size ();
 }
 
 
