@@ -39,7 +39,7 @@ private:
 
     vector<QuestionCategory*> categories;
 
-    int currentPlayer;
+    vector<Player*>::iterator currentPlayer;
 
     bool isGettingOutOfPenaltyBox;
 
@@ -48,6 +48,8 @@ private:
     string currentCategory ();
 
     bool didPlayerWin ();
+
+    void next_player (void);
 };
 
 #endif /* GAME_H_ */

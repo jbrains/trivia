@@ -8,7 +8,7 @@
 const std::vector<std::string> Game::category_names =
                                    {"Pop", "Science", "Sports", "Rock"};
 
-Game::Game () : currentPlayer (0)
+Game::Game ()
 {
     init_categories ();
     
@@ -57,6 +57,9 @@ bool Game::add (string playerName)
 
     cout << playerName << " was added" << endl;
     cout << "They are player number " << players.size () << endl;
+
+    currentPlayer = players.begin ();
+
     return true;
 }
 
@@ -69,7 +72,7 @@ int Game::howManyPlayers ()
 
 void Game::roll (int roll)
 {
-    Player *player = players[currentPlayer];
+    Player *player = *currentPlayer;
 
     cout << player->get_name ()
          << " is the current player"
@@ -108,8 +111,8 @@ void Game::roll (int roll)
 
 void Game::askQuestion ()
 {
-    // The place of current player # TODO: change currentPlayer to iterator
-    const int place = players[currentPlayer]->get_place ();
+    // The place of current player
+    const int place = (*currentPlayer)->get_place ();
     try
     {
         cout << categories[place % categories.size ()]->next_question ()
@@ -122,7 +125,7 @@ void Game::askQuestion ()
 
 bool Game::wasCorrectlyAnswered ()
 {
-    Player *player = players[currentPlayer];
+    Player *player = *currentPlayer;
     bool ret = true;
 
     if (!player->is_in_penalty_box ())
@@ -139,14 +142,14 @@ bool Game::wasCorrectlyAnswered ()
         ret = didPlayerWin ();
     }
 
-    currentPlayer = (currentPlayer + 1) % players.size ();
+    next_player ();
 
     return ret;
 }
 
 bool Game::wrongAnswer ()
 {
-    Player *player = players[currentPlayer];
+    Player *player = *currentPlayer;
 
     cout << "Question was incorrectly answered"
          << endl
@@ -156,12 +159,21 @@ bool Game::wrongAnswer ()
 
     player->send_to_penalty ();
 
-    currentPlayer = (currentPlayer + 1) % players.size ();
+    next_player ();
 
     return true;
 }
 
+
+void Game::next_player ()
+{
+    ++currentPlayer;
+
+    if (currentPlayer == players.end())
+        currentPlayer = players.begin();
+}
+
 bool Game::didPlayerWin ()
 {
-    return (players[currentPlayer]->get_purse () != 6);
+    return ((*currentPlayer)->get_purse () != 6);
 }
