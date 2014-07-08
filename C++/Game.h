@@ -2,10 +2,10 @@
 #define GAME_H_
 
 #include <iostream>
-#include <list>
 #include <vector>
 
 #include "Player.h"
+#include "QuestionCategory.h"
 
 using namespace std;
 
@@ -13,8 +13,6 @@ class Game
 {
 public:
     Game ();
-
-    string createRockQuestion (int index);
 
     bool isPlayable ();
 
@@ -28,16 +26,18 @@ public:
 
     bool wrongAnswer ();
 
+    // Initialization method for question categories. 
+    void init_categories (void);
+
+    // Generation method for question categories.
+    QuestionCategory* generate_questions (std::string);
+
+    static const std::vector<std::string> category_names;
+
 private:
     vector<Player*> players;
 
-    list<string> popQuestions;
-
-    list<string> scienceQuestions;
-
-    list<string> sportsQuestions;
-
-    list<string> rockQuestions;
+    vector<QuestionCategory*> categories;
 
     int currentPlayer;
 

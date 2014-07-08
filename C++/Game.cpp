@@ -1,41 +1,47 @@
 ﻿#include "Game.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 #include <sstream>
 
-using namespace std;
+#define NUM_OF_QUESTIONS 50
+
+const std::vector<std::string> Game::category_names =
+                                   {"Pop", "Science", "Sports", "Rock"};
 
 Game::Game () : currentPlayer (0)
 {
-    for (int i = 0; i < 50; i++)
+    init_categories ();
+    
+    Player::set_max_place (12);
+}
+
+
+void Game::init_categories ()
+{
+    for (std::vector<std::string>::const_iterator topic = 
+            Game::category_names.begin();
+         topic != category_names.end();
+         ++topic)
     {
-        ostringstream oss (ostringstream::out);
-        oss << "Pop Question " << i;
-
-        popQuestions.push_back (oss.str ());
-
-        char str[255];
-        sprintf (str, "Science Question %d", i);
-        scienceQuestions.push_back (str);
-
-        char str1[255];
-        sprintf (str1, "Sports Question %d", i);
-        sportsQuestions.push_back (str1);
-
-        rockQuestions.push_back (createRockQuestion (i));
-
-        Player::set_max_place (12);
+	categories.push_back (generate_questions (*topic));
     }
 }
 
 
-string Game::createRockQuestion (int index)
+QuestionCategory* Game::generate_questions (std::string topic)
 {
-    char indexStr[127];
-    sprintf (indexStr, "Rock Question %d", index);
-    return indexStr;
+    QuestionCategory *category = new QuestionCategory (topic);
+
+    for (int i = 0; i < NUM_OF_QUESTIONS; ++i)
+    {
+	    std::ostringstream oss (std::ostringstream::out);
+
+	    oss << topic << " Question " << i;
+
+	    category->add_question (oss.str ());
+    }
+
+    return category;
 }
 
 
@@ -91,7 +97,8 @@ void Game::roll (int roll)
              << endl;
 
         cout << "The category is "
-             << currentCategory ()
+             << Game::category_names [player->get_place () %
+                                      category_names.size ()]
              << endl;
 
         askQuestion ();
@@ -101,46 +108,16 @@ void Game::roll (int roll)
 
 void Game::askQuestion ()
 {
-    if (currentCategory () == "Pop")
-    {
-        cout << popQuestions.front () << endl;
-        popQuestions.pop_front ();
-    }
-
-    if (currentCategory () == "Science")
-    {
-        cout << scienceQuestions.front () << endl;
-        scienceQuestions.pop_front ();
-    }
-
-    if (currentCategory () == "Sports")
-    {
-        cout << sportsQuestions.front () << endl;
-        sportsQuestions.pop_front ();
-    }
-
-    if (currentCategory () == "Rock")
-    {
-        cout << rockQuestions.front () << endl;
-        rockQuestions.pop_front ();
-    }
-}
-
-string Game::currentCategory ()
-{
+    // The place of current player # TODO: change currentPlayer to iterator
     const int place = players[currentPlayer]->get_place ();
-
-    if (place == 0) return "Pop";
-    if (place == 4) return "Pop";
-    if (place == 8) return "Pop";
-    if (place == 1) return "Science";
-    if (place == 5) return "Science";
-    if (place == 9) return "Science";
-    if (place == 2) return "Sports";
-    if (place == 6) return "Sports";
-    if (place == 10) return "Sports";
-
-    return "Rock";
+    try
+    {
+        cout << categories[place % categories.size ()]->next_question ()
+             << std::endl;
+    } catch (std::runtime_error err)
+    {
+	    std::cout << "Error: " << err.what () << std::endl;
+    }
 }
 
 bool Game::wasCorrectlyAnswered ()
