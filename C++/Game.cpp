@@ -5,6 +5,9 @@
 #include <sstream>
 
 #define NUM_OF_QUESTIONS 50
+#define MAX_PLACE 12
+#define MIN_PLAYER 2
+#define MAX_PURSE 6
 
 const std::vector<std::string> Game::category_names =
                                    {"Pop", "Science", "Sports", "Rock"};
@@ -13,7 +16,7 @@ Game::Game ()
 {
     init_categories ();
     
-    Player::set_max_place (12);
+    Player::set_max_place (MAX_PLACE);
 }
 
 
@@ -48,7 +51,7 @@ QuestionCategory* Game::generate_questions (std::string topic)
 
 bool Game::isPlayable ()
 {
-    return (players.size () >= 2);
+    return (players.size () >= MIN_PLAYER);
 }
 
 
@@ -143,5 +146,5 @@ void Game::next_player ()
 
 bool Game::didPlayerWin ()
 {
-    return ((*currentPlayer)->get_purse () != 6);
+    return ((*currentPlayer)->get_purse () != MAX_PURSE);
 }
