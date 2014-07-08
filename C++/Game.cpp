@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "Printer.h"
 
 #include <iostream>
 #include <sstream>
@@ -53,10 +54,10 @@ bool Game::isPlayable ()
 
 bool Game::add (string playerName)
 {
-    players.push_back (new Player (playerName));
+    Player *player = new Player (playerName);
+    players.push_back (player);
 
-    cout << playerName << " was added" << endl;
-    cout << "They are player number " << players.size () << endl;
+    Printer::new_player_added (player, players.size ());
 
     currentPlayer = players.begin ();
 
@@ -74,19 +75,11 @@ void Game::roll (int roll)
 {
     Player *player = *currentPlayer;
 
-    cout << player->get_name ()
-         << " is the current player"
-         << endl;
-
-    cout << "They have rolled a "
-         << roll
-         << endl;
+    Printer::player_rolled (player, roll);
 
     if ((player->is_in_penalty_box ()) && (roll % 2 == 0))
     {
-        cout << player->get_name ()
-             << " is not getting out of the penalty box"
-             << endl;
+        Printer::stay_in_penalty (player);
     }
     else
     {
@@ -94,15 +87,8 @@ void Game::roll (int roll)
 
         player->inc_place (roll);
 
-        cout << player->get_name ()
-             << "'s new location is "
-             << player->get_place ()
-             << endl;
-
-        cout << "The category is "
-             << Game::category_names [player->get_place () %
-                                      category_names.size ()]
-             << endl;
+        int cat = player->get_place () % categories.size ();
+        Printer::new_location (player, categories[cat]);
 
         askQuestion ();
     }
@@ -111,15 +97,15 @@ void Game::roll (int roll)
 
 void Game::askQuestion ()
 {
-    // The place of current player
-    const int place = (*currentPlayer)->get_place ();
+    // The index of the category where the question comes from
+    const int cat = (*currentPlayer)->get_place () % categories.size ();
     try
     {
-        cout << categories[place % categories.size ()]->next_question ()
-             << std::endl;
-    } catch (std::runtime_error err)
+        Printer::print_question(categories[cat]->next_question ());
+    }
+    catch (std::runtime_error err)
     {
-	    std::cout << "Error: " << err.what () << std::endl;
+        Printer::error (err.what ());
     }
 }
 
@@ -130,14 +116,7 @@ bool Game::wasCorrectlyAnswered ()
 
     if (!player->is_in_penalty_box ())
     {
-        cout << "Answer was correct!!!!" << endl;
-
         player->inc_purse ();
-
-        cout << player->get_name ()
-             << " now has "
-             << player->get_purse ()
-             << " Gold Coins." << endl;
 
         ret = didPlayerWin ();
     }
@@ -147,15 +126,10 @@ bool Game::wasCorrectlyAnswered ()
     return ret;
 }
 
+
 bool Game::wrongAnswer ()
 {
     Player *player = *currentPlayer;
-
-    cout << "Question was incorrectly answered"
-         << endl
-         << player->get_name ()
-	 << " was sent to the penalty box"
-	 << endl;
 
     player->send_to_penalty ();
 
