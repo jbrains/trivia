@@ -27,7 +27,7 @@ void Game::init_categories ()
          topic != category_names.end();
          ++topic)
     {
-	categories.push_back (generate_questions (*topic));
+        categories.push_back (generate_questions (*topic));
     }
 }
 
@@ -38,11 +38,11 @@ QuestionCategory* Game::generate_questions (std::string topic)
 
     for (int i = 0; i < NUM_OF_QUESTIONS; ++i)
     {
-	    std::ostringstream oss (std::ostringstream::out);
+        std::ostringstream oss (std::ostringstream::out);
 
-	    oss << topic << " Question " << i;
+        oss << topic << " Question " << i;
 
-	    category->add_question (oss.str ());
+        category->add_question (oss.str ());
     }
 
     return category;
