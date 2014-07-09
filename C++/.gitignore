@@ -2,4 +2,5 @@ Debug
 .project
 .cproject
 *.o
-Game
+*.swp
+game
