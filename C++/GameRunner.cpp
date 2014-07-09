@@ -2,8 +2,6 @@
 
 #include "Game.h"
 
-static bool notAWinner;
-
 int main()
 {
     Game aGame;
@@ -15,16 +13,7 @@ int main()
     do
     {
         aGame.roll (rand() % 5 + 1);
-
-        if (rand() % 9 == 7)
-        {
-            notAWinner = aGame.wrong_answer ();
-        }
-        else
-        {
-            notAWinner = aGame.right_answer ();
-        }
-    } while (notAWinner);
+    } while (! aGame.answer (rand() % 9 != 7));
 
     return 0;
 }

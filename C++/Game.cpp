@@ -108,36 +108,32 @@ void Game::ask_question ()
     }
 }
 
-bool Game::right_answer ()
+bool Game::answer (bool is_right)
 {
     Player *player = *current_player;
-    bool ret = true;
+    bool ret = false;
 
-    if (!player->is_in_penalty_box ())
+    if (is_right)
     {
-        player->inc_purse ();
+        if (!player->is_in_penalty_box ())
+        {
+            player->inc_purse ();
 
-	Printer::correct_answer (player);
+            Printer::correct_answer (player);
 
-        ret = did_player_win ();
+            ret = did_player_win ();
+        }
+    }
+    else
+    {
+        Printer::incorrect_answer (player);
+
+        player->send_to_penalty ();
     }
 
     next_player ();
 
     return ret;
-}
-
-
-bool Game::wrong_answer ()
-{
-    Player *player = *current_player;
-
-    Printer::incorrect_answer (player);
-
-    player->send_to_penalty ();
-    next_player ();
-
-    return true;
 }
 
 
@@ -151,5 +147,5 @@ void Game::next_player ()
 
 bool Game::did_player_win ()
 {
-    return ((*current_player)->get_purse () != MAX_PURSE);
+    return ((*current_player)->get_purse () == MAX_PURSE);
 }

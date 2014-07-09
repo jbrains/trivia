@@ -20,9 +20,7 @@ public:
 
     void roll (int);
 
-    bool right_answer (void);
-
-    bool wrong_answer (void);
+    bool answer (bool);
 
     // Initialization method for question categories. 
     void init_categories (void);
