@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <list>
 
+// Class for storing the questions of a category.
 class QuestionCategory
 {
 public:
@@ -20,8 +21,10 @@ public:
     std::string get_topic (void) const;
 
 private:
+    // The topic of the category.
     std::string _topic;
 
+    // List of questions.
     std::list<std::string> _questions;
 };
 

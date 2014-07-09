@@ -14,6 +14,7 @@
 const std::vector<std::string> Game::category_names =
                                    {"Pop", "Science", "Sports", "Rock"};
 
+// Constructor that initialize the starting state of the game.
 Game::Game ()
 {
     init_categories ();
@@ -22,8 +23,11 @@ Game::Game ()
 }
 
 
+// Initialization method for question categories.
 void Game::init_categories ()
 {
+    // Iterates trough the category names and create
+    // category and questions for each.
     for (std::vector<std::string>::const_iterator topic = 
             Game::category_names.begin();
          topic != category_names.end();
@@ -34,10 +38,13 @@ void Game::init_categories ()
 }
 
 
+// Generation method for question categories.
 QuestionCategory* Game::generate_questions (std::string topic)
 {
     QuestionCategory *category = new QuestionCategory (topic);
 
+    // TODO: It would be better to read questions from some resource
+    // instead of generating dummy questions
     for (int i = 0; i < NUM_OF_QUESTIONS; ++i)
     {
         std::ostringstream oss (std::ostringstream::out);
@@ -51,12 +58,14 @@ QuestionCategory* Game::generate_questions (std::string topic)
 }
 
 
+// Checks if there are enough player to play.
 bool Game::is_playable ()
 {
     return (players.size () >= MIN_PLAYER);
 }
 
 
+// Adds a new player to the game.
 bool Game::add_player (string player_name)
 {
     Player *player = new Player (player_name);
@@ -70,6 +79,7 @@ bool Game::add_player (string player_name)
 }
 
 
+// The actual players roll.
 void Game::roll (int roll)
 {
     Player *player = *current_player;
@@ -94,10 +104,13 @@ void Game::roll (int roll)
 }
 
 
+// Prints out the next question of the cathegory of the current player's place.
 void Game::ask_question ()
 {
     // The index of the category where the question comes from
     const int cat = (*current_player)->get_place () % categories.size ();
+
+    // TODO: Catching this on higher level may be better
     try
     {
         Printer::print_question(categories[cat]->next_question ());
@@ -108,15 +121,21 @@ void Game::ask_question ()
     }
 }
 
+
+// Answer the question right or wrong (true = right)
 bool Game::answer (bool is_right)
 {
     Player *player = *current_player;
+
+    // Return value depending on the player has won or not.
     bool ret = false;
 
     if (is_right)
     {
+        // If the player is in the penalty box, his answer has no effect.
         if (!player->is_in_penalty_box ())
         {
+            // The players get one gold for every answer.
             player->inc_purse ();
 
             Printer::correct_answer (player);
@@ -128,6 +147,7 @@ bool Game::answer (bool is_right)
     {
         Printer::incorrect_answer (player);
 
+        // If the answer was wrong, the player goes to the penalty box.
         player->send_to_penalty ();
     }
 
@@ -137,15 +157,21 @@ bool Game::answer (bool is_right)
 }
 
 
+// Set the next player to actor.
 void Game::next_player ()
 {
     ++current_player;
 
+    // After the last player the first will come.
     if (current_player == players.end())
         current_player = players.begin();
 }
 
+
+// Checks if the current player won the game.
 bool Game::did_player_win ()
 {
+    // The game keeps running until one of the players gets the
+    // maximal amount of gold coins. 
     return ((*current_player)->get_purse () == MAX_PURSE);
 }

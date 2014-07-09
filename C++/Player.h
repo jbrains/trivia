@@ -35,18 +35,23 @@ public:
     // Gets the player out of the penalty box.
     void get_from_penalty (void);
 
-    // Sets the maximum number of places.
+    // Sets the maximal number of places.
     static void set_max_place (int);
 
+    // The maximal index of places.
     static int _max_place;
 
 private:
+    // The name of the player.
     const std::string _name;
 
+    // Current place of the player.
     int _place;
 
+    // Amount of gold coins that the player has.
     int _purse;
 
+    // Is the player in the penalty box?
     bool _in_penalty_box;
 };
 
