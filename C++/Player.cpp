@@ -1,7 +1,5 @@
 #include "Player.h"
 
-int Player::_max_place;
-
 // Constructor that initialize the name of the player.
 Player::Player (std::string name) :
     _name (name),
@@ -53,23 +51,16 @@ void Player::send_to_penalty ()
 
 
 // Increment the purse.
-void Player::inc_purse ()
+void Player::add_gold ()
 {
     ++_purse;
 }
 
 
-// Increment the purse.
-void Player::inc_place (int n)
+// Step with the player on a 'max' sized table.
+void Player::step (int n, int max)
 {
     // If the current place + n greater than the number of places 
     // it cuts by modulo.
-    _place = (_place + n) % _max_place;
-}
-
-
-// Sets the maximum number of places.
-void Player::set_max_place (int max)
-{
-    Player::_max_place = max;
+    _place = (_place + n) % max;
 }

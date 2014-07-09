@@ -23,23 +23,17 @@ public:
     bool is_in_penalty_box (void) const;
 
     // Increment the purse.
-    void inc_purse (void);
+    void add_gold (void);
 
     // Increments the place by a given value and
     // gets its modulo by max_place.
-    void inc_place (int);
+    void step (int, int);
 
     // Sends the player into the penalty box.
     void send_to_penalty (void);
 
     // Gets the player out of the penalty box.
     void get_from_penalty (void);
-
-    // Sets the maximal number of places.
-    static void set_max_place (int);
-
-    // The maximal index of places.
-    static int _max_place;
 
 private:
     // The name of the player.

@@ -18,8 +18,6 @@ const std::vector<std::string> Game::category_names =
 Game::Game ()
 {
     init_categories ();
-    
-    Player::set_max_place (MAX_PLACE);
 }
 
 
@@ -94,7 +92,7 @@ void Game::roll (int roll)
     {
         player->get_from_penalty ();
 
-        player->inc_place (roll);
+        player->step (roll, MAX_PLACE);
 
         int cat = player->get_place () % categories.size ();
         Printer::new_location (player, categories[cat]);
@@ -136,7 +134,7 @@ bool Game::answer (bool is_right)
         if (!player->is_in_penalty_box ())
         {
             // The players get one gold for every answer.
-            player->inc_purse ();
+            player->add_gold ();
 
             Printer::correct_answer (player);
 
