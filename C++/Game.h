@@ -12,17 +12,17 @@ using namespace std;
 class Game
 {
 public:
-    Game ();
+    Game (void);
 
-    bool isPlayable ();
+    bool is_playable (void);
 
-    bool add (string playerName);
+    bool add_player (string);
 
-    void roll (int roll);
+    void roll (int);
 
-    bool wasCorrectlyAnswered ();
+    bool right_answer (void);
 
-    bool wrongAnswer ();
+    bool wrong_answer (void);
 
     // Initialization method for question categories. 
     void init_categories (void);
@@ -37,11 +37,11 @@ private:
 
     vector<QuestionCategory*> categories;
 
-    vector<Player*>::iterator currentPlayer;
+    vector<Player*>::iterator current_player;
 
-    void askQuestion ();
+    void ask_question ();
 
-    bool didPlayerWin ();
+    bool did_player_win ();
 
     void next_player (void);
 };

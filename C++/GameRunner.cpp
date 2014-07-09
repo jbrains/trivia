@@ -8,21 +8,21 @@ int main()
 {
     Game aGame;
 
-    aGame.add("Chet");
-    aGame.add("Pat");
-    aGame.add("Sue");
+    aGame.add_player ("Chet");
+    aGame.add_player ("Pat");
+    aGame.add_player ("Sue");
 
     do
     {
-        aGame.roll(rand() % 5 + 1);
+        aGame.roll (rand() % 5 + 1);
 
         if (rand() % 9 == 7)
         {
-            notAWinner = aGame.wrongAnswer();
+            notAWinner = aGame.wrong_answer ();
         }
         else
         {
-            notAWinner = aGame.wasCorrectlyAnswered();
+            notAWinner = aGame.right_answer ();
         }
     } while (notAWinner);
 

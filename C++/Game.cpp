@@ -49,20 +49,20 @@ QuestionCategory* Game::generate_questions (std::string topic)
 }
 
 
-bool Game::isPlayable ()
+bool Game::is_playable ()
 {
     return (players.size () >= MIN_PLAYER);
 }
 
 
-bool Game::add (string playerName)
+bool Game::add_player (string player_name)
 {
-    Player *player = new Player (playerName);
+    Player *player = new Player (player_name);
     players.push_back (player);
 
     Printer::new_player_added (player, players.size ());
 
-    currentPlayer = players.begin ();
+    current_player = players.begin ();
 
     return true;
 }
@@ -70,7 +70,7 @@ bool Game::add (string playerName)
 
 void Game::roll (int roll)
 {
-    Player *player = *currentPlayer;
+    Player *player = *current_player;
 
     Printer::player_rolled (player, roll);
 
@@ -87,15 +87,15 @@ void Game::roll (int roll)
         int cat = player->get_place () % categories.size ();
         Printer::new_location (player, categories[cat]);
 
-        askQuestion ();
+        ask_question ();
     }
 }
 
 
-void Game::askQuestion ()
+void Game::ask_question ()
 {
     // The index of the category where the question comes from
-    const int cat = (*currentPlayer)->get_place () % categories.size ();
+    const int cat = (*current_player)->get_place () % categories.size ();
     try
     {
         Printer::print_question(categories[cat]->next_question ());
@@ -106,16 +106,16 @@ void Game::askQuestion ()
     }
 }
 
-bool Game::wasCorrectlyAnswered ()
+bool Game::right_answer ()
 {
-    Player *player = *currentPlayer;
+    Player *player = *current_player;
     bool ret = true;
 
     if (!player->is_in_penalty_box ())
     {
         player->inc_purse ();
 
-        ret = didPlayerWin ();
+        ret = did_player_win ();
     }
 
     next_player ();
@@ -124,9 +124,9 @@ bool Game::wasCorrectlyAnswered ()
 }
 
 
-bool Game::wrongAnswer ()
+bool Game::wrong_answer ()
 {
-    Player *player = *currentPlayer;
+    Player *player = *current_player;
 
     player->send_to_penalty ();
 
@@ -138,13 +138,13 @@ bool Game::wrongAnswer ()
 
 void Game::next_player ()
 {
-    ++currentPlayer;
+    ++current_player;
 
-    if (currentPlayer == players.end())
-        currentPlayer = players.begin();
+    if (current_player == players.end())
+        current_player = players.begin();
 }
 
-bool Game::didPlayerWin ()
+bool Game::did_player_win ()
 {
-    return ((*currentPlayer)->get_purse () != MAX_PURSE);
+    return ((*current_player)->get_purse () != MAX_PURSE);
 }
