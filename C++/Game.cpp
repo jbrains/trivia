@@ -155,7 +155,7 @@ bool Game::next_round ()
     if (!did_player_win ())
     {
         next_player ();
-	go = true;
+        go = true;
     }
 
     return go;
