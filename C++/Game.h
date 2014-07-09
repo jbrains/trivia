@@ -17,19 +17,19 @@ public:
     Game (void);
 
     // Checks if there are enough players to play.
-    bool is_playable (void);
+    virtual bool is_playable (void);
 
     // Adds a new player to the game.
-    bool add_player (string);
+    virtual bool add_player (string);
 
     // The actual players roll.
-    void roll (int);
+    virtual void roll (int);
 
     // Answer the question right or wrong (true = right)
-    void answer (bool);
+    virtual void answer (bool);
 
     // Sets the next player if the game continues, otherwise returns false
-    bool next_round (void);
+    virtual bool next_round (void);
 
 private:
     // Initialization method for question categories. 

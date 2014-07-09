@@ -11,29 +11,29 @@ public:
     Player (std::string name);
 
     // Returns the name of the player.
-    std::string get_name (void) const;
+    virtual std::string get_name (void) const;
 
     // Returns the place of the player.
-    int get_place (void) const;
+    virtual int get_place (void) const;
 
     // Returns the purse of the player.
-    int get_purse (void) const;
+    virtual int get_purse (void) const;
 
     // Asks if the player is in the penalty box.
-    bool is_in_penalty_box (void) const;
+    virtual bool is_in_penalty_box (void) const;
 
     // Increment the purse.
-    void add_gold (void);
+    virtual void add_gold (void);
 
     // Increments the place by a given value and
     // gets its modulo by max_place.
-    void step (int, int);
+    virtual void step (int, int);
 
     // Sends the player into the penalty box.
-    void send_to_penalty (void);
+    virtual void send_to_penalty (void);
 
     // Gets the player out of the penalty box.
-    void get_from_penalty (void);
+    virtual void get_from_penalty (void);
 
 private:
     // The name of the player.

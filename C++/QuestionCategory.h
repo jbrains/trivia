@@ -12,13 +12,13 @@ public:
     QuestionCategory (std::string);
 
     // Adds a new question to the list.
-    void add_question (std::string);
+    virtual void add_question (std::string);
 
     // Returns the next question and removes it from the list.
-    std::string next_question (void) throw (std::runtime_error);
+    virtual std::string next_question (void) throw (std::runtime_error);
 
     // Returns the topic
-    std::string get_topic (void) const;
+    virtual std::string get_topic (void) const;
 
 private:
     // The topic of the category.
