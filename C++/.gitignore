@@ -1,3 +1,5 @@
 Debug
 .project
 .cproject
+.o
+game
