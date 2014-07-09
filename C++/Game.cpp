@@ -115,6 +115,8 @@ bool Game::right_answer ()
     {
         player->inc_purse ();
 
+	Printer::correct_answer (player);
+
         ret = did_player_win ();
     }
 
@@ -128,8 +130,9 @@ bool Game::wrong_answer ()
 {
     Player *player = *current_player;
 
-    player->send_to_penalty ();
+    Printer::incorrect_answer (player);
 
+    player->send_to_penalty ();
     next_player ();
 
     return true;
