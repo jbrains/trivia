@@ -121,12 +121,9 @@ void Game::ask_question ()
 
 
 // Answer the question right or wrong (true = right)
-bool Game::answer (bool is_right)
+void Game::answer (bool is_right)
 {
     Player *player = *current_player;
-
-    // Return value depending on the player has won or not.
-    bool ret = false;
 
     if (is_right)
     {
@@ -137,8 +134,6 @@ bool Game::answer (bool is_right)
             player->add_gold ();
 
             Printer::correct_answer (player);
-
-            ret = did_player_win ();
         }
     }
     else
@@ -148,10 +143,22 @@ bool Game::answer (bool is_right)
         // If the answer was wrong, the player goes to the penalty box.
         player->send_to_penalty ();
     }
+}
 
-    next_player ();
 
-    return ret;
+// Sets the next player if the game continues, otherwise returns false
+bool Game::next_round ()
+{
+    // Return value, that says if the game continues or not.
+    bool go = false;
+
+    if (!did_player_win ())
+    {
+        next_player ();
+	go = true;
+    }
+
+    return go;
 }
 
 

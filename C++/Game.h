@@ -26,7 +26,10 @@ public:
     void roll (int);
 
     // Answer the question right or wrong (true = right)
-    bool answer (bool);
+    void answer (bool);
+
+    // Sets the next player if the game continues, otherwise returns false
+    bool next_round (void);
 
 private:
     // Initialization method for question categories. 

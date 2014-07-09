@@ -11,11 +11,12 @@ int main()
     aGame.add_player ("Pat");
     aGame.add_player ("Sue");
 
-    // Roll nad answer the question while nobody won the game.
+    // Roll and answer the question while nobody won the game.
     do
     {
         aGame.roll (rand() % 5 + 1);
-    } while (! aGame.answer (rand() % 9 != 7));
+        aGame.answer (rand() % 9 != 7);
+    } while (aGame.next_round ());
     // The players give right answers with 8/9 of probability
 
     return 0;
