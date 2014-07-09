@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 
-#include "Player.h"
-#include "QuestionCategory.h"
+class Player;
+class QuestionCategory;
 
 using namespace std;
 

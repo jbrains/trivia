@@ -1,8 +1,10 @@
 #ifndef PRINTER_H_
 #define PRINTER_H_
 
-#include "Player.h"
-#include "QuestionCategory.h"
+#include <string>
+
+class Player;
+class QuestionCategory;
 
 class Printer
 {

@@ -1,4 +1,6 @@
 #include "Printer.h"
+#include "Player.h"
+#include "QuestionCategory.h"
 
 #include <iostream>
 
