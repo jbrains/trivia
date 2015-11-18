@@ -1,7 +1,7 @@
 local Game = {}
 Game.__index = Game
 function Game:new()
-   instance = {}
+   local instance = {}
    setmetatable(instance, Game)
 
    instance.players = {}
@@ -22,7 +22,7 @@ function Game:new()
        table.insert(instance.science_questions, "Science Question "..i)
        table.insert(instance.sports_questions, "Sports Question "..i)
        table.insert(instance.rock_questions, instance:create_rock_question(i))
-   end 
+   end
 
    return instance
 end
@@ -83,24 +83,23 @@ function Game:roll(roll)
 end
 
 function Game:ask_question()
-   if self:current_category() == 'Pop' then print(table.remove(self.pop_questions,1)) end 
+   if self:current_category() == 'Pop' then print(table.remove(self.pop_questions,1)) end
    if self:current_category() == 'Science' then print(table.remove(self.science_questions,1)) end
    if self:current_category() == 'Sports' then print(table.remove(self.sports_questions,1)) end
    if self:current_category() == 'Rock' then print(table.remove(self.rock_questions,1)) end
 end
 
-function Game:current_category()
-   if self.places[self.current_player] == 0 then return "Pop" end
-   if self.places[self.current_player] == 4 then return "Pop" end
-   if self.places[self.current_player] == 8 then return "Pop" end
-   if self.places[self.current_player] == 1 then return "Science" end
-   if self.places[self.current_player] == 5 then return "Science" end
-   if self.places[self.current_player] == 9 then return "Science" end
-   if self.places[self.current_player] == 2 then return "Sports" end
-   if self.places[self.current_player] == 6 then return "Sports" end
-   if self.places[self.current_player] == 10 then return "Sports" end
-   return "Rock"
-end
+Game.current_category = (function()
+	local lookup = {
+		"Pop",
+		"Science",
+		"Sports",
+		"Rock"
+	}
+	return function(self)
+		return lookup[(self.current_player % 4) + 1]
+	end
+end)()
 
 function Game:was_correctly_answered()
    if self.in_penalty_box[self.current_player] then
