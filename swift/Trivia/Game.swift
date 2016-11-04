@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class Game {
+open class Game {
     var players = [String]()
-    var places = [Int](count: 6, repeatedValue: 0)
-    var purses  = [Int](count: 6, repeatedValue: 0)
-    var inPenaltyBox  = [Bool](count: 6, repeatedValue: false)
+    var places = [Int](repeating: 0, count: 6)
+    var purses  = [Int](repeating: 0, count: 6)
+    var inPenaltyBox  = [Bool](repeating: false, count: 6)
     
     var popQuestions = [String]()
     var scienceQuestions = [String]()
@@ -31,15 +31,15 @@ public class Game {
     	}
     }
 
-    public func createRockQuestion(index: Int) -> String{
+    open func createRockQuestion(_ index: Int) -> String{
 		return "Rock Question \(index)"
 	}
 	
-	public func isPlayable() -> Bool {
+	open func isPlayable() -> Bool {
 		return howManyPlayers() >= 2
 	}
 
-    public func add(playerName: String) -> Bool {
+    open func add(_ playerName: String) -> Bool {
 		
 		
 	    players.append(playerName)
@@ -52,11 +52,11 @@ public class Game {
 		return true
 	}
 	
-	public func howManyPlayers() -> Int {
+	open func howManyPlayers() -> Int {
 		return players.count
 	}
 
-    public func roll(roll: Int) {
+    open func roll(_ roll: Int) {
 		print(players[currentPlayer], "is the current player")
 		print("They have rolled a", roll)
 		
@@ -92,7 +92,7 @@ public class Game {
 		
 	}
 
- 	private func askQuestion() {
+ 	fileprivate func askQuestion() {
         if currentCategory() == "Pop" {
             print(popQuestions.removeFirst())}
         if currentCategory() == "Science"{
@@ -104,7 +104,7 @@ public class Game {
 	}
 	
 	
-	private func currentCategory() -> String {
+	fileprivate func currentCategory() -> String {
         if places[currentPlayer] == 0 {return "Pop"}
 		if places[currentPlayer] == 4 {return "Pop"}
 		if places[currentPlayer] == 8 {return "Pop"}
@@ -117,23 +117,23 @@ public class Game {
 		return "Rock"
 	}
 
-	public func wasCorrectlyAnswered() -> Bool {
+	open func wasCorrectlyAnswered() -> Bool {
 		if inPenaltyBox[currentPlayer]{
 			if isGettingOutOfPenaltyBox {
 				print("Answer was correct!!!!")
-				purses[currentPlayer]++
+				purses[currentPlayer] += 1
 				print(players[currentPlayer],
 						"now has",
 						purses[currentPlayer],
 						"Gold Coins.")
 				
 				let winner = didPlayerWin
-				currentPlayer++
+				currentPlayer += 1
                 if currentPlayer == players.count {currentPlayer = 0}
 				
 				return winner
 			} else {
-				currentPlayer++
+				currentPlayer += 1
                 if currentPlayer == players.count {currentPlayer = 0}
 				return true
 			}
@@ -143,32 +143,32 @@ public class Game {
 		} else {
 		
 			print("Answer was corrent!!!!")
-			purses[currentPlayer]++
+			purses[currentPlayer] += 1
 			print(players[currentPlayer],
 					"now has",
 					purses[currentPlayer],
 					"Gold Coins.")
 			
 			let winner = didPlayerWin
-			currentPlayer++
+			currentPlayer += 1
             if currentPlayer == players.count {currentPlayer = 0}
 			
 			return winner
 		}
 	}
 	
-	public func wrongAnswer()->Bool{
+	open func wrongAnswer()->Bool{
 		print("Question was incorrectly answered")
 		print(players[currentPlayer], "was sent to the penalty box")
 		inPenaltyBox[currentPlayer] = true
 		
-		currentPlayer++
+		currentPlayer += 1
         if currentPlayer == players.count {currentPlayer = 0}
 		return true
 	}
 
 
-    private var didPlayerWin: Bool {
+    fileprivate var didPlayerWin: Bool {
 		return !(purses[currentPlayer] == 6)
 	}
 }
