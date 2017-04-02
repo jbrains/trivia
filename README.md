@@ -1,7 +1,25 @@
-Legacy Code Retreat code base
-======
+Taming Your Legacy Code
+=======================
 
-Use this code base to run your own [Legacy Code Retreat](http://legacycoderetreat.jbrains.ca).
+Presented by Clay Dowling, Jeeva Nadarajah and Nathan Schlehlein
+of Pillar Technology
 
-As of this writing, there isn't really a single place to get all the information you might want about Legacy Code Retreat. Search the web and ask your colleagues. Most importantly, don't panic! If you've been to Code Retreat even once, then you know most of what you need to run a Legacy Code Retreat. Give it a try!
+Getting Started
+---------------
 
+  1. Clone this git repo:
+
+     `git clone https://github.com/ClayDowling/trivia.git`
+
+  2. Open IntelliJ
+
+  3. Choose *Open* and select the "trivia/java" folder.
+
+  4. Open the GameRunner.java file.
+
+  5. If you see a yellow bar above the editor asking you to set the SDK,
+     click the link and choose your most current Java SDK (probably Java
+1.8).
+
+There is also a [Refactoring Cheat Sheet](RefactoringCheatSheet.pdf)
+which you can use as a reference.

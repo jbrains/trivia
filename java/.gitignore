@@ -1,1 +1,4 @@
+golden.txt
 target/
+.idea/
+**/*.iml
