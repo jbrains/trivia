@@ -12,9 +12,9 @@ var notAWinner: Bool
 
 let aGame = Game()
 
-aGame.add("Chet")
-aGame.add("Pat")
-aGame.add("Sue")
+_ = aGame.add("Chet")
+_ = aGame.add("Pat")
+_ = aGame.add("Sue")
 
 repeat {
     
