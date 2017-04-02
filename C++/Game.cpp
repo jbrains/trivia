@@ -1,198 +1,182 @@
 ﻿#include "Game.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "Printer.h"
+#include "Player.h"
+#include "QuestionCategory.h"
+
 #include <iostream>
 #include <sstream>
 
-using namespace std;
+#define NUM_OF_QUESTIONS 50
+#define MAX_PLACE 12
+#define MIN_PLAYER 2
+#define MAX_PURSE 6
 
-Game::Game() : currentPlayer(0), places({}), purses({}){
-	for (int i = 0; i < 50; i++)
-	{
+const std::vector<std::string> Game::category_names =
+                                   {"Pop", "Science", "Sports", "Rock"};
 
-		ostringstream oss (ostringstream::out);
-		oss << "Pop Question " << i;
-
-		popQuestions.push_back(oss.str());
-
-		char str[255];
-		sprintf(str, "Science Question %d", i);
-		scienceQuestions.push_back(str);
-
-		char str1[255];
-		sprintf(str1, "Sports Question %d", i);
-		sportsQuestions.push_back(str1);
-
-		rockQuestions.push_back(createRockQuestion(i));
-	}
-}
-
-string Game::createRockQuestion(int index)
+// Constructor that initialize the starting state of the game.
+Game::Game ()
 {
-	char indexStr[127];
-	sprintf(indexStr, "Rock Question %d", index);
-	return indexStr;
+    init_categories ();
 }
 
-bool Game::isPlayable()
+
+// Initialization method for question categories.
+void Game::init_categories ()
 {
-	return (howManyPlayers() >= 2);
+    // Iterates trough the category names and create
+    // category and questions for each.
+    for (std::vector<std::string>::const_iterator topic = 
+            Game::category_names.begin();
+         topic != category_names.end();
+         ++topic)
+    {
+        categories.push_back (generate_questions (*topic));
+    }
 }
 
-bool Game::add(string playerName){
-	players.push_back(playerName);
-	places[howManyPlayers()] = 0;
-	purses[howManyPlayers()] = 0;
-	inPenaltyBox[howManyPlayers()] = false;
 
-	cout << playerName << " was added" << endl;
-	cout << "They are player number " << players.size() << endl;
-	return true;
-}
-
-int Game::howManyPlayers()
+// Generation method for question categories.
+QuestionCategory* Game::generate_questions (std::string topic)
 {
-	return players.size();
-}
+    QuestionCategory *category = new QuestionCategory (topic);
 
-void Game::roll(int roll)
-{
-	cout << players[currentPlayer] << " is the current player" << endl;
-	cout << "They have rolled a " << roll << endl;
+    // TODO: It would be better to read questions from some resource
+    // instead of generating dummy questions
+    for (int i = 0; i < NUM_OF_QUESTIONS; ++i)
+    {
+        std::ostringstream oss (std::ostringstream::out);
 
-	if (inPenaltyBox[currentPlayer])
-	{
-		if (roll % 2 != 0)
-		{
-			isGettingOutOfPenaltyBox = true;
+        oss << topic << " Question " << i;
 
-			cout << players[currentPlayer] << " is getting out of the penalty box" << endl;
-			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+        category->add_question (oss.str ());
+    }
 
-			cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-			cout << "The category is " << currentCategory() << endl;
-			askQuestion();
-		}
-		else
-		{
-			cout << players[currentPlayer] << " is not getting out of the penalty box" << endl;
-			isGettingOutOfPenaltyBox = false;
-		}
-
-	}
-	else
-	{
-
-		places[currentPlayer] = places[currentPlayer] + roll;
-		if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-		cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-		cout << "The category is " << currentCategory() << endl;
-		askQuestion();
-	}
-
-}
-
-void Game::askQuestion()
-{
-	if (currentCategory() == "Pop")
-	{
-		cout << popQuestions.front() << endl;
-		popQuestions.pop_front();
-	}
-	if (currentCategory() == "Science")
-	{
-		cout << scienceQuestions.front() << endl;
-		scienceQuestions.pop_front();
-	}
-	if (currentCategory() == "Sports")
-	{
-		cout << sportsQuestions.front() << endl;
-		sportsQuestions.pop_front();
-	}
-	if (currentCategory() == "Rock")
-	{
-		cout << rockQuestions.front() << endl;
-		rockQuestions.pop_front();
-	}
+    return category;
 }
 
 
-string Game::currentCategory()
+// Checks if there are enough player to play.
+bool Game::is_playable ()
 {
-	if (places[currentPlayer] == 0) return "Pop";
-	if (places[currentPlayer] == 4) return "Pop";
-	if (places[currentPlayer] == 8) return "Pop";
-	if (places[currentPlayer] == 1) return "Science";
-	if (places[currentPlayer] == 5) return "Science";
-	if (places[currentPlayer] == 9) return "Science";
-	if (places[currentPlayer] == 2) return "Sports";
-	if (places[currentPlayer] == 6) return "Sports";
-	if (places[currentPlayer] == 10) return "Sports";
-	return "Rock";
-}
-
-bool Game::wasCorrectlyAnswered()
-{
-	if (inPenaltyBox[currentPlayer])
-	{
-		if (isGettingOutOfPenaltyBox)
-		{
-			cout << "Answer was correct!!!!" << endl;
-			purses[currentPlayer]++;
-			cout << players[currentPlayer]
-			     << " now has "
-			     << purses[currentPlayer]
-				<<  " Gold Coins." << endl;
-
-			bool winner = didPlayerWin();
-			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
-
-			return winner;
-		}
-		else
-		{
-			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
-			return true;
-		}
-
-
-
-	}
-	else
-	{
-
-		cout << "Answer was corrent!!!!" << endl;
-		purses[currentPlayer]++;
-		cout << players[currentPlayer]
-				<< " now has "
-				<< purses[currentPlayer]
-			<< " Gold Coins." << endl;
-
-		bool winner = didPlayerWin();
-		currentPlayer++;
-		if (currentPlayer == players.size()) currentPlayer = 0;
-
-		return winner;
-	}
-}
-
-bool Game::wrongAnswer()
-{
-	cout << "Question was incorrectly answered" << endl;
-	cout << players[currentPlayer] + " was sent to the penalty box" << endl;
-	inPenaltyBox[currentPlayer] = true;
-
-	currentPlayer++;
-	if (currentPlayer == players.size()) currentPlayer = 0;
-	return true;
+    return (players.size () >= MIN_PLAYER);
 }
 
 
-bool Game::didPlayerWin()
+// Adds a new player to the game.
+bool Game::add_player (string player_name)
 {
-	return !(purses[currentPlayer] == 6);
+    Player *player = new Player (player_name);
+    players.push_back (player);
+
+    Printer::new_player_added (player, players.size ());
+
+    current_player = players.begin ();
+
+    return true;
+}
+
+
+// The actual players roll.
+void Game::roll (int roll)
+{
+    Player *player = *current_player;
+
+    Printer::player_rolled (player, roll);
+
+    if ((player->is_in_penalty_box ()) && (roll % 2 == 0))
+    {
+        Printer::stay_in_penalty (player);
+    }
+    else
+    {
+        player->get_from_penalty ();
+
+        player->step (roll, MAX_PLACE);
+
+        int cat = player->get_place () % categories.size ();
+        Printer::new_location (player, categories[cat]);
+
+        ask_question ();
+    }
+}
+
+
+// Prints out the next question of the cathegory of the current player's place.
+void Game::ask_question ()
+{
+    // The index of the category where the question comes from
+    const int cat = (*current_player)->get_place () % categories.size ();
+
+    // TODO: Catching this on higher level may be better
+    try
+    {
+        Printer::print_question(categories[cat]->next_question ());
+    }
+    catch (std::runtime_error err)
+    {
+        Printer::error (err.what ());
+    }
+}
+
+
+// Answer the question right or wrong (true = right)
+void Game::answer (bool is_right)
+{
+    Player *player = *current_player;
+
+    if (is_right)
+    {
+        // If the player is in the penalty box, his answer has no effect.
+        if (!player->is_in_penalty_box ())
+        {
+            // The players get one gold for every answer.
+            player->add_gold ();
+
+            Printer::correct_answer (player);
+        }
+    }
+    else
+    {
+        Printer::incorrect_answer (player);
+
+        // If the answer was wrong, the player goes to the penalty box.
+        player->send_to_penalty ();
+    }
+}
+
+
+// Sets the next player if the game continues, otherwise returns false
+bool Game::next_round ()
+{
+    // Return value, that says if the game continues or not.
+    bool go = false;
+
+    if (!did_player_win ())
+    {
+        next_player ();
+        go = true;
+    }
+
+    return go;
+}
+
+
+// Set the next player to actor.
+void Game::next_player ()
+{
+    ++current_player;
+
+    // After the last player the first will come.
+    if (current_player == players.end())
+        current_player = players.begin();
+}
+
+
+// Checks if the current player won the game.
+bool Game::did_player_win ()
+{
+    // The game keeps running until one of the players gets the
+    // maximal amount of gold coins. 
+    return ((*current_player)->get_purse () == MAX_PURSE);
 }
