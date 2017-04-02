@@ -1,34 +1,34 @@
 local Game = {}
 Game.__index = Game
 function Game:new()
-   instance = {}
-   setmetatable(instance, Game)
+	local instance = {}
+	setmetatable(instance, Game)
 
-   instance.players = {}
-   instance.places = { 0,0,0,0,0,0}
-   instance.purses = { 0,0,0,0,0,0}
-   instance.in_penalty_box = {0,0,0,0,0,0}
+	instance.players = {}
+	instance.places = {0, 0, 0, 0, 0, 0}
+	instance.purses = {0, 0, 0, 0, 0, 0}
+	instance.in_penalty_box = {0, 0, 0, 0, 0, 0}
 
-   instance.pop_questions = {}
-   instance.science_questions = {}
-   instance.sports_questions = {}
-   instance.rock_questions = {}
+	instance.questions = {
+		pop = {},
+		rock = {},
+		science = {},
+		sports = {}
+	}
+	instance.current_player = 1
+	instance.is_getting_out_of_penalty_box = false
 
-   instance.current_player = 1
-   instance.is_getting_out_of_penalty_box = false
-
-   for i = 0,50,1 do
-       table.insert(instance.pop_questions, "Pop Question "..i)
-       table.insert(instance.science_questions, "Science Question "..i)
-       table.insert(instance.sports_questions, "Sports Question "..i)
-       table.insert(instance.rock_questions, instance:create_rock_question(i))
-   end 
+	for i = 1, 51 do
+		for key, value in pairs(instance.questions) do
+			value[i] = instance:create_question(key, i)
+		end
+   end
 
    return instance
 end
 
-function Game:create_rock_question(index)
-   return "Rock Question "..index
+function Game:create_question(name, index)
+   return ("%s Question %d"):format(name, index)
 end
 
 function Game:is_playable()
@@ -83,24 +83,21 @@ function Game:roll(roll)
 end
 
 function Game:ask_question()
-   if self:current_category() == 'Pop' then print(table.remove(self.pop_questions,1)) end 
-   if self:current_category() == 'Science' then print(table.remove(self.science_questions,1)) end
-   if self:current_category() == 'Sports' then print(table.remove(self.sports_questions,1)) end
-   if self:current_category() == 'Rock' then print(table.remove(self.rock_questions,1)) end
+	local category = self:current_category()
+	print( table.remove(self.questions[category:lower()],1) )
 end
 
-function Game:current_category()
-   if self.places[self.current_player] == 0 then return "Pop" end
-   if self.places[self.current_player] == 4 then return "Pop" end
-   if self.places[self.current_player] == 8 then return "Pop" end
-   if self.places[self.current_player] == 1 then return "Science" end
-   if self.places[self.current_player] == 5 then return "Science" end
-   if self.places[self.current_player] == 9 then return "Science" end
-   if self.places[self.current_player] == 2 then return "Sports" end
-   if self.places[self.current_player] == 6 then return "Sports" end
-   if self.places[self.current_player] == 10 then return "Sports" end
-   return "Rock"
-end
+Game.current_category = (function()
+	local lookup = {
+		"Pop",
+		"Science",
+		"Sports",
+		"Rock"
+	}
+	return function(self)
+		return lookup[(self.current_player % 4) + 1]
+	end
+end)()
 
 function Game:was_correctly_answered()
    if self.in_penalty_box[self.current_player] then
