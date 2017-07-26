@@ -1,5 +1,7 @@
-scalaVersion := "2.11.6"
+scalaVersion := "2.12.2"
 
-scalacOptions ++= Seq("-feature", "-deprecation")
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+// scalaVersion := "2.11.8"
+
+// libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
