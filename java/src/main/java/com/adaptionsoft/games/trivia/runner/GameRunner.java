@@ -10,10 +10,12 @@ public class GameRunner
 
   private static boolean notAWinner;
   private final Game game;
+  private final RandomFactory randomFactory;
 
-  public GameRunner(Game game)
+  public GameRunner(Game game, RandomFactory randomFactory)
   {
     this.game = game;
+    this.randomFactory = randomFactory;
   }
 
   public void execute(String args)
@@ -22,13 +24,7 @@ public class GameRunner
     game.add("Pat");
     game.add("Sue");
 
-    Random rand;
-    if (args != null)
-    {
-      rand = new Random(Long.valueOf(args));
-    }
-    else
-      rand = new Random();
+    Random rand = randomFactory.newRandom(args);
 
     do
     {
@@ -47,5 +43,21 @@ public class GameRunner
     }
     while (notAWinner);
 
+  }
+
+  public static class RandomFactory
+  {
+
+    public Random newRandom(String args)
+    {
+      Random rand;
+      if (args != null)
+      {
+        rand = new Random(Long.valueOf(args));
+      }
+      else
+        rand = new Random();
+      return rand;
+    }
   }
 }

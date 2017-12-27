@@ -32,7 +32,7 @@ public class GoldenMasterTest
     System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(A_RUN))), true));
     THE_GOLDEN_MASTER = new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt");
 
-    runner = new GameRunner(new Game());
+    runner = new GameRunner(new Game(), new GameRunner.RandomFactory());
   }
 
   @Test
