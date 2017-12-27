@@ -9,14 +9,18 @@ public class GameRunner
 {
 
   private static boolean notAWinner;
+  private final Game game;
 
-  public static void execute(String args)
+  public GameRunner(Game game)
   {
-    Game aGame = new Game();
+    this.game = game;
+  }
 
-    aGame.add("Chet");
-    aGame.add("Pat");
-    aGame.add("Sue");
+  public void execute(String args)
+  {
+    game.add("Chet");
+    game.add("Pat");
+    game.add("Sue");
 
     Random rand;
     if (args != null)
@@ -29,15 +33,15 @@ public class GameRunner
     do
     {
 
-      aGame.roll(rand.nextInt(5) + 1);
+      game.roll(rand.nextInt(5) + 1);
 
       if (rand.nextInt(9) == 7)
       {
-        notAWinner = aGame.wrongAnswer();
+        notAWinner = game.wrongAnswer();
       }
       else
       {
-        notAWinner = aGame.wasCorrectlyAnswered();
+        notAWinner = game.wasCorrectlyAnswered();
       }
 
     }

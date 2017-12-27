@@ -1,6 +1,7 @@
 package com.adaptionsoft.games.trivia;
 
 import com.adaptionsoft.games.trivia.runner.GameRunner;
+import com.adaptionsoft.games.uglytrivia.Game;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +31,8 @@ public class GoldenMasterTest
 
     System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(A_RUN))), true));
     THE_GOLDEN_MASTER = new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt");
-    runner = new GameRunner();
+
+    runner = new GameRunner(new Game());
   }
 
   @Test
