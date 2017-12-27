@@ -21,6 +21,7 @@ public class SomeTest
   private static final String FIXED_SEED = "100";
   private URI A_RUN;
   private URI THE_GOLDEN_MASTER;
+  private GameRunner runner;
 
   @Before
   public void setUp() throws Exception
@@ -29,14 +30,13 @@ public class SomeTest
 
     System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(A_RUN))), true));
     THE_GOLDEN_MASTER = new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt");
+    runner = new GameRunner();
   }
 
   @Test
   public void goldenMaster() throws Exception
   {
-    GameRunner runner = new GameRunner();
-
-    runner.main(new String[] {FIXED_SEED});
+    runner.execute(FIXED_SEED);
 
     String goldenMaster = new String(readAllBytes(get(THE_GOLDEN_MASTER)));
     String theRun = new String(readAllBytes(get(A_RUN)));

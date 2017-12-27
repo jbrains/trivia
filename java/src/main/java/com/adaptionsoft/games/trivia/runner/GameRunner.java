@@ -10,7 +10,7 @@ public class GameRunner
 
   private static boolean notAWinner;
 
-  public static void main(String[] args)
+  public static void execute(String args)
   {
     Game aGame = new Game();
 
@@ -19,9 +19,9 @@ public class GameRunner
     aGame.add("Sue");
 
     Random rand;
-    if (args[0] != null)
+    if (args != null)
     {
-      rand = new Random(Long.valueOf(args[0]));
+      rand = new Random(Long.valueOf(args));
     }
     else
       rand = new Random();
