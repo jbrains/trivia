@@ -17,6 +17,8 @@ import static org.junit.Assert.assertThat;
 public class SomeTest
 {
 
+  private static final String FIXED_SEED = "100";
+
   @Before
   public void setUp() throws Exception
   {
@@ -28,7 +30,7 @@ public class SomeTest
   {
 
     GameRunner runner = new GameRunner();
-    runner.main(null);
+    runner.main(new String[]{FIXED_SEED});
 
     String goldenMaster = new String(readAllBytes(get(new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt"))));
     String theRun = new String(readAllBytes(get(new URI("file:///Users/msabatini/work/trivia/java/target/test-classes/Run.txt"))));
