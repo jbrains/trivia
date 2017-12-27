@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.net.URI;
@@ -18,25 +19,28 @@ public class SomeTest
 {
 
   private static final String FIXED_SEED = "100";
+  private URI A_RUN;
+  private URI THE_GOLDEN_MASTER;
 
   @Before
   public void setUp() throws Exception
   {
-    System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("./target/test-classes/Run.txt")), true));
+    A_RUN = new URI("file:///Users/msabatini/work/trivia/java/target/test-classes/Run.txt");
+
+    System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(A_RUN))), true));
+    THE_GOLDEN_MASTER = new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt");
   }
 
   @Test
-  public void myfirstTest() throws Exception
+  public void goldenMaster() throws Exception
   {
-
     GameRunner runner = new GameRunner();
-    runner.main(new String[]{FIXED_SEED});
 
-    String goldenMaster = new String(readAllBytes(get(new URI("file:///Users/msabatini/work/trivia/java/src/test/resources/GoldenMaster.txt"))));
-    String theRun = new String(readAllBytes(get(new URI("file:///Users/msabatini/work/trivia/java/target/test-classes/Run.txt"))));
+    runner.main(new String[] {FIXED_SEED});
 
-    assertThat(goldenMaster,is(theRun));
+    String goldenMaster = new String(readAllBytes(get(THE_GOLDEN_MASTER)));
+    String theRun = new String(readAllBytes(get(A_RUN)));
 
-
+    assertThat(goldenMaster, is(theRun));
   }
 }
