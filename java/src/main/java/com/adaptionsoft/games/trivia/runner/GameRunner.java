@@ -25,6 +25,7 @@ public class GameRunner
     }
     else
       rand = new Random();
+
     do
     {
 

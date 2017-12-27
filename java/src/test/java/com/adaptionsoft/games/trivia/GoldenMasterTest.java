@@ -15,7 +15,7 @@ import static java.nio.file.Paths.get;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SomeTest
+public class GoldenMasterTest
 {
 
   private static final String FIXED_SEED = "100";
