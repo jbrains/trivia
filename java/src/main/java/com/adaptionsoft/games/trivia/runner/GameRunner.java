@@ -7,7 +7,6 @@ import java.util.Random;
 
 public class GameRunner
 {
-
   private static boolean notAWinner;
   private final Game game;
   private final RandomFactory randomFactory;
@@ -18,17 +17,16 @@ public class GameRunner
     this.randomFactory = randomFactory;
   }
 
-  public void execute(String args)
+  public void execute()
   {
     game.add("Chet");
     game.add("Pat");
     game.add("Sue");
 
-    Random rand = randomFactory.newRandom(args);
+    Random rand = randomFactory.newRandom();
 
     do
     {
-
       game.roll(rand.nextInt(5) + 1);
 
       if (rand.nextInt(9) == 7)
@@ -45,19 +43,4 @@ public class GameRunner
 
   }
 
-  public static class RandomFactory
-  {
-
-    public Random newRandom(String args)
-    {
-      Random rand;
-      if (args != null)
-      {
-        rand = new Random(Long.valueOf(args));
-      }
-      else
-        rand = new Random();
-      return rand;
-    }
-  }
 }
