@@ -4,4 +4,4 @@ source "https://rubygems.org"
 
 gem "minitest"
 gem "rspec"
-gem "approvals", :git => 'git://github.com/kytrinyx/approvals.git'
+gem "approvals"
