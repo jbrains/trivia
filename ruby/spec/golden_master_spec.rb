@@ -48,6 +48,7 @@ end
 
 def play(seed)
 
+	  srand(seed)
 	# print_seed(seed)
 
 	not_a_winner = false
