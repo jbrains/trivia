@@ -54,9 +54,9 @@ def play(seed)
 	not_a_winner = false
 
 	game = UglyTrivia::Game.new
-	game.add 'Chet'
-	game.add 'Pat'
-	game.add 'Sue'
+	game.add_and_log_player 'Chet'
+	game.add_and_log_player 'Pat'
+	game.add_and_log_player 'Sue'
 
 	begin
 	  game.roll(rand(5) + 1)

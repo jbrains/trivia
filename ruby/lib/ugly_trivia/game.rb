@@ -30,13 +30,22 @@ module UglyTrivia
       how_many_players >= 2
     end
 
-    def add(player_name)
+    def create_player_message(player_name)
+      "#{player_name} was added"      
+    end
+
+    def print_player_message(message)
+      puts message
+    end
+
+    def add_and_log_player(player_name)
       @players.push player_name
       @places[how_many_players] = 0
       @purses[how_many_players] = 0
       @in_penalty_box[how_many_players] = false
 
-      puts "#{player_name} was added"
+      print_player_message(create_player_message(player_name))
+      # puts "#{player_name} was added"
       puts "They are player number #{@players.length}"
 
       true
