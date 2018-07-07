@@ -1,5 +1,9 @@
 module GameParams
 
+	GAME_START_POSITION = 0
+	GAME_START_MONEY = 0
+	GAME_START_IN_PENALTY_BOX = false
+
 	CATEGORY_POP = "Pop"
 	CATEGORY_SCIENCE = "Science"
 	CATEGORY_SPORTS = "Sports"

@@ -2,36 +2,45 @@ require_relative 'game_params'
 require 'logger'
 
 module Trivia
+
+# ToDo ideas 
+    # - player: board_position, purse, penaltyBox
+    # - questions: counter + question message creator, rather than array with message
+    # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
+
+  class Player
+    attr_accessor :name, :board_position, :gold_coins, :in_penalty_box
+    def initialize(name)
+      @name = name
+      @board_position = GameParams::GAME_START_POSITION
+      @gold_coins = GameParams::GAME_START_MONEY
+      @in_penalty_box = GameParams::GAME_START_IN_PENALTY_BOX
+    end
+  end
+
   class Game
 
   include GameParams
 
   File.delete("logfile.log") if File.exist?("logfile.log")
   @@logger = Logger.new('logfile.log')
-  @@logger.debug {"before initialize"}
 
-    # ToDo ideas 
-    # - player: position, purse, penaltyBox
-    # - questions: counter + question message creator, rather than array with message
-    # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
-
-    def add_player(number, name)
-      @all_players[(number).to_s] = {
+    def add_player(name)
+      current_players_number = @game_players.length+1
+      @game_players[current_players_number.to_s] = {
           :name => name,
-          :position => 0,
-          :purse => 0,
-          :in_penalty_box => false
+          :board_position => GAME_START_POSITION,
+          :gold_coins => GAME_START_MONEY,
+          :in_penalty_box => GAME_START_IN_PENALTY_BOX
          }
     end
 
     def initialize(*gamers)
-      @all_players = Hash.new
-      
-      gamers.each{|g| @@logger.debug("#{g}")}
-      @@logger.debug("--------------------")
+      @game_players = Hash.new
 
-      gamers.each_with_index do |player_name, i|
-        add_player(i+1, player_name)
+      gamers.each do |player_name|
+        add_player(player_name)
+        @@logger.debug("#{@game_players}")
       end
 
       # @players = gamers
