@@ -11,6 +11,13 @@ describe "player" do
 	end
 end
 
+describe "game" do
+	it "should register player numbers" do
+		@game = Trivia::Game.new('Name One','Name Two','Name Three', 'Name Four')
+		expect(@game.game_players.length).to be(4)
+	end
+end
+
 # describe "add player" do
 #   it "should return hashmap" do
 #     expect(true).to eq(true)

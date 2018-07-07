@@ -19,11 +19,11 @@ module Trivia
   end
 
   class Game
+    include GameParams
+    attr_reader :game_players
 
-  include GameParams
-
-  File.delete("logfile.log") if File.exist?("logfile.log")
-  @@logger = Logger.new('logfile.log')
+    File.delete("logfile.log") if File.exist?("logfile.log")
+    @@logger = Logger.new('logfile.log')
 
     def add_player(name)
       current_players_number = @game_players.length+1
