@@ -55,7 +55,7 @@ def play(seed)
 
 	not_a_winner = false
 
-	game = Trivia::Game.new
+	game = Trivia::Game.new('Chet','Pat','Sue')
 	# if you want to point to initially ugly trivia game
 	# game = UglyTrivia::Game.new
 

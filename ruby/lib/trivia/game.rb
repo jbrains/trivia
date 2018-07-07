@@ -15,14 +15,27 @@ module Trivia
     # - questions: counter + question message creator, rather than array with message
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
 
+    def add_player(number, name)
+      @all_players[(number).to_s] = {
+          :name => name,
+          :position => 0,
+          :purse => 0,
+          :in_penalty_box => false
+         }
+    end
+
     def initialize(*gamers)
+      @all_players = Hash.new
       
       gamers.each{|g| @@logger.debug("#{g}")}
       @@logger.debug("--------------------")
 
-      
+      gamers.each_with_index do |player_name, i|
+        add_player(i+1, player_name)
+      end
 
-      @players = gamers
+      # @players = gamers
+      @players = []
 
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
