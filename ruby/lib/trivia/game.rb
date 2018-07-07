@@ -4,7 +4,6 @@ require 'logger'
 module Trivia
 
 # ToDo ideas 
-    # - player: board_position, purse, penaltyBox
     # - questions: counter + question message creator, rather than array with message
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
 
@@ -19,26 +18,21 @@ module Trivia
   end
 
   class Game
-    include GameParams
-    attr_reader :game_players
 
     File.delete("logfile.log") if File.exist?("logfile.log")
     @@logger = Logger.new('logfile.log')
 
-    def add_player(name)
-      current_players_number = @game_players.length+1
-      @game_players[current_players_number.to_s] = Player.new(name)
-    end
+    include GameParams
+    attr_reader :game_players
 
     def initialize(*gamers)
       @game_players = Hash.new
-
       gamers.each do |player_name|
         add_player(player_name)
-        @@logger.debug("#{@game_players}")
       end
+      
+      @question_pool = initialize_questions
 
-      # @players = gamers
       @players = []
 
       @places = Array.new(6, 0)
@@ -54,11 +48,29 @@ module Trivia
       @is_getting_out_of_penalty_box = false
 
       50.times do |i|
-        @pop_questions.push "Pop Question #{i}"
-        @science_questions.push "Science Question #{i}"
-        @sports_questions.push "Sports Question #{i}"
+        @pop_questions.push "Pop #{GameParams::QUESTION_TEXT} #{i}"
+        @science_questions.push "Science #{GameParams::QUESTION_TEXT} #{i}"
+        @sports_questions.push "Sports #{GameParams::QUESTION_TEXT} #{i}"
         @rock_questions.push create_rock_question(i)
       end
+    end
+
+    def initialize_questions
+      {
+        CATEGORY_POP.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_SCIENCE.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_SPORTS.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_ROCK.to_sym => GameParams::GAME_START_QUESTION_NUMBER
+      }
+    end
+
+    def create_question_message(category)
+      "#{category} #{GameParams::QUESTION_TEXT} #{@question_pool[category.to_sym]}"
+    end
+
+    def add_player(name)
+      current_players_number = @game_players.length+1
+      @game_players[current_players_number.to_s] = Player.new(name)
     end
 
     def create_rock_question(index)

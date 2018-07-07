@@ -22,4 +22,22 @@ describe "game" do
 		expect(@game.game_players["4"]).to be_a_kind_of(Trivia::Player)
 		expect(@game.game_players["5"]).to be(nil)
 	end
+
+	it "should create start set of questions" do
+		game = Trivia::Game.new('One')
+		question_pool = game.initialize_questions
+		expect(question_pool.length).to be(4)
+		expect(question_pool.keys).to eq([:Pop,:Science,:Sports,:Rock])
+		expect(question_pool.values).to eq([0,0,0,0])
+	end
+
+	it "should create message containing question with number and category" do
+		game = Trivia::Game.new('One')
+		question_pool = game.initialize_questions
+		expect(game.create_question_message(:Pop)).to eq("Pop Question 0")
+		expect(game.create_question_message(:Science)).to eq("Science Question 0")
+		expect(game.create_question_message(:Sports)).to eq("Sports Question 0")
+		expect(game.create_question_message(:Rock)).to eq("Rock Question 0")
+	end
+
 end
