@@ -8,12 +8,22 @@ module Trivia
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
 
   class Player
-    attr_accessor :name, :board_position, :gold_coins, :in_penalty_box
+    attr_reader :name
+    attr_accessor :board_position, :gold_coins, :in_penalty_box
     def initialize(name)
       @name = name
       @board_position = GameParams::GAME_START_POSITION
       @gold_coins = GameParams::GAME_START_MONEY
       @in_penalty_box = GameParams::GAME_START_IN_PENALTY_BOX
+    end
+  end
+
+  class Question
+    attr_reader :category
+    attr_accessor :count
+    def initialize(category)
+      @category = category.to_sym
+      @count = GameParams::GAME_START_QUESTION_NUMBER
     end
   end
 
