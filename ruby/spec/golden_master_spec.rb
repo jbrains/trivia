@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'approvals/rspec'
-require 'ugly_trivia/game'
+require 'trivia/game'
+
+# if you want to point to initially ugly trivia game
+# require 'ugly_trivia/game'
 
 describe "spec test" do
   it "should pass" do
