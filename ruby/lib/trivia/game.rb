@@ -16,9 +16,14 @@ module Trivia
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
 
     def initialize(*gamers)
+      
       gamers.each{|g| @@logger.debug("#{g}")}
       @@logger.debug("--------------------")
-      @players = []
+
+      
+
+      @players = gamers
+
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
       @in_penalty_box = Array.new(6, nil)
@@ -43,10 +48,6 @@ module Trivia
       "Rock Question #{index}"
     end
 
-    def is_playable?
-      how_many_players >= 2
-    end
-
     def print_added_player_message(player_name)
       puts "#{player_name} was added"
       puts "They are player number #{@players.length}"
@@ -54,16 +55,16 @@ module Trivia
 
     def add_and_log_player(player_name)
       @players.push player_name
-      @places[how_many_players] = 0
-      @purses[how_many_players] = 0
-      @in_penalty_box[how_many_players] = false
+      @places[number_of_players] = 0
+      @purses[number_of_players] = 0
+      @in_penalty_box[number_of_players] = false
 
       print_added_player_message(player_name)
 
       true
     end
 
-    def how_many_players
+    def number_of_players
       @players.length
     end
 
