@@ -1,32 +1,16 @@
-module UglyTrivia
+require_relative 'game_params'
+
+module Trivia
   class Game
 
-  CATEGORY_POP = "Pop"
-  CATEGORY_SCIENCE = "Science"
-  CATEGORY_SPORTS = "Sports"
-  CATEGORY_ROCK = "Rock"
-
-  POP_POSITIONS = [0,4,8]
-  SCIENCE_POSITIONS = [1,5,9]
-  SPORTS_POSITIONS = [2,6,10]
-  ROCK_POSITIONS = [3,7,11]
-
+  include GameParams
+    # ToDo ideas 
+    # - player: position, purse, penaltyBox
+    # - questions: counter + question message creator, rather than array with message
+    # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
+    
     def  initialize
-      @positions = {
-        "0" => CATEGORY_POP,
-        "1" => CATEGORY_SCIENCE,
-        "2" => CATEGORY_SPORTS, 
-        "3" => CATEGORY_ROCK,
-        "4" => CATEGORY_POP,
-        "5" => CATEGORY_SCIENCE,
-        "6" => CATEGORY_SPORTS,
-        "7" => CATEGORY_ROCK,
-        "8" => CATEGORY_POP,
-        "9" => CATEGORY_SCIENCE,
-        "10" => CATEGORY_SPORTS,
-        "11" => CATEGORY_ROCK
-      }
-
+    
       @players = []
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
@@ -122,7 +106,7 @@ module UglyTrivia
     end
 
     def current_category
-      @positions[@places[@current_player].to_s]
+      POSITIONS[@places[@current_player].to_s]
     end
 
   public

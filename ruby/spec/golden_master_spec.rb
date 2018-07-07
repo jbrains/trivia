@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'approvals/rspec'
 require 'trivia/game'
-
 # if you want to point to initially ugly trivia game
 # require 'ugly_trivia/game'
 
@@ -56,7 +55,10 @@ def play(seed)
 
 	not_a_winner = false
 
-	game = UglyTrivia::Game.new
+	game = Trivia::Game.new
+	# if you want to point to initially ugly trivia game
+	# game = UglyTrivia::Game.new
+
 	game.add_and_log_player 'Chet'
 	game.add_and_log_player 'Pat'
 	game.add_and_log_player 'Sue'
