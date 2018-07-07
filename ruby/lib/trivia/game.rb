@@ -1,16 +1,24 @@
 require_relative 'game_params'
+require 'logger'
 
 module Trivia
   class Game
 
   include GameParams
+
+  File.delete("logfile.log") if File.exist?("logfile.log")
+  @@logger = Logger.new('logfile.log')
+  @@logger.debug {"before initialize"}
+
     # ToDo ideas 
     # - player: position, purse, penaltyBox
     # - questions: counter + question message creator, rather than array with message
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
-    
-    def  initialize
-    
+
+
+    def initialize(*gamers)
+      gamers.each{|g| @@logger.debug("#{g}")}
+      @@logger.debug("--------------------")
       @players = []
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
