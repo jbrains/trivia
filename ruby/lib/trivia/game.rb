@@ -15,7 +15,6 @@ module Trivia
     # - questions: counter + question message creator, rather than array with message
     # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
 
-
     def initialize(*gamers)
       gamers.each{|g| @@logger.debug("#{g}")}
       @@logger.debug("--------------------")
@@ -48,12 +47,9 @@ module Trivia
       how_many_players >= 2
     end
 
-    def create_player_message(player_name)
-      "#{player_name} was added"      
-    end
-
-    def print_player_message(message)
-      puts message
+    def print_added_player_message(player_name)
+      puts "#{player_name} was added"
+      puts "They are player number #{@players.length}"
     end
 
     def add_and_log_player(player_name)
@@ -62,9 +58,7 @@ module Trivia
       @purses[how_many_players] = 0
       @in_penalty_box[how_many_players] = false
 
-      print_player_message(create_player_message(player_name))
-      # puts "#{player_name} was added"
-      puts "They are player number #{@players.length}"
+      print_added_player_message(player_name)
 
       true
     end
