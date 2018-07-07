@@ -27,12 +27,7 @@ module Trivia
 
     def add_player(name)
       current_players_number = @game_players.length+1
-      @game_players[current_players_number.to_s] = {
-          :name => name,
-          :board_position => GAME_START_POSITION,
-          :gold_coins => GAME_START_MONEY,
-          :in_penalty_box => GAME_START_IN_PENALTY_BOX
-         }
+      @game_players[current_players_number.to_s] = Player.new(name)
     end
 
     def initialize(*gamers)

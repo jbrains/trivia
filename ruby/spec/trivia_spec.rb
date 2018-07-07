@@ -12,14 +12,14 @@ describe "player" do
 end
 
 describe "game" do
-	it "should register player numbers" do
-		@game = Trivia::Game.new('Name One','Name Two','Name Three', 'Name Four')
+	it "should register exactly 4 players with numbers" do
+		@game = Trivia::Game.new('One','Two','Three', 'Four')
 		expect(@game.game_players.length).to be(4)
+		expect(@game.game_players["0"]).to be(nil)
+		expect(@game.game_players["1"]).to be_a_kind_of(Trivia::Player)
+		expect(@game.game_players["2"]).to be_a_kind_of(Trivia::Player)
+		expect(@game.game_players["3"]).to be_a_kind_of(Trivia::Player)
+		expect(@game.game_players["4"]).to be_a_kind_of(Trivia::Player)
+		expect(@game.game_players["5"]).to be(nil)
 	end
 end
-
-# describe "add player" do
-#   it "should return hashmap" do
-#     expect(true).to eq(true)
-#   end
-# end
