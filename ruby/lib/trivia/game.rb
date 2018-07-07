@@ -64,8 +64,13 @@ module Trivia
       }
     end
 
-    def create_question_message(category)
+    def question_message(category)
       "#{category} #{GameParams::QUESTION_TEXT} #{@question_pool[category.to_sym]}"
+    end
+
+    def increment_question_count(category)
+      count = @question_pool[category.to_sym].to_i
+      count +1
     end
 
     def add_player(name)
@@ -131,6 +136,8 @@ module Trivia
   private
 
     def ask_question
+      # puts question_message(current_category)
+      # @question_pool[current_category.to_sym] = increased_question_count(current_category)
       puts @pop_questions.shift if current_category == CATEGORY_POP
       puts @science_questions.shift if current_category == CATEGORY_SCIENCE
       puts @sports_questions.shift if current_category == CATEGORY_SPORTS

@@ -34,10 +34,18 @@ describe "game" do
 	it "should create message containing question with number and category" do
 		game = Trivia::Game.new('One')
 		question_pool = game.initialize_questions
-		expect(game.create_question_message(:Pop)).to eq("Pop Question 0")
-		expect(game.create_question_message(:Science)).to eq("Science Question 0")
-		expect(game.create_question_message(:Sports)).to eq("Sports Question 0")
-		expect(game.create_question_message(:Rock)).to eq("Rock Question 0")
+		expect(game.question_message(:Pop)).to eq("Pop Question 0")
+		expect(game.question_message(:Science)).to eq("Science Question 0")
+		expect(game.question_message(:Sports)).to eq("Sports Question 0")
+		expect(game.question_message(:Rock)).to eq("Rock Question 0")
+	end
+
+	it "should increase question count" do
+		game = Trivia::Game.new('One')
+		question_pool = game.initialize_questions
+		expect(question_pool[:Pop]).to eq(0)
+		count = game.increment_question_count(:Pop)
+		expect(count).to eq(1)
 	end
 
 end
