@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "example test" do
-  it "should pass" do
-    true.should == true
-  end
-end
+# describe "example test" do
+#   it "should pass" do
+#     expect(true).to eq(true)
+#   end
+# end

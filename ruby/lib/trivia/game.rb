@@ -1,7 +1,50 @@
-module UglyTrivia
+require_relative 'game_params'
+require 'logger'
+
+module Trivia
+
+# ToDo ideas 
+    # - questions: counter + question message creator, rather than array with message
+    # - rename: "Answer was corrent!!!!" --> correct, needs update of golden master though
+
+  class Player
+    attr_reader :name
+    attr_accessor :board_position, :gold_coins, :in_penalty_box
+    def initialize(name)
+      @name = name
+      @board_position = GameParams::GAME_START_POSITION
+      @gold_coins = GameParams::GAME_START_MONEY
+      @in_penalty_box = GameParams::GAME_START_IN_PENALTY_BOX
+    end
+  end
+
+  class Question
+    attr_reader :category
+    attr_accessor :count
+    def initialize(category)
+      @category = category.to_sym
+      @count = GameParams::GAME_START_QUESTION_NUMBER
+    end
+  end
+
   class Game
-    def  initialize
+
+    File.delete("logfile.log") if File.exist?("logfile.log")
+    @@logger = Logger.new('logfile.log')
+
+    include GameParams
+    attr_reader :game_players
+
+    def initialize(*gamers)
+      @game_players = Hash.new
+      gamers.each do |player_name|
+        add_player(player_name)
+      end
+      
+      @question_pool = initialize_questions
+
       @players = []
+
       @places = Array.new(6, 0)
       @purses = Array.new(6, 0)
       @in_penalty_box = Array.new(6, nil)
@@ -15,43 +58,57 @@ module UglyTrivia
       @is_getting_out_of_penalty_box = false
 
       50.times do |i|
-        @pop_questions.push "Pop Question #{i}"
-        @science_questions.push "Science Question #{i}"
-        @sports_questions.push "Sports Question #{i}"
+        @pop_questions.push "Pop #{GameParams::QUESTION_TEXT} #{i}"
+        @science_questions.push "Science #{GameParams::QUESTION_TEXT} #{i}"
+        @sports_questions.push "Sports #{GameParams::QUESTION_TEXT} #{i}"
         @rock_questions.push create_rock_question(i)
       end
+    end
+
+    def initialize_questions
+      {
+        CATEGORY_POP.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_SCIENCE.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_SPORTS.to_sym => GameParams::GAME_START_QUESTION_NUMBER,
+        CATEGORY_ROCK.to_sym => GameParams::GAME_START_QUESTION_NUMBER
+      }
+    end
+
+    def question_message(category)
+      "#{category} #{GameParams::QUESTION_TEXT} #{@question_pool[category.to_sym]}"
+    end
+
+    def increment_question_count(category)
+      count = @question_pool[category.to_sym].to_i
+      count +1
+    end
+
+    def add_player(name)
+      current_players_number = @game_players.length+1
+      @game_players[current_players_number.to_s] = Player.new(name)
     end
 
     def create_rock_question(index)
       "Rock Question #{index}"
     end
 
-    def is_playable?
-      how_many_players >= 2
-    end
-
-    def create_player_message(player_name)
-      "#{player_name} was added"      
-    end
-
-    def print_player_message(message)
-      puts message
+    def print_added_player_message(player_name)
+      puts "#{player_name} was added"
+      puts "They are player number #{@players.length}"
     end
 
     def add_and_log_player(player_name)
       @players.push player_name
-      @places[how_many_players] = 0
-      @purses[how_many_players] = 0
-      @in_penalty_box[how_many_players] = false
+      @places[number_of_players] = 0
+      @purses[number_of_players] = 0
+      @in_penalty_box[number_of_players] = false
 
-      print_player_message(create_player_message(player_name))
-      # puts "#{player_name} was added"
-      puts "They are player number #{@players.length}"
+      print_added_player_message(player_name)
 
       true
     end
 
-    def how_many_players
+    def number_of_players
       @players.length
     end
 
@@ -89,23 +146,16 @@ module UglyTrivia
   private
 
     def ask_question
-      puts @pop_questions.shift if current_category == 'Pop'
-      puts @science_questions.shift if current_category == 'Science'
-      puts @sports_questions.shift if current_category == 'Sports'
-      puts @rock_questions.shift if current_category == 'Rock'
+      # puts question_message(current_category)
+      # @question_pool[current_category.to_sym] = increased_question_count(current_category)
+      puts @pop_questions.shift if current_category == CATEGORY_POP
+      puts @science_questions.shift if current_category == CATEGORY_SCIENCE
+      puts @sports_questions.shift if current_category == CATEGORY_SPORTS
+      puts @rock_questions.shift if current_category == CATEGORY_ROCK
     end
 
     def current_category
-      return 'Pop' if @places[@current_player] == 0
-      return 'Pop' if @places[@current_player] == 4
-      return 'Pop' if @places[@current_player] == 8
-      return 'Science' if @places[@current_player] == 1
-      return 'Science' if @places[@current_player] == 5
-      return 'Science' if @places[@current_player] == 9
-      return 'Sports' if @places[@current_player] == 2
-      return 'Sports' if @places[@current_player] == 6
-      return 'Sports' if @places[@current_player] == 10
-      return 'Rock'
+      POSITIONS[@places[@current_player].to_s]
     end
 
   public
