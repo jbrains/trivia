@@ -1,6 +1,5 @@
 const Game = require('./Game.js')
 
-
 let someoneHasWon;
 
 const game = new Game({});

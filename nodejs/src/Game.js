@@ -12,6 +12,10 @@ const CATEGORIES = [
 ]
 const DEFAULT_LOGGER = console.log.bind(console)
 
+/**
+ * Game class
+ *
+ */
 class Game {
   constructor({
     log = DEFAULT_LOGGER,
@@ -37,27 +41,58 @@ class Game {
     })
   }
 
+  /**
+   * Returns the current player item
+   *
+   * @returns {Player}
+   */
   getCurrentPlayer() {
     return this.players[this.currentPlayer]
   }
 
+  /**
+   * Changes current player to the next player in the list
+   *
+   * @returns {undefined}
+   */
   changeCurrentPlayer() {
     this.currentPlayer = (this.currentPlayer + 1) % this.getPlayerCount()
   }
 
+  /**
+   * Returns question category for given player
+   *
+   * @returns {String}
+   */
   getCurrentCategory() {
     const place = this.getCurrentPlayer().place % CATEGORIES.length
     return CATEGORIES[place]
   }
 
+  /**
+   * Returns number of players in the game
+   *
+   * @returns {int}
+   */
   getPlayerCount() {
     return this.players.length
   }
 
+  /**
+   * Can the game be started
+   *
+   * @returns {boolean}
+   */
   isPlayable() {
     return this.getPlayerCount() > 1
   }
 
+  /**
+   * Add a player to the game
+   *
+   * @param {string} name Player name
+   * @returns {undefined}
+   */
   add(name) {
     const player = new Player({ 
       name, 
@@ -71,6 +106,11 @@ class Game {
     this.log(`There are ${this.getPlayerCount()} players`)
   }
 
+  /**
+   * Ask a question
+   *
+   * @returns {undefined}
+   */
   askQuestion() {
     const category = this.getCurrentCategory()
     const questions = this.questions[category]
@@ -82,7 +122,18 @@ class Game {
     this.log(questions.shift())
   }
 
+  /**
+   * Player rolls given and value and answers a question if they are not in penalty
+   *
+   * @param {int} roll Player dice roll value
+   * @param {boolean} correctAnswer Did player answer the question correctly
+   * @returns {boolean} Has a player won the game
+   */
   roll(roll, correctAnswer) {
+
+    if (!this.isPlayable()) 
+      throw new Error(`Not enough players to start the game`)
+
     const player = this.getCurrentPlayer()
     this.log(`${player.name} is the current player`)
     this.log(`They have rolled a ${roll}`)

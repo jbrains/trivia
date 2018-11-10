@@ -1,12 +1,28 @@
 'use strict'
 
 
+/**
+ * Player state classes
+ *
+ */
 const PLAYER_STATES = {
+  /**
+   * Player moves the given number of steps
+   *
+   * @param {int} roll number of steps to move
+   * @returns {undefined}
+   */
   FREE: {
     roll: function(roll) {
       this.updatePlace(roll)
     },
   },
+  /**
+   * Player moves out of penalty box and the given number of steps if roll value is odd, else they are struck in the box
+   *
+   * @param {int} roll number of steps to move
+   * @returns {undefined}
+   */
   IN_PENALTY: {
     roll: function (roll) {
       if (roll % 2) {
@@ -19,6 +35,11 @@ const PLAYER_STATES = {
   }
 }
 
+
+/**
+ * Player class
+ *
+ */
 class Player {
   constructor({ 
     name, 
@@ -37,20 +58,44 @@ class Player {
     this.log = log
   }
 
+
+  /**
+   * Updates the players location
+   *
+   * @param {int} value number of steps to move
+   * @returns {undefined}
+   */
   updatePlace(value) {
     this.place = (this.place + value) % this.places
     this.log(`${this.name}'s new location is ${this.place}`)
   }
 
+  /**
+   * Has the given player won the game
+   *
+   * @returns {boolean}
+   */
   hasWonGame() {
-    return this.purse >= this.coinsToWin
+    const hasPlayerWon = this.purse >= this.coinsToWin
+    if (hasPlayerWon) this.log(`${this.name} has won the game`)
+    return hasPlayerWon
   }
 
+  /**
+   * Reward player a gold coin
+   *
+   * @returns {undefined}
+   */
   winReward() {
     this.purse++
     this.log(`${this.name} now has ${this.purse} Gold coins.`)
   }
 
+  /**
+   * Move player to the penalty
+   *
+   * @returns {undefined}
+   */
   moveToPenalty() {
     if (this.state === PLAYER_STATES.IN_PENALTY)
       throw new Error('Already in Penaly')
@@ -59,14 +104,30 @@ class Player {
     this.state = PLAYER_STATES.IN_PENALTY
   }
 
+  /**
+   * Player rolls the dice and acts upon it based on his state
+   *
+   * @param {int} roll number of steps to move
+   * @returns {undefined}
+   */
   roll(roll) {
     this.state.roll.call(this, roll)
   }
 
+  /**
+   * Check if player is in penalty
+   *
+   * @returns {boolean}
+   */
   isInPenalty() {
     return this.state === PLAYER_STATES.IN_PENALTY
   }
 
+  /**
+   * Move player out of penalty
+   *
+   * @returns {undefined}
+   */
   moveToOutOfPenalty() {
     if (this.state !== PLAYER_STATES.IN_PENALTY)
       throw new Error('Player is already free')
