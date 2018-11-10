@@ -35,7 +35,7 @@ class Game {
       this.log('Warning: Questions from some categories would be asked more often than others')
 
     CATEGORIES.forEach((category) => {
-      const emptyArray = new Array(QUESTIONS_COUNT)
+      const emptyArray = new Array(this.questionCount)
       const getQuestion = (ignored, index) => `${category} Question ${index}`
       this.questions[category] = Array.from(emptyArray, getQuestion)
     })

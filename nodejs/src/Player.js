@@ -66,6 +66,9 @@ class Player {
    * @returns {undefined}
    */
   updatePlace(value) {
+    if (this.state === PLAYER_STATES.IN_PENALTY)
+      throw new Error('Cannot move, in penalty box')
+
     this.place = (this.place + value) % this.places
     this.log(`${this.name}'s new location is ${this.place}`)
   }
