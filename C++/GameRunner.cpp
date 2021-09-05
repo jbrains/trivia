@@ -1,13 +1,36 @@
-﻿#include <stdlib.h>
+/**\file
+ *  FILE DESCRIPTION
+ *  --------------------------------------------------------------------------
+ *  File name: GameRunner.cpp
+ *
+ *  Short Description:
+ *  Run and use the Game class.
+ */
+
+/*============================================================================*\
+ * PREPROCESSOR DIRECTIVES
+\*============================================================================*/
+
+/* INCLUDE DIRECTIVES FOR STANDARD HEADERS -----------------------------------*/
+
+#include <stdlib.h>
+#include <time.h>
+
+/* INCLUDE DIRECTIVES FOR OTHER HEADERS --------------------------------------*/
+
 #include "Game.h"
 
-static bool notAWinner;
+/*============================================================================*\
+ * MEMBER FUNCTION DEFINITIONS
+\*============================================================================*/
+
+static bool notAWinner = true;
 
 int main()
 {
 
 	srand(time(NULL));
-	Game aGame;
+	game::Game aGame;
 
 	aGame.add("Chet");
 	aGame.add("Pat");
@@ -16,11 +39,11 @@ int main()
 	do
 	{
 
-		aGame.roll(rand() % 5 + 1);
+		aGame.roll(rand() % 5U + 1U);
 
-		if (rand() % 9 == 7)
+		if (rand() % 9U == 7U)
 		{
-			notAWinner = aGame.wrongAnswer();
+			aGame.wrongAnswer();
 		}
 		else
 		{
@@ -29,3 +52,7 @@ int main()
 	} while (notAWinner);
 
 }
+
+/*============================================================================*\
+ * END OF FILE
+\*============================================================================*/
