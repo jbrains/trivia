@@ -1,0 +1,11 @@
+version: '2'
+services:
+  php-cli:
+    image: phpstorm/php-73-cli-xdebug-27
+    volumes:
+      - ./:/app
+    environment:
+      # For Linux, replace the line below with your hostname,
+      # which you can obtain by executing `hostname` in Terminal.
+      XDEBUG_CONFIG: remote_host=pop-os
+    working_dir: "/app"
