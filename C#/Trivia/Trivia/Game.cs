@@ -163,11 +163,14 @@ namespace Trivia
                 {
                     res = Console.ReadKey().Key;
                     Console.WriteLine();
+
                 }
                 if (res == ConsoleKey.Y)
+                {
                     UseJoker();
+                    return;
+                }
             }
-
             var random = new Random().Next(9);
             _hasWinner = IsWinner(random);
         }
