@@ -9,6 +9,7 @@
         public bool IsInPrison { get; set; }
         public bool WillQuitPrison { get; set; }
         public bool IsJokerUsed { get; set; }
+        public int Streak { get; set; }
 
         public Player(int id, string name)
         {

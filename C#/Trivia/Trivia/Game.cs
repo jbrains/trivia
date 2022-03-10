@@ -77,11 +77,11 @@ namespace Trivia
                 if (roll % 2 == 0)
                 {
                     _currentPlayer.WillQuitPrison = true;
-                    Console.WriteLine(_currentPlayer.Name + " is not getting out of prison yet");
+                    Console.WriteLine(_currentPlayer.Name + " is getting out of prison yet");
                     return;
                 }
-                
-                Console.WriteLine(_currentPlayer.Name + " is getting out of prison");
+
+                Console.WriteLine(_currentPlayer.Name + " is not getting out of prison");
                 _currentPlayer.WillQuitPrison = false;
             }
 
@@ -105,7 +105,7 @@ namespace Trivia
                 case 7:
                     return WrongAnswer();
                 default:
-                     return WasCorrectlyAnswered();
+                    return WasCorrectlyAnswered();
             }
         }
 
@@ -147,26 +147,25 @@ namespace Trivia
                 if (_currentPlayer.WillQuitPrison)
                 {
                     _currentPlayer.IsInPrison = false;
-                    Console.WriteLine("Answer was correct!!!!");
-                    Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
-                    return _currentPlayer.DidWin();
                 }
-                
-                IncrementPlayer();
-                return false;
             }
 
+            _currentPlayer.Streak++;
+            _currentPlayer.Points += _currentPlayer.Streak;
+
             Console.WriteLine("Answer was correct!!!!");
-            Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
-            
+            Console.WriteLine(_currentPlayer.Name + " now has " + _currentPlayer.Points + " Gold Coins.");
+
+            var hasWinner = _currentPlayer.DidWin();
             IncrementPlayer();
-            return _currentPlayer.DidWin();
+            return hasWinner;
         }
 
         /// Retourne vrai si la réponse est fausse 
         private bool WrongAnswer()
         {
-            
+            _currentPlayer.Streak = 0;
+
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(_currentPlayer.Name + " was sent to the prison");
             _currentPlayer.IsInPrison = true;
@@ -178,7 +177,7 @@ namespace Trivia
 
         private void IncrementPlayer()
         {
-            int currentPlayer = _players.IndexOf(_currentPlayer)+1;
+            int currentPlayer = _players.IndexOf(_currentPlayer) + 1;
             if (currentPlayer == _players.Count)
                 currentPlayer = 0;
 
