@@ -15,13 +15,13 @@ namespace Trivia
         private readonly LinkedList<string> _technoQuestions = new();
 
         private int _currentPlayer;
-        private bool _isRockSelected;
+        private readonly bool _isRockSelected;
 
         public Game()
         {
             Console.WriteLine("Would you like to play with techno questions instead of rock questions ? (Y/N)");
-            ConsoleKey key = ConsoleKey.Enter;
-            while (!(key == ConsoleKey.Y || key == ConsoleKey.N))
+            var key = ConsoleKey.Enter;
+            while (key is not (ConsoleKey.Y or ConsoleKey.N))
             {
                 key = Console.ReadKey().Key;
                 Console.WriteLine();
@@ -51,26 +51,16 @@ namespace Trivia
             return numberPlayer is >= 2 and < 7;
         }
 
-        public bool Add(List<string> playersName)
+        public void Add(List<string> playersName)
         {
-            var success = true;
-            foreach(var player in playersName)
+            for (var i = 0; i < playersName.Count; i++)
             {
-                if(success)
-                    Add(player);
+                var player = new Player(i + 1, playersName[i]);
+                _players.Add(player);
+
+                Console.WriteLine(player.Name + " was added");
+                Console.WriteLine("He is player number " + player.Id);
             }
-            return success;
-        }
-
-        /// Ajout d'un joueur à la partie
-        public void Add(string playerName)
-        {
-            var id = _players.Count + 1;
-            var player = new Player(id, playerName);
-            _players.Add(player);
-
-            Console.WriteLine(player.Name + " was added");
-            Console.WriteLine("He is player number " + player.Id);
         }
 
         /// Lance le tour du joueur
@@ -98,14 +88,32 @@ namespace Trivia
                 player.Position -= 12;
 
             Console.WriteLine(player.Name + "'s new location is " + player.Position);
-            Console.WriteLine("The category is " + player.GetCategory(_isRockSelected));
             AskQuestion(player);
+        }
+
+        public bool IsWinner(int random)
+        {
+            var player = _players[_currentPlayer];
+            switch (random)
+            {
+                case 8 when !player.IsJokerUsed:
+                    Console.WriteLine(player.Name + " is using its joker!");
+                    player.IsJokerUsed = true;
+                    IncrementPlayer();
+                    return false;
+                case 7:
+                    return WrongAnswer();
+                default:
+                     return WasCorrectlyAnswered();
+            }
         }
 
         /// Répond à une question choisi en fonction la catégorie
         private void AskQuestion(Player player)
         {
-            switch (player.GetCategory(_isRockSelected))
+            var category = player.GetCategory(_isRockSelected);
+            Console.WriteLine("The category is " + category);
+            switch (category)
             {
                 case ECategory.Pop:
                     Console.WriteLine(_popQuestions.First());
@@ -131,7 +139,7 @@ namespace Trivia
         }
 
         /// Retourne vrai si la réponse est bonne
-        public bool WasCorrectlyAnswered()
+        private bool WasCorrectlyAnswered()
         {
             var player = _players[_currentPlayer];
             if (player.IsInPrison)
@@ -156,10 +164,9 @@ namespace Trivia
         }
 
         /// Retourne vrai si la réponse est fausse 
-        public bool WrongAnswer()
+        private bool WrongAnswer()
         {
             var player = _players[_currentPlayer];
-            
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(player.Name + " was sent to the prison");
             player.IsInPrison = true;

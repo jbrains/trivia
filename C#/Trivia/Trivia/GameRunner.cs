@@ -5,34 +5,24 @@ namespace Trivia
 {
     public class GameRunner
     {
+        private static bool _hasWinner;
+        
         public static void Main(string[] args)
         {
-            List<string> players = new List<string>()
-            {
-                "Chet",
-                "Pat",
-                "Sue"
-            };
-
+            var players = new List<string> {"Chet", "Pat", "Sue"};
             if (Game.IsPlayable(players.Count))
             {
                 var aGame = new Game();
                 aGame.Add(players);
 
                 var rand = new Random();
-                var isWinner = false;
                 do
                 {
                     aGame.Roll(rand.Next(5) + 1);
-                    if (rand.Next(9) == 7)
-                    {
-                        isWinner = aGame.WrongAnswer();
-                    }
-                    else
-                    {
-                        isWinner = aGame.WasCorrectlyAnswered();
-                    }
-                } while (!isWinner);
+                    
+                    var random = rand.Next(9);
+                    _hasWinner = aGame.IsWinner(random);
+                } while (!_hasWinner);
             }
             else
             {
