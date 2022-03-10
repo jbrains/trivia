@@ -8,7 +8,7 @@ namespace Trivia
 
         public Board(int cases)
         {
-            Console.WriteLine("Ajout d'un plateau de {cases} cases", cases);
+            Console.WriteLine("Ajout d'un plateau de {0} cases", cases);
             id = 1;
             this.cases = cases;
         }
