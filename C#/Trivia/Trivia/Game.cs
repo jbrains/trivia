@@ -7,13 +7,14 @@ namespace Trivia
     public class Game
     {
         private readonly List<Player> _players = new();
+        
+        private readonly LinkedList<string> _popQuestions = new();
+        private readonly LinkedList<string> _scienceQuestions = new();
+        private readonly LinkedList<string> _sportsQuestions = new();
+        private readonly LinkedList<string> _rockQuestions = new();
+        private readonly LinkedList<string> _technoQuestions = new();
 
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
-
-        private readonly bool[] _inPenaltyBox = new bool[6];
         private readonly LinkedList<Question> _questionList = new();
-
         private Player _currentPlayer;
         private readonly bool _isRockSelected;
 
@@ -124,6 +125,7 @@ namespace Trivia
         private void AskQuestion()
         {
             var category = _currentPlayer.GetCategory(_isRockSelected);
+            _currentPlayer.LHistorique.Add(category);
             Console.WriteLine("The category is " + category);
             Question findQuestion = _questionList.FirstOrDefault(q => q.category == (int) category && q.answeredBy == 0);
             if (findQuestion == null)
@@ -179,6 +181,20 @@ namespace Trivia
                 currentPlayer = 0;
 
             _currentPlayer = _players[currentPlayer];
+        }
+
+        public void stat()
+        {
+            foreach (var player in _players)
+            {
+                Console.WriteLine(player.Name);
+                Console.WriteLine("Rock :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Rock; }).Count());
+                Console.WriteLine("Science :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Science; }).Count());
+                Console.WriteLine("Pop :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Pop; }).Count());
+                Console.WriteLine("Sport :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Sport; }).Count());
+                Console.WriteLine("Techno :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Techno; }).Count());
+            }
+
         }
     }
 

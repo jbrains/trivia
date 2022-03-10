@@ -1,4 +1,6 @@
-﻿namespace Trivia
+﻿using System.Collections.Generic;
+
+namespace Trivia
 {
     public class Player
     {
@@ -10,6 +12,7 @@
         public bool WillQuitPrison { get; set; }
         public bool IsJokerUsed { get; set; }
         public int Streak { get; set; }
+        public List<ECategory> LHistorique { get; set; }
 
         public Player(int id, string name)
         {
@@ -20,6 +23,7 @@
             IsInPrison = false;
             WillQuitPrison = false;
             IsJokerUsed = false;
+            LHistorique = new List<ECategory>();
         }
 
         public ECategory GetCategory(bool techno)

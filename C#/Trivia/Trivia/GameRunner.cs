@@ -24,6 +24,8 @@ namespace Trivia
                     var random = rand.Next(9);
                     _hasWinner = aGame.IsWinner(random);
                 } while (!_hasWinner);
+
+                aGame.stat();
             }
             else
             {
