@@ -215,12 +215,9 @@ namespace Trivia
                 if (_currentPlayer.WillQuitPrison)
                 {
                     _currentPlayer.IsInPrison = false;
-<<<<<<< HEAD
-=======
                     Console.WriteLine("Answer was correct!!!!");
                     Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
                     return _currentPlayer.DidWin(_amountOfGoldToWin);
->>>>>>> ajout score max
                 }
             }
 
@@ -230,14 +227,9 @@ namespace Trivia
             Console.WriteLine("Answer was correct!!!!");
             Console.WriteLine(_currentPlayer.Name + " now has " + _currentPlayer.Points + " Gold Coins.");
 
-            var hasWinner = _currentPlayer.DidWin();
+            var hasWinner = _currentPlayer.DidWin(_amountOfGoldToWin);
             IncrementPlayer();
-<<<<<<< HEAD
-            return hasWinner;
-=======
-            return _currentPlayer.DidWin(_amountOfGoldToWin);
->>>>>>> ajout score max
-        }
+            return hasWinner;        }
 
         /// Retourne vrai si la réponse est fausse 
         private bool WrongAnswer()
