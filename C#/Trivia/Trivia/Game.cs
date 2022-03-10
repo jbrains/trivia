@@ -17,24 +17,45 @@ namespace Trivia
         private readonly LinkedList<string> _scienceQuestions = new();
         private readonly LinkedList<string> _sportsQuestions = new();
         private readonly LinkedList<string> _rockQuestions = new();
+        private readonly LinkedList<string> _technoQuestions = new();
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
+        private bool _isRockSelected;
+
+        enum Category
+        {
+            Pop,
+            Science,
+            Sport,
+            Rock,
+            Techno
+        }
 
         public Game()
         {
+            Console.WriteLine("Would you like to play with techno questions instead of rock questions ?");
+            ConsoleKey key = ConsoleKey.Enter;
+            while (!(key == ConsoleKey.Y || key == ConsoleKey.N))
+            {
+                key = Console.ReadKey().Key;
+                Console.WriteLine();
+            }
+
             for (var i = 0; i < 50; i++)
             {
                 _popQuestions.AddLast("Pop Question " + i);
                 _scienceQuestions.AddLast("Science Question " + i);
                 _sportsQuestions.AddLast("Sports Question " + i);
-                _rockQuestions.AddLast(CreateRockQuestion(i));
-            }
-        }
 
-        public string CreateRockQuestion(int index)
-        {
-            return "Rock Question " + index;
+                if (key == ConsoleKey.Y)
+                    _technoQuestions.AddLast("Techno Question " + i);
+                else
+                {
+                    _isRockSelected = true;
+                    _rockQuestions.AddLast("Rock Question " + i);
+                }
+            }
         }
 
         public bool IsPlayable()
@@ -100,43 +121,47 @@ namespace Trivia
             var category = CurrentCategory();
             switch (category)
             {
-                case "Pop":
+                case Category.Pop:
                     Console.WriteLine(_popQuestions.First());
                     _popQuestions.RemoveFirst();
                     break;
-                case "Science":
+                case Category.Science:
                     Console.WriteLine(_scienceQuestions.First());
                     _scienceQuestions.RemoveFirst();
                     break;
-                case "Sports":
+                case Category.Sport:
                     Console.WriteLine(_sportsQuestions.First());
                     _sportsQuestions.RemoveFirst();
                     break;
-                case "Rock":
+                case Category.Rock:
                     Console.WriteLine(_rockQuestions.First());
                     _rockQuestions.RemoveFirst();
+                    break;
+                case Category.Techno:
+                    Console.WriteLine(_technoQuestions.First());
+                    _technoQuestions.RemoveFirst();
                     break;
             }
         }
 
-        private string CurrentCategory()
+        private Category CurrentCategory()
         {
             switch (_places[_currentPlayer])
             {
                 case 0:
                 case 4:
                 case 8:
-                    return "Pop";
+                    return Category.Pop;
                 case 1:
                 case 5:
                 case 9:
-                    return "Science";
+                    return Category.Science;
                 case 2:
                 case 6:
                 case 10:
-                    return "Sports";
+                    return Category.Sport;
                 default:
-                    return "Rock";
+                    return _isRockSelected ? Category.Rock : Category.Techno;
             }
         }
 
