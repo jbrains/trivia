@@ -9,26 +9,30 @@ namespace Trivia
         public static void Main(string[] args)
         {
             var aGame = new Game();
-
             aGame.Add("Chet");
             aGame.Add("Pat");
             aGame.Add("Sue");
 
-            var rand = new Random();
-
-            do
+            if (aGame.IsPlayable())
             {
-                aGame.Roll(rand.Next(5) + 1);
-
-                if (rand.Next(9) == 7)
+                var rand = new Random();
+                do
                 {
-                    _notAWinner = aGame.WrongAnswer();
-                }
-                else
-                {
-                    _notAWinner = aGame.WasCorrectlyAnswered();
-                }
-            } while (_notAWinner);
+                    aGame.Roll(rand.Next(5) + 1);
+                    if (rand.Next(9) == 7)
+                    {
+                        _notAWinner = aGame.WrongAnswer();
+                    }
+                    else
+                    {
+                        _notAWinner = aGame.WasCorrectlyAnswered();
+                    }
+                } while (_notAWinner);
+            }
+            else
+            {
+                Console.WriteLine("This trivia only supports a minimum of 2 and up to 6 players");
+            }
         }
     }
 }
