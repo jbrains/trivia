@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Trivia
 {
@@ -6,13 +7,18 @@ namespace Trivia
     {
         public static void Main(string[] args)
         {
-            var aGame = new Game();
-            aGame.Add("Chet");
-            aGame.Add("Pat");
-            aGame.Add("Sue");
-
-            if (aGame.IsPlayable())
+            List<string> players = new List<string>()
             {
+                "Chet",
+                "Pat",
+                "Sue"
+            };
+
+            if (Game.IsPlayable(players.Count))
+            {
+                var aGame = new Game();
+                aGame.Add(players);
+
                 var rand = new Random();
                 var isWinner = false;
                 do
