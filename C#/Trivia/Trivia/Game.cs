@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Trivia
 {
@@ -17,6 +19,7 @@ namespace Trivia
         private readonly LinkedList<Question> _questionList = new();
         private Player _currentPlayer;
         private readonly bool _isRockSelected;
+        private bool _hasWinner;
 
         public Game()
         {
@@ -75,13 +78,58 @@ namespace Trivia
             }
         }
 
-        /// Lance le tour du joueur
-        public void Roll(int roll, int maxCases = 12)
+        public bool RemovePlayer()
         {
             if (_currentPlayer == null)
                 _currentPlayer = _players.FirstOrDefault();
 
-            Console.WriteLine(_currentPlayer.Name + " is the current player");
+            Console.WriteLine("Le joueur " + _currentPlayer.Name + " a décidé de quitter la partie.");
+            _players.Remove(_currentPlayer);
+            Console.WriteLine("Le joueur a été supprimé. ------------------------------------");
+            if (_players.Count == 0)
+                Environment.Exit(0);
+
+            IncrementPlayer();
+            return false;
+        }
+
+
+        /// Lance le tour du joueur
+        public void Play()
+        {
+            _hasWinner = false;
+            while (!_hasWinner)
+            {
+                if (_currentPlayer == null)
+                    _currentPlayer = _players.FirstOrDefault();
+
+                Console.WriteLine(_currentPlayer.Name + " is the current player");
+
+                Console.WriteLine("Action : ");
+                Console.WriteLine("1- Jouer 2- Quitter la partie");
+                ConsoleKey key = ConsoleKey.Enter;
+
+                while (key != ConsoleKey.D1 && key != ConsoleKey.D2)
+                {
+                    key = Console.ReadKey().Key;
+                    Console.WriteLine();
+                }
+
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                        Roll();
+                        break;
+                    case ConsoleKey.D2:
+                        RemovePlayer();
+                        break;
+                }
+            }
+        }
+
+        public void Roll(int maxCases = 12)
+        {
+            var roll = new Random().Next(5) + 1;
             Console.WriteLine("He has rolled a " + roll);
 
             if (_currentPlayer.IsInPrison)
@@ -103,22 +151,39 @@ namespace Trivia
 
             Console.WriteLine(_currentPlayer.Name + "'s new location is " + _currentPlayer.Position);
             AskQuestion();
+            if (!_currentPlayer.IsJokerUsed)
+            {
+                Console.WriteLine("Voulez-vous utiliser votre Joker ?(Y/N)");
+                ConsoleKey res = ConsoleKey.Enter;
+                while (res != ConsoleKey.Y && res != ConsoleKey.N)
+                {
+                    res = Console.ReadKey().Key;
+                    Console.WriteLine();
+                }
+                if (res == ConsoleKey.Y)
+                    UseJoker();
+            }
+
+            var random = new Random().Next(9);
+            _hasWinner = IsWinner(random);
         }
 
         public bool IsWinner(int random)
         {
             switch (random)
             {
-                case 8 when !_currentPlayer.IsJokerUsed:
-                    Console.WriteLine(_currentPlayer.Name + " is using its joker!");
-                    _currentPlayer.IsJokerUsed = true;
-                    IncrementPlayer();
-                    return false;
                 case 7:
                     return WrongAnswer();
                 default:
                     return WasCorrectlyAnswered();
             }
+        }
+
+        public void UseJoker()
+        {
+            Console.WriteLine(_currentPlayer.Name + " is using its joker!");
+            _currentPlayer.IsJokerUsed = true;
+            IncrementPlayer();
         }
 
         /// Répond à une question choisi en fonction la catégorie
