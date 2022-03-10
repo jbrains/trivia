@@ -35,18 +35,26 @@ namespace Trivia
                 Console.WriteLine();
             }
 
-            List<int> categoryList = Enum.GetValues(typeof(ECategory))
+            var categoryList = Enum.GetValues(typeof(ECategory))
                 .Cast<ECategory>()
                 .Select(v => (int) v)
                 .ToList();
 
-            _isRockSelected = key == ConsoleKey.Y;
-            if (_isRockSelected)
-                categoryList.RemoveAt(4);
-            else
-                categoryList.RemoveAt(3);
-                
-            foreach (int category in categoryList)
+            _isRockSelected = key == ConsoleKey.N;
+            categoryList.RemoveAt(_isRockSelected ? 4 : 3);
+
+            FillQuestions(categoryList);
+        }
+
+        /// On vérifie si la partie est possible a lancer
+        public static bool IsPlayable(int numberPlayer)
+        {
+            return numberPlayer is >= 2 and < 7;
+        }
+
+        private void FillQuestions(List<int> categoryList)
+        {
+            foreach (var category in categoryList)
             {
                 for (var i = 0; i < 50; i++)
                 {
@@ -60,12 +68,6 @@ namespace Trivia
                     );
                 }
             }
-        }
-
-        /// On vérifie si la partie est possible a lancer
-        public static bool IsPlayable(int numberPlayer)
-        {
-            return numberPlayer is >= 2 and < 7;
         }
 
         public void Add(List<string> playersName)
@@ -205,10 +207,17 @@ namespace Trivia
             _currentPlayer.LHistorique.Add(category);
 
             Console.WriteLine("The category is " + category);
+            
+            if (_questionList.Count(x => x.answeredBy == 0) <= _players.Count * 2) // si on a pas au moins 2 questions par joueur
+            {
+                Console.WriteLine("Deck ran out of questions! Refueling!");
+                FillQuestions(Enum.GetValues(typeof(ECategory)).Cast<ECategory>().Select(v => (int) v).ToList());
+            }
+            
             Question findQuestion = _questionList.FirstOrDefault(q => q.category == (int) category && q.answeredBy == 0);
             if (findQuestion == null)
             {
-                Console.WriteLine("Not found question");
+                Console.WriteLine("Question not found");
                 return;
             }
 
@@ -298,11 +307,11 @@ namespace Trivia
             foreach (var player in _players)
             {
                 Console.WriteLine(player.Name);
-                Console.WriteLine("Rock :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Rock; }).Count());
-                Console.WriteLine("Science :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Science; }).Count());
-                Console.WriteLine("Pop :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Pop; }).Count());
-                Console.WriteLine("Sport :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Sport; }).Count());
-                Console.WriteLine("Techno :" + player.LHistorique.FindAll(delegate (ECategory s) { return s == ECategory.Techno; }).Count());
+                Console.WriteLine("Rock :" + player.LHistorique.FindAll(s => s == ECategory.Rock).Count());
+                Console.WriteLine("Science :" + player.LHistorique.FindAll(s => s == ECategory.Science).Count());
+                Console.WriteLine("Pop :" + player.LHistorique.FindAll(s => s == ECategory.Pop).Count());
+                Console.WriteLine("Sport :" + player.LHistorique.FindAll(s => s == ECategory.Sport).Count());
+                Console.WriteLine("Techno :" + player.LHistorique.FindAll(s => s == ECategory.Techno).Count());
             }
 
         }
