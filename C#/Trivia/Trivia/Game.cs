@@ -39,14 +39,12 @@ namespace Trivia
                 .Cast<ECategory>()
                 .Select(v => (int) v)
                 .ToList();
-            
-            if (key == ConsoleKey.Y)
-                categoryList.RemoveAt(3);
-            else
-            {
-                _isRockSelected = true;
+
+            _isRockSelected = key == ConsoleKey.Y;
+            if (_isRockSelected)
                 categoryList.RemoveAt(4);
-            }
+            else
+                categoryList.RemoveAt(3);
                 
             foreach (int category in categoryList)
             {
@@ -196,8 +194,12 @@ namespace Trivia
         /// Répond à une question choisi en fonction la catégorie
         private void AskQuestion()
         {
-            var category = _currentPlayer.GetCategory(_isRockSelected);
+            var category = (_currentPlayer.IsInPrison && !_currentPlayer.WillQuitPrison)
+                ? _currentPlayer.QuestionInPrison
+                : _currentPlayer.GetCategory(_isRockSelected);
+            
             _currentPlayer.LHistorique.Add(category);
+
             Console.WriteLine("The category is " + category);
             Question findQuestion = _questionList.FirstOrDefault(q => q.category == (int) category && q.answeredBy == 0);
             if (findQuestion == null)
@@ -243,8 +245,38 @@ namespace Trivia
             Console.WriteLine(_currentPlayer.Name + " was sent to the prison");
             _currentPlayer.IsInPrison = true;
 
+            _currentPlayer.QuestionInPrison = SelectQuestionInPrison();
+            Console.WriteLine("Vous venez de choisir la catégorie " + _currentPlayer.QuestionInPrison.ToString());
+
             IncrementPlayer();
             return false;
+        }
+
+        private ECategory SelectQuestionInPrison()
+        {
+            Console.WriteLine("Vous vous dirigez en prison, veuillez choisir la catégorie de votre prochaine question :");
+            Console.WriteLine("Pop (A), Science (B), Sport (C) or Rock/Techno (D)");
+            var key = ConsoleKey.Enter;
+            while (key is not (ConsoleKey.A or ConsoleKey.B or ConsoleKey.C or ConsoleKey.D))
+            {
+                key = Console.ReadKey().Key;
+                Console.WriteLine();
+            }
+
+            switch (key)
+            {
+                case ConsoleKey.A:
+                    return ECategory.Pop;
+                case ConsoleKey.B:
+                    return ECategory.Science;
+                case ConsoleKey.C:
+                    return ECategory.Sport;
+                case ConsoleKey.D:
+
+                    return _isRockSelected ? ECategory.Rock : ECategory.Techno;
+                default:
+                    return ECategory.Science;
+            }
         }
 
 
