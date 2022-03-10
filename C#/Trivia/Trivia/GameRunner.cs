@@ -12,6 +12,7 @@ namespace Trivia
             var players = new List<string> {"Chet", "Pat", "Sue"};
             if (Game.IsPlayable(players.Count))
             {
+                var board = new Board(40);
                 var aGame = new Game();
                 aGame.Add(players);
 
