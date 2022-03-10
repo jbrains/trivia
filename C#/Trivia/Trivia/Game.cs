@@ -8,11 +8,11 @@ namespace Trivia
     {
         private readonly List<Player> _players = new();
 
-        private readonly LinkedList<string> _popQuestions = new();
-        private readonly LinkedList<string> _scienceQuestions = new();
-        private readonly LinkedList<string> _sportsQuestions = new();
-        private readonly LinkedList<string> _rockQuestions = new();
-        private readonly LinkedList<string> _technoQuestions = new();
+        private readonly int[] _places = new int[6];
+        private readonly int[] _purses = new int[6];
+
+        private readonly bool[] _inPenaltyBox = new bool[6];
+        private readonly LinkedList<Question> _questionList = new();
 
         private Player _currentPlayer;
         private readonly bool _isRockSelected;
@@ -27,20 +27,31 @@ namespace Trivia
                 Console.WriteLine();
             }
 
-            for (var i = 0; i < 50; i++)
+            List<int> categoryList = Enum.GetValues(typeof(ECategory))
+                .Cast<ECategory>()
+                .Select(v => (int) v)
+                .ToList();
+            
+            if (key == ConsoleKey.Y)
+                categoryList.RemoveAt(3);
+            else
             {
-                _popQuestions.AddLast("Pop Question " + i);
-                _scienceQuestions.AddLast("Science Question " + i);
-                _sportsQuestions.AddLast("Sports Question " + i);
-
-                _isRockSelected = key == ConsoleKey.Y;
-                if (_isRockSelected)
+                _isRockSelected = true;
+                categoryList.RemoveAt(4);
+            }
+                
+            foreach (int category in categoryList)
+            {
+                for (var i = 0; i < 50; i++)
                 {
-                    _technoQuestions.AddLast("Techno Question " + i);
-                }
-                else
-                {
-                    _rockQuestions.AddLast("Rock Question " + i);
+                    _questionList.AddLast(
+                        new Question(
+                            i * (1 + category), 
+                            category, 
+                            "Question " + (i + 1),
+                            "Answer " + (i + 1)
+                        )
+                    );
                 }
             }
         }
@@ -114,29 +125,15 @@ namespace Trivia
         {
             var category = _currentPlayer.GetCategory(_isRockSelected);
             Console.WriteLine("The category is " + category);
-            switch (category)
+            Question findQuestion = _questionList.FirstOrDefault(q => q.category == (int) category && q.answeredBy == 0);
+            if (findQuestion == null)
             {
-                case ECategory.Pop:
-                    Console.WriteLine(_popQuestions.First());
-                    _popQuestions.RemoveFirst();
-                    break;
-                case ECategory.Science:
-                    Console.WriteLine(_scienceQuestions.First());
-                    _scienceQuestions.RemoveFirst();
-                    break;
-                case ECategory.Sport:
-                    Console.WriteLine(_sportsQuestions.First());
-                    _sportsQuestions.RemoveFirst();
-                    break;
-                case ECategory.Rock:
-                    Console.WriteLine(_rockQuestions.First());
-                    _rockQuestions.RemoveFirst();
-                    break;
-                case ECategory.Techno:
-                    Console.WriteLine(_technoQuestions.First());
-                    _technoQuestions.RemoveFirst();
-                    break;
+                Console.WriteLine("Not found question");
+                return;
             }
+
+            _questionList.Find(findQuestion).Value.answeredBy = _currentPlayer.Id;
+            Console.WriteLine(findQuestion.question);
         }
 
         /// Retourne vrai si la réponse est bonne
