@@ -15,15 +15,23 @@ namespace Trivia
                 Console.WriteLine("Choose a maximum score (default 6)");
                 var maxScore = Console.ReadLine();
                 int value;
-
-                while (!int.TryParse(maxScore, out value) && !string.IsNullOrWhiteSpace(maxScore))
+                bool minimumValue = true;
+                while (!int.TryParse(maxScore, out value) && !string.IsNullOrWhiteSpace(maxScore) || minimumValue)
                 {
-                    Console.WriteLine("Only number accepted please");
+                    if (value != 0 && value < 6)
+                    {
+                        Console.WriteLine("Only number above 6 accepted or enter to use default value");
+                    }
+                    else
+                    {
+                        minimumValue = false;
+                        break;
+                    }
                     maxScore = Console.ReadLine();
                 }
 
                 var board = new Board(12);
-                var aGame = new Game(maxScore == string.Empty ? 0 : value);
+                var aGame = new Game(maxScore == string.Empty ? 6 : value);
                 aGame.Add(players);
 
                 aGame.Play(true);

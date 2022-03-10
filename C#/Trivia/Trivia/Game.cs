@@ -25,7 +25,7 @@ namespace Trivia
         public Game(int amountOfGoldToWin)
         {
 
-            _amountOfGoldToWin = amountOfGoldToWin > 6 ? amountOfGoldToWin : 6;
+            _amountOfGoldToWin = amountOfGoldToWin;
 
             Console.WriteLine("Would you like to play with techno questions instead of rock questions ? (Y/N)");
             var key = ConsoleKey.Enter;
