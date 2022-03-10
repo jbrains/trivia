@@ -9,7 +9,7 @@ namespace Trivia
     public class Game
     {
         private readonly List<Player> _players = new();
-        
+
         private readonly LinkedList<string> _popQuestions = new();
         private readonly LinkedList<string> _scienceQuestions = new();
         private readonly LinkedList<string> _sportsQuestions = new();
@@ -21,6 +21,7 @@ namespace Trivia
         private int _amountOfGoldToWin;
         private readonly bool _isRockSelected;
         private bool _hasWinner;
+        private List<Player> leaderBoard = new();
 
         public Game(int amountOfGoldToWin)
         {
@@ -37,7 +38,7 @@ namespace Trivia
 
             var categoryList = Enum.GetValues(typeof(ECategory))
                 .Cast<ECategory>()
-                .Select(v => (int) v)
+                .Select(v => (int)v)
                 .ToList();
 
             _isRockSelected = key == ConsoleKey.N;
@@ -60,8 +61,8 @@ namespace Trivia
                 {
                     _questionList.AddLast(
                         new Question(
-                            i * (1 + category), 
-                            category, 
+                            i * (1 + category),
+                            category,
                             "Question " + (i + 1),
                             "Answer " + (i + 1)
                         )
@@ -93,7 +94,6 @@ namespace Trivia
             if (_players.Count == 0)
                 Environment.Exit(0);
 
-            IncrementPlayer();
             return false;
         }
 
@@ -102,7 +102,7 @@ namespace Trivia
         public void Play(bool witchReadline)
         {
             _hasWinner = false;
-            while (!_hasWinner)
+            while (_players.Count > 0 && leaderBoard.Count != 3)
             {
                 if (_currentPlayer == null)
                     _currentPlayer = _players.FirstOrDefault();
@@ -132,6 +132,19 @@ namespace Trivia
                         RemovePlayer();
                         break;
                 }
+
+                IncrementPlayer();
+            }
+            ShowLeaderBoard();
+
+        }
+
+        public void ShowLeaderBoard()
+        {
+            foreach (Player player in leaderBoard)
+            {
+                int place = leaderBoard.IndexOf(player) + 1;
+                Console.WriteLine($"{place}- {player.Name} ---- Score : {player.Points}");
             }
         }
 
@@ -152,6 +165,7 @@ namespace Trivia
                 Console.WriteLine(_currentPlayer.Name + " is not getting out of prison");
                 _currentPlayer.TimeInPrison++;
                 _currentPlayer.WillQuitPrison = false;
+                _currentPlayer.IsInPrison = false;
             }
 
             _currentPlayer.Position += roll;
@@ -177,7 +191,14 @@ namespace Trivia
                 }
             }
             var random = new Random().Next(9);
-            _hasWinner = IsWinner(random);
+            if (IsWinner(random))
+                AddToLeaderBoard();
+        }
+
+        public void AddToLeaderBoard()
+        {
+            leaderBoard.Add(_currentPlayer);
+            _players.Remove(_currentPlayer);
         }
 
         public bool IsWinner(int random)
@@ -195,7 +216,6 @@ namespace Trivia
         {
             Console.WriteLine(_currentPlayer.Name + " is using its joker!");
             _currentPlayer.IsJokerUsed = true;
-            IncrementPlayer();
         }
 
         /// Répond à une question choisi en fonction la catégorie
@@ -245,10 +265,8 @@ namespace Trivia
 
             Console.WriteLine("Answer was correct!!!!");
             Console.WriteLine(_currentPlayer.Name + " now has " + _currentPlayer.Points + " Gold Coins.");
-
-            var hasWinner = _currentPlayer.DidWin(_amountOfGoldToWin);
-            IncrementPlayer();
-            return hasWinner;        }
+            return _currentPlayer.DidWin(_amountOfGoldToWin); ;
+        }
 
         /// Retourne vrai si la réponse est fausse 
         private bool WrongAnswer()
@@ -296,11 +314,13 @@ namespace Trivia
 
         private void IncrementPlayer()
         {
-            int currentPlayer = _players.IndexOf(_currentPlayer) + 1;
-            if (currentPlayer == _players.Count)
-                currentPlayer = 0;
+            if (_players.Count == 0)
+                return;
 
-            _currentPlayer = _players[currentPlayer];
+            _currentPlayer = _players.FirstOrDefault(p => p.Id > _currentPlayer.Id);
+            if (_currentPlayer == null)
+                _currentPlayer = _players.FirstOrDefault();
+
         }
 
         public void stat()
