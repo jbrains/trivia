@@ -10,6 +10,7 @@ namespace Trivia
         public int Position { get; set; }
         public bool IsInPrison { get; set; }
         public ECategory QuestionInPrison { get; set; }
+        public int TimeInPrison { get; set; }
         public bool WillQuitPrison { get; set; }
         public bool IsJokerUsed { get; set; }
         public int Streak { get; set; }
@@ -23,6 +24,7 @@ namespace Trivia
             Position = 0;
             IsInPrison = false;
             QuestionInPrison = ECategory.Sport;
+            TimeInPrison = 1;
             WillQuitPrison = false;
             IsJokerUsed = false;
             LHistorique = new List<ECategory>();
