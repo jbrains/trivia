@@ -14,7 +14,7 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new();
         private readonly LinkedList<string> _technoQuestions = new();
 
-        private int _currentPlayer;
+        private Player _currentPlayer;
         private bool _isRockSelected;
 
         public Game()
@@ -76,30 +76,32 @@ namespace Trivia
         /// Lance le tour du joueur
         public void Roll(int roll, int maxCases)
         {
-            var player = _players[_currentPlayer];
-            Console.WriteLine(player.Name + " is the current player");
+            if (_currentPlayer == null)
+                _currentPlayer = _players.FirstOrDefault();
+
+            Console.WriteLine(_currentPlayer.Name + " is the current player");
             Console.WriteLine("He has rolled a " + roll);
 
-            if (player.IsInPrison)
+            if (_currentPlayer.IsInPrison)
             {
                 if (roll % 2 == 0)
                 {
-                    player.WillQuitPrison = true;
-                    Console.WriteLine(player.Name + " is not getting out of prison yet");
+                    _currentPlayer.WillQuitPrison = true;
+                    Console.WriteLine(_currentPlayer.Name + " is not getting out of prison yet");
                     return;
                 }
                 
-                Console.WriteLine(player.Name + " is getting out of prison");
-                player.WillQuitPrison = false;
+                Console.WriteLine(_currentPlayer.Name + " is getting out of prison");
+                _currentPlayer.WillQuitPrison = false;
             }
-            
-            player.Position += roll;
-            if (player.Position > maxCases - 1)
-                player.Position -= maxCases;
 
-            Console.WriteLine(player.Name + "'s new location is " + player.Position);
-            Console.WriteLine("The category is " + player.GetCategory(_isRockSelected));
-            AskQuestion(player);
+            _currentPlayer.Position += roll;
+            if (_currentPlayer.Position > maxCases - 1)
+                _currentPlayer.Position -= maxCases;
+
+            Console.WriteLine(_currentPlayer.Name + "'s new location is " + _currentPlayer.Position);
+            Console.WriteLine("The category is " + _currentPlayer.GetCategory(_isRockSelected));
+            AskQuestion(_currentPlayer);
         }
 
         /// Répond à une question choisi en fonction la catégorie
@@ -133,15 +135,14 @@ namespace Trivia
         /// Retourne vrai si la réponse est bonne
         public bool WasCorrectlyAnswered()
         {
-            var player = _players[_currentPlayer];
-            if (player.IsInPrison)
+            if (_currentPlayer.IsInPrison)
             {
-                if (player.WillQuitPrison)
+                if (_currentPlayer.WillQuitPrison)
                 {
-                    player.IsInPrison = false;
+                    _currentPlayer.IsInPrison = false;
                     Console.WriteLine("Answer was correct!!!!");
-                    Console.WriteLine(player.Name + " now has " + ++player.Points + " Gold Coins.");
-                    return player.DidWin();
+                    Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
+                    return _currentPlayer.DidWin();
                 }
                 
                 IncrementPlayer();
@@ -149,20 +150,19 @@ namespace Trivia
             }
 
             Console.WriteLine("Answer was correct!!!!");
-            Console.WriteLine(player.Name + " now has " + ++player.Points + " Gold Coins.");
+            Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
             
             IncrementPlayer();
-            return player.DidWin();
+            return _currentPlayer.DidWin();
         }
 
         /// Retourne vrai si la réponse est fausse 
         public bool WrongAnswer()
         {
-            var player = _players[_currentPlayer];
             
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(player.Name + " was sent to the prison");
-            player.IsInPrison = true;
+            Console.WriteLine(_currentPlayer.Name + " was sent to the prison");
+            _currentPlayer.IsInPrison = true;
 
             IncrementPlayer();
             return false;
@@ -171,9 +171,11 @@ namespace Trivia
 
         private void IncrementPlayer()
         {
-            _currentPlayer++;
-            if (_currentPlayer == _players.Count - 1)
-                _currentPlayer = 0;
+            int currentPlayer = _players.IndexOf(_currentPlayer)+1;
+            if (currentPlayer == _players.Count)
+                currentPlayer = 0;
+
+            _currentPlayer = _players[currentPlayer];
         }
     }
 
