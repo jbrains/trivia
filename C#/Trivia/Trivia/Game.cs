@@ -6,12 +6,7 @@ namespace Trivia
 {
     public class Game
     {
-        private readonly List<string> _players = new();
-
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
-
-        private readonly bool[] _inPenaltyBox = new bool[6];
+        private readonly List<Player> _players = new();
 
         private readonly LinkedList<string> _popQuestions = new();
         private readonly LinkedList<string> _scienceQuestions = new();
@@ -20,18 +15,7 @@ namespace Trivia
         private readonly LinkedList<string> _technoQuestions = new();
 
         private int _currentPlayer;
-        private bool _isGettingOutOfPenaltyBox;
         private bool _isRockSelected;
-
-        /// Liste de toutes les catégories
-        enum Category
-        {
-            Pop,
-            Science,
-            Sport,
-            Rock,
-            Techno
-        }
 
         public Game()
         {
@@ -49,11 +33,13 @@ namespace Trivia
                 _scienceQuestions.AddLast("Science Question " + i);
                 _sportsQuestions.AddLast("Sports Question " + i);
 
-                if (key == ConsoleKey.Y)
+                _isRockSelected = key == ConsoleKey.Y;
+                if (_isRockSelected)
+                {
                     _technoQuestions.AddLast("Techno Question " + i);
+                }
                 else
                 {
-                    _isRockSelected = true;
                     _rockQuestions.AddLast("Rock Question " + i);
                 }
             }
@@ -67,170 +53,117 @@ namespace Trivia
         }
 
         /// Ajout d'un joueur à la partie
-        public bool Add(string playerName)
+        public void Add(string playerName)
         {
-            _players.Add(playerName);
-            _places[_players.Count] = 0;
-            _purses[_players.Count] = 0;
-            _inPenaltyBox[_players.Count] = false;
+            var id = _players.Count + 1;
+            var player = new Player(id, playerName);
+            _players.Add(player);
 
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("He is player number " + _players.Count);
-            return true;
+            Console.WriteLine(player.Name + " was added");
+            Console.WriteLine("He is player number " + player.Id);
         }
 
         /// Lance le tour du joueur
         public void Roll(int roll)
         {
-            Console.WriteLine(_players[_currentPlayer] + " is the current player");
+            var player = _players[_currentPlayer];
+            Console.WriteLine(player.Name + " is the current player");
             Console.WriteLine("He has rolled a " + roll);
 
-            if (_inPenaltyBox[_currentPlayer])
+            if (player.IsInPrison)
             {
-                if (roll % 2 != 0)
+                if (roll % 2 == 0)
                 {
-                    _isGettingOutOfPenaltyBox = true;
-
-                    Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
-                    _places[_currentPlayer] += roll;
-                    if (_places[_currentPlayer] > 11) _places[_currentPlayer] -= 12;
-
-                    Console.WriteLine(_players[_currentPlayer]
-                            + "'s new location is "
-                            + _places[_currentPlayer]);
-                    Console.WriteLine("The category is " + CurrentCategory());
-                    AskQuestion();
+                    player.WillQuitPrison = true;
+                    Console.WriteLine(player.Name + " is not getting out of prison yet");
+                    return;
                 }
-                else
-                {
-                    Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
-                    _isGettingOutOfPenaltyBox = false;
-                }
+                
+                Console.WriteLine(player.Name + " is getting out of prison");
+                player.WillQuitPrison = false;
             }
-            else
-            {
-                _places[_currentPlayer] += roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] -= 12;
+            
+            player.Position += roll;
+            if (player.Position > 11)
+                player.Position -= 12;
 
-                Console.WriteLine(_players[_currentPlayer]
-                        + "'s new location is "
-                        + _places[_currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
-                AskQuestion();
-            }
+            Console.WriteLine(player.Name + "'s new location is " + player.Position);
+            Console.WriteLine("The category is " + player.GetCategory(_isRockSelected));
+            AskQuestion(player);
         }
 
         /// Répond à une question choisi en fonction la catégorie
-        private void AskQuestion()
+        private void AskQuestion(Player player)
         {
-            var category = CurrentCategory();
-            switch (category)
+            switch (player.GetCategory(_isRockSelected))
             {
-                case Category.Pop:
+                case ECategory.Pop:
                     Console.WriteLine(_popQuestions.First());
                     _popQuestions.RemoveFirst();
                     break;
-                case Category.Science:
+                case ECategory.Science:
                     Console.WriteLine(_scienceQuestions.First());
                     _scienceQuestions.RemoveFirst();
                     break;
-                case Category.Sport:
+                case ECategory.Sport:
                     Console.WriteLine(_sportsQuestions.First());
                     _sportsQuestions.RemoveFirst();
                     break;
-                case Category.Rock:
+                case ECategory.Rock:
                     Console.WriteLine(_rockQuestions.First());
                     _rockQuestions.RemoveFirst();
                     break;
-                case Category.Techno:
+                case ECategory.Techno:
                     Console.WriteLine(_technoQuestions.First());
                     _technoQuestions.RemoveFirst();
                     break;
             }
         }
 
-        /// Retourne la catégorie en fonction du positionnement du joueur sur le plateau
-        private Category CurrentCategory()
-        {
-            switch (_places[_currentPlayer])
-            {
-                case 0:
-                case 4:
-                case 8:
-                    return Category.Pop;
-                case 1:
-                case 5:
-                case 9:
-                    return Category.Science;
-                case 2:
-                case 6:
-                case 10:
-                    return Category.Sport;
-                default:
-                    return _isRockSelected ? Category.Rock : Category.Techno;
-            }
-        }
-
         /// Retourne vrai si la réponse est bonne
         public bool WasCorrectlyAnswered()
         {
-            if (_inPenaltyBox[_currentPlayer])
+            var player = _players[_currentPlayer];
+            if (player.IsInPrison)
             {
-                if (_isGettingOutOfPenaltyBox)
+                if (player.WillQuitPrison)
                 {
+                    player.IsInPrison = false;
                     Console.WriteLine("Answer was correct!!!!");
-                    _purses[_currentPlayer]++;
-                    Console.WriteLine(_players[_currentPlayer]
-                            + " now has "
-                            + _purses[_currentPlayer]
-                            + " Gold Coins.");
-
-                    var winner = DidPlayerWin();
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
-
-                    return winner;
+                    Console.WriteLine(player.Name + " now has " + ++player.Points + " Gold Coins.");
+                    return player.DidWin();
                 }
-                else
-                {
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
-                    return true;
-                }
+                
+                IncrementPlayer();
+                return false;
             }
-            else
-            {
-                Console.WriteLine("Answer was correct!!!!");
-                _purses[_currentPlayer]++;
-                Console.WriteLine(_players[_currentPlayer]
-                        + " now has "
-                        + _purses[_currentPlayer]
-                        + " Gold Coins.");
 
-                var winner = DidPlayerWin();
-                _currentPlayer++;
-                if (_currentPlayer == _players.Count) _currentPlayer = 0;
-
-                return winner;
-            }
+            Console.WriteLine("Answer was correct!!!!");
+            Console.WriteLine(player.Name + " now has " + ++player.Points + " Gold Coins.");
+            
+            IncrementPlayer();
+            return player.DidWin();
         }
 
         /// Retourne vrai si la réponse est fausse 
         public bool WrongAnswer()
         {
+            var player = _players[_currentPlayer];
+            
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
-            _inPenaltyBox[_currentPlayer] = true;
+            Console.WriteLine(player.Name + " was sent to the prison");
+            player.IsInPrison = true;
 
-            _currentPlayer++;
-            if (_currentPlayer == _players.Count) _currentPlayer = 0;
-            return true;
+            IncrementPlayer();
+            return false;
         }
 
-        /// Retourne vrais si le joueur à gagner
-        private bool DidPlayerWin()
+
+        private void IncrementPlayer()
         {
-            return _purses[_currentPlayer] != 6;
+            _currentPlayer++;
+            if (_currentPlayer == _players.Count - 1)
+                _currentPlayer = 0;
         }
     }
 
