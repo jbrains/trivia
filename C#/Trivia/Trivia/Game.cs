@@ -46,10 +46,20 @@ namespace Trivia
         }
 
         /// On vérifie si la partie est possible a lancer
-        public bool IsPlayable()
+        public static bool IsPlayable(int numberPlayer)
         {
-            var count = _players.Count;
-            return count is >= 2 and < 7;
+            return numberPlayer is >= 2 and < 7;
+        }
+
+        public bool Add(List<string> playersName)
+        {
+            var success = true;
+            foreach(var player in playersName)
+            {
+                if(success)
+                    Add(player);
+            }
+            return success;
         }
 
         /// Ajout d'un joueur à la partie
