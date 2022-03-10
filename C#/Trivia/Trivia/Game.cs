@@ -74,7 +74,7 @@ namespace Trivia
         }
 
         /// Lance le tour du joueur
-        public void Roll(int roll)
+        public void Roll(int roll, int maxCases)
         {
             var player = _players[_currentPlayer];
             Console.WriteLine(player.Name + " is the current player");
@@ -94,8 +94,8 @@ namespace Trivia
             }
             
             player.Position += roll;
-            if (player.Position > 11)
-                player.Position -= 12;
+            if (player.Position > maxCases - 1)
+                player.Position -= maxCases;
 
             Console.WriteLine(player.Name + "'s new location is " + player.Position);
             Console.WriteLine("The category is " + player.GetCategory(_isRockSelected));
