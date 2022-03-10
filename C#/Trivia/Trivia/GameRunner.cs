@@ -16,6 +16,7 @@ namespace Trivia
 
             if (Game.IsPlayable(players.Count))
             {
+                var board = new Board(40);
                 var aGame = new Game();
                 aGame.Add(players);
 
@@ -23,7 +24,7 @@ namespace Trivia
                 var isWinner = false;
                 do
                 {
-                    aGame.Roll(rand.Next(5) + 1);
+                    aGame.Roll(rand.Next(5) + 1, board.cases);
                     if (rand.Next(9) == 7)
                     {
                         isWinner = aGame.WrongAnswer();
