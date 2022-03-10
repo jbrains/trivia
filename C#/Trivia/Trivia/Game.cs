@@ -18,11 +18,15 @@ namespace Trivia
 
         private readonly LinkedList<Question> _questionList = new();
         private Player _currentPlayer;
+        private int _amountOfGoldToWin;
         private readonly bool _isRockSelected;
         private bool _hasWinner;
 
-        public Game()
+        public Game(int amountOfGoldToWin)
         {
+
+            _amountOfGoldToWin = amountOfGoldToWin > 6 ? amountOfGoldToWin : 6;
+
             Console.WriteLine("Would you like to play with techno questions instead of rock questions ? (Y/N)");
             var key = ConsoleKey.Enter;
             while (key is not (ConsoleKey.Y or ConsoleKey.N))
@@ -211,6 +215,9 @@ namespace Trivia
                 if (_currentPlayer.WillQuitPrison)
                 {
                     _currentPlayer.IsInPrison = false;
+                    Console.WriteLine("Answer was correct!!!!");
+                    Console.WriteLine(_currentPlayer.Name + " now has " + ++_currentPlayer.Points + " Gold Coins.");
+                    return _currentPlayer.DidWin(_amountOfGoldToWin);
                 }
             }
 
@@ -220,10 +227,9 @@ namespace Trivia
             Console.WriteLine("Answer was correct!!!!");
             Console.WriteLine(_currentPlayer.Name + " now has " + _currentPlayer.Points + " Gold Coins.");
 
-            var hasWinner = _currentPlayer.DidWin();
+            var hasWinner = _currentPlayer.DidWin(_amountOfGoldToWin);
             IncrementPlayer();
-            return hasWinner;
-        }
+            return hasWinner;        }
 
         /// Retourne vrai si la réponse est fausse 
         private bool WrongAnswer()

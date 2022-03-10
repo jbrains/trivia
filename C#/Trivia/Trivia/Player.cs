@@ -47,7 +47,7 @@ namespace Trivia
             }
         }
 
-        public bool DidWin() => Points == 6;
+        public bool DidWin(int amountToWin) => Points >= amountToWin;
 
         public override string ToString() => $"{Name} has {Points} points";
     }
