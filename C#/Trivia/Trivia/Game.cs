@@ -23,6 +23,7 @@ namespace Trivia
         private bool _isGettingOutOfPenaltyBox;
         private bool _isRockSelected;
 
+        /// Liste de toutes les catégories
         enum Category
         {
             Pop,
@@ -58,12 +59,14 @@ namespace Trivia
             }
         }
 
+        /// On vérifie si la partie est possible a lancer
         public bool IsPlayable()
         {
             var count = _players.Count;
             return count is >= 2 and < 7;
         }
 
+        /// Ajout d'un joueur à la partie
         public bool Add(string playerName)
         {
             _players.Add(playerName);
@@ -76,6 +79,7 @@ namespace Trivia
             return true;
         }
 
+        /// Lance le tour du joueur
         public void Roll(int roll)
         {
             Console.WriteLine(_players[_currentPlayer] + " is the current player");
@@ -116,6 +120,7 @@ namespace Trivia
             }
         }
 
+        /// Répond à une question choisi en fonction la catégorie
         private void AskQuestion()
         {
             var category = CurrentCategory();
@@ -144,6 +149,7 @@ namespace Trivia
             }
         }
 
+        /// Retourne la catégorie en fonction du positionnement du joueur sur le plateau
         private Category CurrentCategory()
         {
             switch (_places[_currentPlayer])
@@ -165,6 +171,7 @@ namespace Trivia
             }
         }
 
+        /// Retourne vrai si la réponse est bonne
         public bool WasCorrectlyAnswered()
         {
             if (_inPenaltyBox[_currentPlayer])
@@ -208,6 +215,7 @@ namespace Trivia
             }
         }
 
+        /// Retourne vrai si la réponse est fausse 
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
@@ -219,7 +227,7 @@ namespace Trivia
             return true;
         }
 
-
+        /// Retourne vrais si le joueur à gagner
         private bool DidPlayerWin()
         {
             return _purses[_currentPlayer] != 6;
