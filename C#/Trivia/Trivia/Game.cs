@@ -142,15 +142,15 @@ namespace Trivia
 
             if (_currentPlayer.IsInPrison)
             {
-                if (100 - 1/_currentPlayer.TimeInPeison*100 >= new Random().Next(101)) {
+                if (100 - 1/_currentPlayer.TimeInPrison*100 >= new Random().Next(101)) {
                     _currentPlayer.WillQuitPrison = true;
-                    _currentPlayer.TimeInPeison = 1;
+                    _currentPlayer.TimeInPrison = 1;
                     Console.WriteLine(_currentPlayer.Name + " is getting out of prison yet");
                     return;
                 }
 
                 Console.WriteLine(_currentPlayer.Name + " is not getting out of prison");
-                _currentPlayer.TimeInPeison++;
+                _currentPlayer.TimeInPrison++;
                 _currentPlayer.WillQuitPrison = false;
             }
 
