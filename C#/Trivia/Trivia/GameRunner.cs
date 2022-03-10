@@ -26,7 +26,7 @@ namespace Trivia
                 var aGame = new Game(maxScore == string.Empty ? 0 : value);
                 aGame.Add(players);
 
-                aGame.Play();
+                aGame.Play(true);
 				aGame.stat();
             }
             else

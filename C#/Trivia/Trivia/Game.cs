@@ -99,7 +99,7 @@ namespace Trivia
 
 
         /// Lance le tour du joueur
-        public void Play()
+        public void Play(bool witchReadline)
         {
             _hasWinner = false;
             while (!_hasWinner)
@@ -109,15 +109,19 @@ namespace Trivia
 
                 Console.WriteLine(_currentPlayer.Name + " is the current player");
 
-                Console.WriteLine("Action : ");
-                Console.WriteLine("1- Jouer 2- Quitter la partie");
                 ConsoleKey key = ConsoleKey.Enter;
-
-                while (key != ConsoleKey.D1 && key != ConsoleKey.D2)
+                if (witchReadline)
                 {
-                    key = Console.ReadKey().Key;
-                    Console.WriteLine();
-                }
+                    Console.WriteLine("Action : ");
+                    Console.WriteLine("1- Jouer 2- Quitter la partie");
+                    
+
+                    while (key != ConsoleKey.D1 && key != ConsoleKey.D2)
+                    {
+                        key = Console.ReadKey().Key;
+                        Console.WriteLine();
+                    }
+                }else { key = ConsoleKey.D1; }
 
                 switch (key)
                 {
