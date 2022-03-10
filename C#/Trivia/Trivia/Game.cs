@@ -34,7 +34,7 @@ namespace Trivia
 
         public Game()
         {
-            Console.WriteLine("Would you like to play with techno questions instead of rock questions ?");
+            Console.WriteLine("Would you like to play with techno questions instead of rock questions ? (Y/N)");
             ConsoleKey key = ConsoleKey.Enter;
             while (!(key == ConsoleKey.Y || key == ConsoleKey.N))
             {
