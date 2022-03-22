@@ -1,6 +1,6 @@
 FILES=GameRunner.lpr
 CC=fpc
-OPTS=-Mobjfpc -FUout -eout
+OPTS=-Mobjfpc -FUout
 OUTOPTS=-o
 OUT=trivia
 
