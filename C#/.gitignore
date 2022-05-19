@@ -1,7 +1,0 @@
-# MS Visual Studio
-*.suo
-*.csproj.user
-.vs/
-obj
-bin
-.idea
