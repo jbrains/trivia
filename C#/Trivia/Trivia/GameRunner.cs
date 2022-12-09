@@ -4,31 +4,25 @@ namespace Trivia
 {
     public class GameRunner
     {
-        private static bool _notAWinner;
-
         public static void Main(string[] args)
         {
+            var questioner = new Questioner();
+            var player1 = new Player(questioner, false, 0, "Chet", 0);
+            var player2 = new Player(questioner, false, 0, "Pat", 0);
+            var player3 = new Player(questioner, false, 0, "Sue", 0);
+
             var aGame = new Game();
 
-            aGame.Add("Chet");
-            aGame.Add("Pat");
-            aGame.Add("Sue");
+            aGame.Add(player1, player2, player3);
 
-            var rand = new Random();
-
-            do
+            try
             {
-                aGame.Roll(rand.Next(5) + 1);
-
-                if (rand.Next(9) == 7)
-                {
-                    _notAWinner = aGame.WrongAnswer();
-                }
-                else
-                {
-                    _notAWinner = aGame.WasCorrectlyAnswered();
-                }
-            } while (_notAWinner);
+                aGame.Start();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

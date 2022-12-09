@@ -5,4 +5,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Interfaces\" />
+    <None Remove="Implementations\" />
+    <None Remove="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
 </Project>
