@@ -12,18 +12,38 @@ export class Game {
     private sportsQuestions: Array<string> = [];
     private rockQuestions: Array<string> = [];
 
-    constructor() {
+    private popQuestionsCounter: number = 0;
+    private scienceQuestionsCounter: number = 0;
+    private sportsQuestionsCounter: number = 0;
+    private rockQuestionsCounter: number = 0;
 
+    constructor() {
         for (let i = 0; i < 50; i++) {
-            this.popQuestions.push("Pop Question " + i);
-            this.scienceQuestions.push("Science Question " + i);
-            this.sportsQuestions.push("Sports Question " + i);
-            this.rockQuestions.push(this.createRockQuestion(i));
+            this.popQuestions.push(this.createPopQuestion());
+            this.scienceQuestions.push(this.createSienceQuestion());
+            this.sportsQuestions.push(this.createSportsQuestion());
+            this.rockQuestions.push(this.createRockQuestion());
           }
     }
 
-    private createRockQuestion(index: number): string {
-        return "Rock Question " + index;
+    private createPopQuestion(): string {
+        this.popQuestionsCounter++;
+        return "Pop Question " + this.popQuestionsCounter;
+    }
+
+    private createSienceQuestion(): string {
+        this.scienceQuestionsCounter++;
+        return "Science Question " + this.scienceQuestionsCounter;
+    }
+
+    private createSportsQuestion(): string {
+        this.sportsQuestionsCounter++;
+        return "Sports Question " + this.sportsQuestionsCounter;
+    }
+
+    private createRockQuestion(): string {
+        this.rockQuestionsCounter++;
+        return "Rock Question " + this.rockQuestionsCounter;
     }
 
     public add(name: string): boolean {
@@ -77,14 +97,22 @@ export class Game {
     }
 
     private askQuestion(): void {
-        if (this.currentCategory() == 'Pop')
+        if (this.currentCategory() == 'Pop') {
+            this.popQuestions.push(this.createPopQuestion());
             console.log(this.popQuestions.shift());
-        if (this.currentCategory() == 'Science')
+        }
+        if (this.currentCategory() == 'Science') {
+            this.scienceQuestions.push(this.createSienceQuestion());
             console.log(this.scienceQuestions.shift());
-        if (this.currentCategory() == 'Sports')
+        }
+        if (this.currentCategory() == 'Sports') {
+            this.sportsQuestions.push(this.createSportsQuestion());
             console.log(this.sportsQuestions.shift());
-        if (this.currentCategory() == 'Rock')
+        }
+        if (this.currentCategory() == 'Rock') {
+            this.rockQuestions.push(this.createRockQuestion());
             console.log(this.rockQuestions.shift());
+        }
     }
 
     private currentCategory(): string {
