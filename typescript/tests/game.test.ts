@@ -1,6 +1,7 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {GameRunner} from '../src/game-runner';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { Game } from '../src/game';
+import { GameRunner } from '../src/game-runner';
 
 describe('The test environment', () => {
     it('should pass', () => {
@@ -9,6 +10,19 @@ describe('The test environment', () => {
 
     it("should access game", function () {
         expect(GameRunner).to.not.be.undefined;
+    });
+
+    it('should not add the 7th player', () => {
+
+        const game = new Game();
+        expect(game.add("a")).to.be.true;
+        expect(game.add("b")).to.be.true;
+        expect(game.add("c")).to.be.true;
+        expect(game.add("d")).to.be.true;
+        expect(game.add("e")).to.be.true;
+        expect(game.add("f")).to.be.true;
+
+        expect(game.add("g")).to.be.false;
     });
 
 });
