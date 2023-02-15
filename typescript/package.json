@@ -29,6 +29,8 @@
   "author": "Felix Blechschmitt",
   "license": "GPL-3.0",
   "dependencies": {
+    "@types/prompt-sync": "^4.1.0",
+    "prompt-sync": "^4.1.0",
     "typescript": "^2.9.2"
   },
   "devDependencies": {

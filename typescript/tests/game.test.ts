@@ -1,7 +1,8 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
 import { Game } from '../src/game';
-import { GameRunner } from '../src/game-runner';
+import {GameRunner} from '../src/game-runner';
 
 describe('The test environment', () => {
     it('should pass', () => {
@@ -11,6 +12,7 @@ describe('The test environment', () => {
     it("should access game", function () {
         expect(GameRunner).to.not.be.undefined;
     });
+
 
     it('should not add the 7th player', () => {
 
@@ -23,6 +25,12 @@ describe('The test environment', () => {
         expect(game.add("f")).to.be.true;
 
         expect(game.add("g")).to.be.false;
+  });
+    it("should'nt accept a winning gold amount less than 6", function () {
+        const game = new Game();
+        game.askForWinningGoldAmount()
+        expect(game.winningGoldAmount).to.not.be.lessThan(6);
+
     });
 
 });
