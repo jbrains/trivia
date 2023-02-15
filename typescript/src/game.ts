@@ -1,3 +1,7 @@
+import * as PromptSync from 'prompt-sync';
+
+const prompt = PromptSync();
+
 export class Game {
 
     private players: Array<string> = [];
@@ -5,6 +9,7 @@ export class Game {
     private purses: Array<number> = [];
     private inPenaltyBox: Array<boolean> = [];
     private currentPlayer: number = 0;
+    public winningGoldAmount: number = 6;
     private isGettingOutOfPenaltyBox: boolean = false;
 
     private popQuestions: Array<string> = [];
@@ -36,6 +41,21 @@ export class Game {
         console.log("They are player number " + this.players.length);
 
         return true;
+    }
+
+    public askForWinningGoldAmount() {
+        let goldInput = prompt("How many gold coins do you need to win? (have to be more than 6) ");
+        if (/^\d+$/.test(goldInput)){
+            let goldAmount = parseInt(goldInput ? goldInput : this.winningGoldAmount.toString());
+            if(goldAmount < 6){
+                this.askForWinningGoldAmount();
+            } else {
+                this.winningGoldAmount = goldAmount;
+            }
+        } else {
+            this.askForWinningGoldAmount();
+        }
+        
     }
 
     private howManyPlayers(): number {
@@ -110,7 +130,7 @@ export class Game {
     }
 
     private didPlayerWin(): boolean {
-        return !(this.purses[this.currentPlayer] == 6)
+        return !(this.purses[this.currentPlayer] == this.winningGoldAmount)
     }
 
     public wrongAnswer(): boolean {

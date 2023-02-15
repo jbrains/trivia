@@ -6,6 +6,8 @@ export class GameRunner {
         game.add("Chet");
         game.add("Pat");
         game.add("Sue");
+        
+        game.askForWinningGoldAmount();
 
         let notAWinner;
         do {
