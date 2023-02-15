@@ -7,6 +7,9 @@ export class GameRunner {
         game.add("Pat");
         game.add("Sue");
 
+        if(game.howManyPlayers() >= 2)
+        {
+
         let notAWinner;
         do {
 
@@ -19,6 +22,9 @@ export class GameRunner {
             }
         
         } while (notAWinner);
+        } else{
+            console.log('Il doit y avoir deux joueurs minimum NULL NULL NULL bouhhhhhhh');
+        }
     }
 }
 

@@ -38,14 +38,14 @@ export class Game {
         return true;
     }
 
-    private howManyPlayers(): number {
+    public howManyPlayers(): number {
         return this.players.length;
     }
 
     public roll(roll: number) {
         console.log(this.players[this.currentPlayer] + " is the current player");
         console.log("They have rolled a " + roll);
-    
+
         if (this.inPenaltyBox[this.currentPlayer]) {
           if (roll % 2 != 0) {
             this.isGettingOutOfPenaltyBox = true;
