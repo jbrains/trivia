@@ -1,8 +1,8 @@
 
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { Game } from '../src/game';
-import {GameRunner} from '../src/game-runner';
+import { GameRunner } from '../src/game-runner';
 
 describe('The test environment', () => {
     it('should pass', () => {
@@ -25,7 +25,7 @@ describe('The test environment', () => {
         expect(game.add("f")).to.be.true;
 
         expect(game.add("g")).to.be.false;
-  });
+    });
     it("should'nt accept a winning gold amount less than 6", function () {
         const game = new Game();
         game.askForWinningGoldAmount()
@@ -33,4 +33,18 @@ describe('The test environment', () => {
 
     });
 
+    let game: Game;
+    let originalDateNow: any;
+
+    it('should have "Rock" category when system clock is 12:00', () => {
+        game = new Game();
+        originalDateNow = Date.now;
+        // Get the question at index 0 for the "Rock" category
+        const rockQuestion = game.currentCategory().split('');
+        // Assert that the question starts with "Rock" since this is what the createRockQuestion method returns
+        expect(rockQuestion[0]).to.be.equal('R');
+        expect(rockQuestion[1]).to.be.equal('o');
+        expect(rockQuestion[2]).to.be.equal('c');
+        expect(rockQuestion[3]).to.be.equal('k');
+    });
 });

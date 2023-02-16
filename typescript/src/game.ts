@@ -116,7 +116,7 @@ export class Game {
             console.log(this.rockQuestions.shift());
     }
 
-    private currentCategory(): string {
+    public currentCategory(): string {
         if (this.places[this.currentPlayer] == 0)
             return 'Pop';
         if (this.places[this.currentPlayer] == 4)
