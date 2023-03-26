@@ -13,6 +13,8 @@ namespace Trivia
 
         private readonly bool[] _inPenaltyBox = new bool[6];
 
+        public bool IsPlayable;
+
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
@@ -32,14 +34,17 @@ namespace Trivia
             }
         }
 
+        void Update()
+        {
+            if (HowManyPlayers() >= 2)
+            {
+                IsPlayable = true;
+            }
+        }
+
         public string CreateRockQuestion(int index)
         {
             return "Rock Question " + index;
-        }
-
-        public bool IsPlayable()
-        {
-            return (HowManyPlayers() >= 2);
         }
 
         public bool Add(string playerName)
@@ -143,7 +148,7 @@ namespace Trivia
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
-                    Console.WriteLine("Answer was correct!!!!");
+                    Console.WriteLine("Answer was correct!");
                     _purses[_currentPlayer]++;
                     Console.WriteLine(_players[_currentPlayer]
                             + " now has "
