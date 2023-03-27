@@ -13,6 +13,8 @@ namespace Trivia
 
         private readonly bool[] _inPenaltyBox = new bool[6];
 
+        private int allQuestions = 50;
+
         public bool IsPlayable;
 
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
@@ -25,7 +27,7 @@ namespace Trivia
 
         public Game()
         {
-            for (var i = 0; i < 50; i++)
+            for (var i = 0; i < allQuestions; i++)
             {
                 _popQuestions.AddLast("Pop Question " + i);
                 _scienceQuestions.AddLast(("Science Question " + i));
@@ -34,6 +36,7 @@ namespace Trivia
             }
         }
 
+        //if lower than 2 then we cannot play
         void Update()
         {
             if (HowManyPlayers() >= 2)
@@ -59,6 +62,7 @@ namespace Trivia
             return _players.Count;
         }
 
+        //what happens when you roll
         public void Roll(int roll)
         {
             Console.WriteLine(_players[_currentPlayer] + " is the current player");
