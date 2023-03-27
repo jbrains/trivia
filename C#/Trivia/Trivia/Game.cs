@@ -30,7 +30,7 @@ namespace Trivia
                 _popQuestions.AddLast("Pop Question " + i);
                 _scienceQuestions.AddLast(("Science Question " + i));
                 _sportsQuestions.AddLast(("Sports Question " + i));
-                _rockQuestions.AddLast(CreateRockQuestion(i));
+                _rockQuestions.AddLast(" Rock Question" (i));
             }
         }
 
@@ -40,11 +40,6 @@ namespace Trivia
             {
                 IsPlayable = true;
             }
-        }
-
-        public string CreateRockQuestion(int index)
-        {
-            return "Rock Question " + index;
         }
 
         public bool Add(string playerName)
@@ -155,7 +150,7 @@ namespace Trivia
                             + _purses[_currentPlayer]
                             + " Gold Coins.");
 
-                    var winner = DidPlayerWin();
+                    bool winner = DidPlayerWin()
                     _currentPlayer++;
                     if (_currentPlayer == _players.Count) _currentPlayer = 0;
 
@@ -170,14 +165,14 @@ namespace Trivia
             }
             else
             {
-                Console.WriteLine("Answer was corrent!!!!");
+                Console.WriteLine("Answer was correct!");
                 _purses[_currentPlayer]++;
                 Console.WriteLine(_players[_currentPlayer]
                         + " now has "
                         + _purses[_currentPlayer]
                         + " Gold Coins.");
 
-                var winner = DidPlayerWin();
+                bool winner = DidPlayerWin();
                 _currentPlayer++;
                 if (_currentPlayer == _players.Count) _currentPlayer = 0;
 
