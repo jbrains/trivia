@@ -6,8 +6,6 @@
 //  Copyright © 2015 Legacy Coderetreat. All rights reserved.
 //
 
-import Foundation
-
 public class Game {
     var players = [String]()
     var places = [Int](repeating: 0, count: 6)

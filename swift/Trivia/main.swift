@@ -6,8 +6,6 @@
 //  Copyright © 2015 Legacy Coderetreat. All rights reserved.
 //
 
-import Foundation
-
 var notAWinner: Bool
 
 let aGame = Game()
@@ -18,9 +16,9 @@ _ = aGame.add(playerName: "Sue")
 
 repeat {
     
-    aGame.roll(roll: Int(arc4random_uniform(5)) + 1)
+    aGame.roll(roll: Int.random(in: 1...5))
     
-    if (Int(arc4random_uniform(9)) == 7) {
+    if Int.random(in: 0...8) == 7 {
         notAWinner = aGame.wrongAnswer()
     } else {
         notAWinner = aGame.wasCorrectlyAnswered()
