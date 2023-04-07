@@ -11,7 +11,7 @@ export class GameBuilder {
   ];
   private console: IConsole = new SystemConsole();
   private coinGoal: number = 6;
-    private technoQuestion: boolean = false;
+  private technoQuestion: boolean = false;
 
     withTechnoQuestions(){
         this.technoQuestion = true;
@@ -21,6 +21,16 @@ export class GameBuilder {
   withPlayers(players: Player[]): GameBuilder {
     this.players = players;
     return this;
+  }
+
+  withFirstPlayerWithOnlyFalseAnswer(): GameBuilder {
+    this.players[0].alwaysFalseAnswer = true;
+    return this
+  }
+
+  withFirstPlayerAlwaysGettingOut(): GameBuilder {
+    this.players[0].alwaysGetOutOfPenaltyBox = true;
+    return this
   }
 
   withCustomConsole(console: IConsole): GameBuilder {

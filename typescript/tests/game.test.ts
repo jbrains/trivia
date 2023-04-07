@@ -41,4 +41,10 @@ describe('The test environment', () => {
         GameRunner.main(new GameBuilder().withPlayers([new Player('Rémi'), new Player('Théo'), new Player('Nicolas'), new Player('Florian'), new Player('Gauthier'), new Player('Hugo')]).withCustomConsole(console).build());
         expect(console.Content).toContain("now has 6 Gold Coins.");
     });
+
+    it("should getting out of prison", function () {
+        const console = new ConsoleSpy();
+        GameRunner.main(new GameBuilder().withPlayers([new Player('Rémi'), new Player("blbal")]).withFirstPlayerWithOnlyFalseAnswer().withFirstPlayerAlwaysGettingOut().withCustomConsole(console).build());
+        expect(console.Content).toContain("is getting out of the penalty");
+    });
 });

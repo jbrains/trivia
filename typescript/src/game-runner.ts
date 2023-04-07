@@ -8,7 +8,7 @@ export class GameRunner {
       do {
         game.roll(Math.floor(Math.random() * 6) + 1);
 
-        if (Math.floor(Math.random() * 10) == 7) {
+        if (Math.floor(Math.random() * 10) == 7 || game.players[game.currentPlayer].alwaysFalseAnswer) {
           notAWinner = game.wrongAnswer();
         } else {
           notAWinner = game.wasCorrectlyAnswered();
