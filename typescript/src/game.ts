@@ -15,7 +15,7 @@ export class Game {
     private rockOrTechnoQuestions: Array<string> = [];
   private _console: IConsole;
 
-  constructor(console: IConsole, players: Array<Player>) {
+  constructor(console: IConsole, players: Array<Player>, techno: boolean) {
     this._console = console;
     for (const player of players) {
       this.add(player);

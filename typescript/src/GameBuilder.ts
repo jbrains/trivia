@@ -39,6 +39,6 @@ export class GameBuilder {
   // }
 
   build(): Game {
-    return new Game(this.console, this.players);
+    return new Game(this.console, this.players, this.technoQuestion);
   }
 }
