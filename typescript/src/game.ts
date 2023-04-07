@@ -38,8 +38,10 @@ export class Game {
     this.purses[this.howManyPlayers()] = 0;
     this.inPenaltyBox[this.howManyPlayers()] = false;
 
+    this._console.WriteLine("---------- Adding Player ----------");
     this._console.WriteLine(player.name + " was added");
     this._console.WriteLine("They are player number " + this.players.length);
+    this._console.WriteLine(" ");
 
     return true;
   }
@@ -49,6 +51,8 @@ export class Game {
   }
 
   public roll(roll: number) {
+    this._console.WriteLine(" ");
+    this._console.WriteLine("---------- New game round ----------");
     this._console.WriteLine(
       this.players[this.currentPlayer].name + " is the current player"
     );
