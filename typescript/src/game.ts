@@ -12,8 +12,12 @@ export class Game {
   private popQuestions: Array<string> = [];
   private scienceQuestions: Array<string> = [];
   private sportsQuestions: Array<string> = [];
-    private rockOrTechnoQuestions: Array<string> = [];
+  private rockOrTechnoQuestions: Array<string> = [];
   private _console: IConsole;
+
+  get console(): IConsole {
+    return this._console;
+  }
 
   constructor(console: IConsole, players: Array<Player>, techno: boolean) {
     this._console = console;
@@ -48,6 +52,10 @@ export class Game {
 
   private howManyPlayers(): number {
     return this.players.length;
+  }
+
+  public isNumberOfPlayerValid() {
+    return this.howManyPlayers() >= 2 && this.howManyPlayers() <= 6;
   }
 
   public roll(roll: number) {
