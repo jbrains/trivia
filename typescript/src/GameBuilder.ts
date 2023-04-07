@@ -5,8 +5,14 @@ import {IConsole} from "./IConsole";
 export class GameBuilder {
     private console: IConsole = new SystemConsole();
     private technoQuestion: boolean = false;
+    private players: string[] = ["Sue", "Chet", "Pat"];
     withTechnoQuestions(){
         this.technoQuestion = true;
+        return this;
+    }
+
+    withPlayers(players: string[]): GameBuilder{
+        this.players = players;
         return this;
     }
 
@@ -18,7 +24,8 @@ export class GameBuilder {
     build(): Game {
         return new Game(
             this.console,
-            this.technoQuestion
+            this.technoQuestion,
+            this.players
         );
     }
 }

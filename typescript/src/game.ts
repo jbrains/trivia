@@ -1,6 +1,7 @@
 import {IConsole} from "./IConsole";
 
 export class Game {
+
     private players: Array<string> = [];
     private places: Array<number> = [];
     private purses: Array<number> = [];
@@ -15,8 +16,11 @@ export class Game {
     private rockOrTechnoQuestions: Array<string> = [];
 
 
-    constructor(console: IConsole, techno: boolean) {
+    constructor(console: IConsole, techno: boolean, players: string[]) {
         this._console = console;
+        for (const player of players) {
+            this.add(player)
+        }
         for (let i = 0; i < 50; i++) {
             this.popQuestions.push("Pop Question " + i);
             this.scienceQuestions.push("Science Question " + i);
@@ -24,17 +28,20 @@ export class Game {
             this.rockOrTechnoQuestions.push(this.createRockOrTechnoQuestion(i, techno));
           }
     }
-
+    get console(): IConsole {
+        return this._console;
+    }
     private createRockOrTechnoQuestion(index: number, techno: boolean): string {
         return(techno ?  "Techno Question " : "Rock Question ") + index ;
     }
+
+
 
     public add(name: string): boolean {
         this.players.push(name);
         this.places[this.howManyPlayers()] = 0;
         this.purses[this.howManyPlayers()] = 0;
         this.inPenaltyBox[this.howManyPlayers()] = false;
-
         this._console.WriteLine(name + " was added");
         this._console.WriteLine("They are player number " + this.players.length);
 
@@ -43,6 +50,10 @@ export class Game {
 
     private howManyPlayers(): number {
         return this.players.length;
+    }
+
+    public isNumberOfPlayerValid() {
+        return this.howManyPlayers() >= 2 && this.howManyPlayers() <= 6;
     }
 
     public roll(roll: number) {
