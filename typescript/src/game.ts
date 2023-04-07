@@ -10,20 +10,21 @@ export class Game {
     private popQuestions: Array<string> = [];
     private scienceQuestions: Array<string> = [];
     private sportsQuestions: Array<string> = [];
-    private rockQuestions: Array<string> = [];
+    private rockOrTechnoQuestions: Array<string> = [];
 
-    constructor() {
+
+    constructor(techno: boolean) {
 
         for (let i = 0; i < 50; i++) {
             this.popQuestions.push("Pop Question " + i);
             this.scienceQuestions.push("Science Question " + i);
             this.sportsQuestions.push("Sports Question " + i);
-            this.rockQuestions.push(this.createRockQuestion(i));
+            this.rockOrTechnoQuestions.push(this.createRockOrTechnoQuestion(i, techno));
           }
     }
 
-    private createRockQuestion(index: number): string {
-        return "Rock Question " + index;
+    private createRockOrTechnoQuestion(index: number, techno: boolean): string {
+        return(techno ?  " Techno Question" : "Rock Question ") + index ;
     }
 
     public add(name: string): boolean {
@@ -84,7 +85,7 @@ export class Game {
         if (this.currentCategory() == 'Sports')
             console.log(this.sportsQuestions.shift());
         if (this.currentCategory() == 'Rock')
-            console.log(this.rockQuestions.shift());
+            console.log(this.rockOrTechnoQuestions.shift());
     }
 
     private currentCategory(): string {

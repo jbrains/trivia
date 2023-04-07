@@ -1,8 +1,8 @@
 import {Game} from './game';
+import {GameBuilder} from "./GameBuilder";
 
 export class GameRunner {
-    public static main(): void {
-        const game = new Game();
+    public static main(game: Game): void {
         game.add("Chet");
         game.add("Pat");
         game.add("Sue");
@@ -22,6 +22,6 @@ export class GameRunner {
     }
 }
 
-GameRunner.main();
+GameRunner.main(new GameBuilder().withTechnoQuestions().build());
 
   
