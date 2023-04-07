@@ -1,11 +1,12 @@
 import { Game } from "./game";
 import { GameBuilder } from "./GameBuilder";
+import {Player} from "./Player";
 
 export class GameRunner {
   public static main(game: Game): void {
-    game.add("Chet");
-    game.add("Pat");
-    game.add("Sue");
+    game.add(new Player("Chet"));
+    game.add(new Player("Pat"));
+    game.add(new Player("Sue"));
 
     let notAWinner;
     do {

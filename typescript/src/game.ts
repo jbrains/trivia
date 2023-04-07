@@ -124,13 +124,13 @@ export class Game {
   }
 
   private didPlayerWin(): boolean {
-    return !(this.purses[this.currentPlayer] == 6);
+    return !(this.players[this.currentPlayer].gold == 6);
   }
 
   public wrongAnswer(): boolean {
     this._console.WriteLine("Question was incorrectly answered");
     this._console.WriteLine(
-      this.players[this.currentPlayer] + " was sent to the penalty box"
+      this.players[this.currentPlayer].name + " was sent to the penalty box"
     );
     this.inPenaltyBox[this.currentPlayer] = true;
 
@@ -143,11 +143,11 @@ export class Game {
     if (this.inPenaltyBox[this.currentPlayer]) {
       if (this.isGettingOutOfPenaltyBox) {
         this._console.WriteLine("Answer was correct!!!!");
-        this.purses[this.currentPlayer] += 1;
+        this.players[this.currentPlayer].gold += 1;
         this._console.WriteLine(
-          this.players[this.currentPlayer] +
+          this.players[this.currentPlayer].name +
             " now has " +
-            this.purses[this.currentPlayer] +
+            this.players[this.currentPlayer].gold +
             " Gold Coins."
         );
 
@@ -164,11 +164,11 @@ export class Game {
     } else {
       this._console.WriteLine("Answer was corrent!!!!");
 
-      this.purses[this.currentPlayer] += 1;
+      this.players[this.currentPlayer].gold += 1;
       this._console.WriteLine(
-        this.players[this.currentPlayer] +
+        this.players[this.currentPlayer].name +
           " now has " +
-          this.purses[this.currentPlayer] +
+          this.players[this.currentPlayer].gold +
           " Gold Coins."
       );
 
