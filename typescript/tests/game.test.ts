@@ -5,11 +5,11 @@ import {GameBuilder} from "../src/GameBuilder";
 
 describe('The test environment', () => {
     it('should pass', () => {
-        expect(true).to.be.true;
+        expect(true).toBeTruthy()
     });
 
-    it("should access game", function () {
-        expect(GameRunner).to.not.be.undefined;
+    it('should not pass', () => {
+        expect(true).toBeFalsy()
     });
 
     it("should test techno question", function () {
