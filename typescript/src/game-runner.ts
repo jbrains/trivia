@@ -1,27 +1,20 @@
-import {Game} from './game';
-import {GameBuilder} from "./GameBuilder";
+import { Game } from "./game";
+import { GameBuilder } from "./GameBuilder";
+import {Player} from "./Player";
 
 export class GameRunner {
-    public static main(game: Game): void {
+  public static main(game: Game): void {
+    let notAWinner;
+    do {
+      game.roll(Math.floor(Math.random() * 6) + 1);
 
-        if(game.isNumberOfPlayerValid()) {
-            let notAWinner;
-            do {
-                game.roll(Math.floor(Math.random() * 6) + 1);
-
-                if (Math.floor(Math.random() * 10) == 7) {
-                    notAWinner = game.wrongAnswer();
-                } else {
-                    notAWinner = game.wasCorrectlyAnswered();
-                }
-
-            } while (notAWinner);
-        }else{
-            game.console.WriteLine("The game should contain 2 players minimum and 6 players maximum");
-        }
-    }
+      if (Math.floor(Math.random() * 10) == 7) {
+        notAWinner = game.wrongAnswer();
+      } else {
+        notAWinner = game.wasCorrectlyAnswered();
+      }
+    } while (notAWinner);
+  }
 }
 
-GameRunner.main(new GameBuilder().withTechnoQuestions().build());
-
-  
+GameRunner.main(new GameBuilder().build());
