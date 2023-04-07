@@ -1,27 +1,23 @@
-import {Game} from './game';
+import { Game } from "./game";
+import { GameBuilder } from "./GameBuilder";
 
 export class GameRunner {
-    public static main(): void {
-        const game = new Game();
-        game.add("Chet");
-        game.add("Pat");
-        game.add("Sue");
+  public static main(game: Game): void {
+    game.add("Chet");
+    game.add("Pat");
+    game.add("Sue");
 
-        let notAWinner;
-        do {
+    let notAWinner;
+    do {
+      game.roll(Math.floor(Math.random() * 6) + 1);
 
-            game.roll(Math.floor(Math.random() * 6) + 1);
-        
-            if (Math.floor(Math.random() * 10) == 7) {
-            notAWinner = game.wrongAnswer();
-            } else {
-            notAWinner = game.wasCorrectlyAnswered();
-            }
-        
-        } while (notAWinner);
-    }
+      if (Math.floor(Math.random() * 10) == 7) {
+        notAWinner = game.wrongAnswer();
+      } else {
+        notAWinner = game.wasCorrectlyAnswered();
+      }
+    } while (notAWinner);
+  }
 }
 
-GameRunner.main();
-
-  
+GameRunner.main(new GameBuilder().build());
