@@ -1,0 +1,12 @@
+{
+    "targets": {
+        "Main": {
+            "inputs": [
+                "src/Main.elm"
+            ],
+            "output": "build/main.js"
+        }
+    },
+    "port": 54321,
+    "serve": "."
+}
