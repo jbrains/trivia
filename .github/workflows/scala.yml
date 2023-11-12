@@ -1,0 +1,29 @@
+name: Scala
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'scala/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'scala/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'sbt'
+      - run: sbt compile
+        working-directory: scala

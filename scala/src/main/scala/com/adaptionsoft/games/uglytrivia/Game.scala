@@ -3,7 +3,7 @@ package com.adaptionsoft.games.uglytrivia
 import java.util.{LinkedList, ArrayList}
 
 
-class Game {
+class Game:
   var players: ArrayList[String] = new ArrayList[String]
   var places: Array[Int] = new Array[Int](6)
   var purses: Array[Int] = new Array[Int](6)
@@ -15,16 +15,14 @@ class Game {
   var currentPlayer: Int = 0
   var isGettingOutOfPenaltyBox: Boolean = false
 
-  def initialize() {
+  def initialize() =
     var i: Int = 0
-    while (i < 50) {
+    while (i < 50) do
       popQuestions.addLast("Pop Question " + i)
       scienceQuestions.addLast(("Science Question " + i))
       sportsQuestions.addLast(("Sports Question " + i))
       rockQuestions.addLast(createRockQuestion(i))
       i += 1
-    }
-  }
 
   initialize()
 
@@ -32,7 +30,7 @@ class Game {
 
   def isPlayable: Boolean = (howManyPlayers >= 2)
 
-  def add(playerName: String): Boolean = {
+  def add(playerName: String): Boolean =
     players.add(playerName)
     places(howManyPlayers) = 0
     purses(howManyPlayers) = 0
@@ -40,11 +38,10 @@ class Game {
     println(playerName + " was added")
     println("They are player number " + players.size)
     true
-  }
 
   def howManyPlayers: Int = players.size
 
-  def roll(roll: Int): Unit = {
+  def roll(roll: Int): Unit =
     println(players.get(currentPlayer) + " is the current player")
     println("They have rolled a " + roll)
     if (inPenaltyBox(currentPlayer)) {
@@ -69,16 +66,14 @@ class Game {
       println("The category is " + currentCategory)
       askQuestion
     }
-  }
 
-  private def askQuestion: Unit = {
+  private def askQuestion: Unit =
     if (currentCategory == "Pop") println(popQuestions.removeFirst)
     if (currentCategory == "Science") println(scienceQuestions.removeFirst)
     if (currentCategory == "Sports") println(sportsQuestions.removeFirst)
     if (currentCategory == "Rock") println(rockQuestions.removeFirst)
-  }
 
-  private def currentCategory: String = {
+  private def currentCategory: String =
     if (places(currentPlayer) == 0) return "Pop"
     if (places(currentPlayer) == 4) return "Pop"
     if (places(currentPlayer) == 8) return "Pop"
@@ -89,9 +84,8 @@ class Game {
     if (places(currentPlayer) == 6) return "Sports"
     if (places(currentPlayer) == 10) return "Sports"
     "Rock"
-  }
 
-  def wasCorrectlyAnswered: Boolean = {
+  def wasCorrectlyAnswered: Boolean =
     if (inPenaltyBox(currentPlayer)) {
       if (isGettingOutOfPenaltyBox) {
         println("Answer was correct!!!!")
@@ -117,16 +111,13 @@ class Game {
       if (currentPlayer == players.size) currentPlayer = 0
       winner
     }
-  }
 
-  def wrongAnswer: Boolean = {
+  def wrongAnswer: Boolean =
     println("Question was incorrectly answered")
     println(players.get(currentPlayer) + " was sent to the penalty box")
     inPenaltyBox(currentPlayer) = true
     currentPlayer += 1
     if (currentPlayer == players.size) currentPlayer = 0
     true
-  }
 
   private def didPlayerWin: Boolean = !(purses(currentPlayer) == 6)
-}

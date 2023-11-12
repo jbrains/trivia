@@ -4,10 +4,10 @@ import com.adaptionsoft.games.uglytrivia.Game
 import java.util.Random
 
 
-object GameRunner {
-  var notAWinner = false
+object GameRunner:
+  var notAWinner = true
 
-  def main(args: Array[String]) {
+  @main def main(): Unit =
     var aGame = new Game();
     aGame.add("Chet")
     aGame.add("Pat")
@@ -15,7 +15,7 @@ object GameRunner {
 
     var rand: Random = new Random
 
-    do {
+    while notAWinner do
       aGame.roll(rand.nextInt(5) + 1)
       if (rand.nextInt(9) == 7) {
         notAWinner = aGame.wrongAnswer
@@ -23,6 +23,3 @@ object GameRunner {
       else {
         notAWinner = aGame.wasCorrectlyAnswered
       }
-    } while (notAWinner)
-  }
-}

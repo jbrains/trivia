@@ -1,5 +1,7 @@
-scalaVersion := "2.11.6"
+lazy val scala = project
+  .in(file("."))
+  .settings(
+    scalaVersion := "3.3.1",
 
-scalacOptions ++= Seq("-feature", "-deprecation")
-
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % Test
+  )
