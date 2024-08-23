@@ -5,37 +5,15 @@
   "main": "src/game-runner.ts",
   "scripts": {
     "start": "ts-node src/game-runner.ts",
-    "test": "nyc mocha --recursive --require ts-node/register \"tests/**/*.test.ts\""
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "text",
-      "html"
-    ]
+    "test": "vitest"
   },
   "author": "Felix Blechschmitt",
   "license": "GPL-3.0",
   "dependencies": {
-    "typescript": "^2.9.2"
+    "typescript": "^5.5.4"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "nyc": "^15.1.0",
-    "sinon": "^6.1.3",
-    "ts-node": "^7.0.0"
+    "ts-node": "^10.9.2",
+    "vitest": "^2.0.5"
   }
 }
