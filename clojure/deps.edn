@@ -1,0 +1,13 @@
+{:paths ["src"]
+ :deps  {org.clojure/clojure {:mvn/version "1.12.0"}}
+
+ :aliases
+ {:test
+  {:extra-deps  {lambdaisland/kaocha                  {:mvn/version "1.91.1392"}
+                 com.github.seancorfield/expectations {:mvn/version "2.2.214"}}
+   :extra-paths ["test"]
+   :main-opts   ["-m" "kaocha.runner"]}
+
+  :watch
+  {:exec-fn      kaocha.runner/exec-fn
+   :exec-args {:watch? true}}}}

@@ -1,0 +1,10 @@
+{:hooks
+ {:analyze-call
+  {expectations.clojure.test/more->
+   hooks.com.github.seancorfield.expectations/more->
+   expectations.clojure.test/more-of
+   hooks.com.github.seancorfield.expectations/more-of}}
+ :lint-as
+ {expectations.clojure.test/defexpect clojure.test/deftest
+  expectations.clojure.test/from-each clojure.core/for
+  expectations.clojure.test/=? clojure.core/=}}
