@@ -2,7 +2,10 @@
  :deps  {org.clojure/clojure {:mvn/version "1.12.0"}}
 
  :aliases
- {:test
+ {:run-game
+  {:main-opts ["-m" "trivia.Gamerunner"]}
+
+  :test
   {:extra-deps  {lambdaisland/kaocha                  {:mvn/version "1.91.1392"}
                  com.github.seancorfield/expectations {:mvn/version "2.2.214"}}
    :extra-paths ["test"]
