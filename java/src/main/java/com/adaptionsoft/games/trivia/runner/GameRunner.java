@@ -13,7 +13,7 @@ public class GameRunner {
 		runGame();
 	}
 
-	private static void runGame() {
+	private static void runGame(Random random) {
 		Game aGame = new Game();
 
 		aGame.add("Chet");
