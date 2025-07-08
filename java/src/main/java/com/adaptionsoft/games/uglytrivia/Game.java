@@ -20,13 +20,14 @@ public class Game {
 
 	Printer printer;
     
-    public  Game(){
+    public  Game(Printer printer){
     	for (int i = 0; i < 50; i++) {
 			popQuestions.addLast("Pop Question " + i);
 			scienceQuestions.addLast(("Science Question " + i));
 			sportsQuestions.addLast(("Sports Question " + i));
 			rockQuestions.addLast(createRockQuestion(i));
     	}
+		this.printer = printer;
     }
 
 	public String createRockQuestion(int index){
