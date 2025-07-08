@@ -9,7 +9,7 @@ class GameRunnerTest {
 
     @Test
     public void test_xxx() {
-        GameRunner.runGame(new Random(0), new ConsolePrinter());
+        GameRunner.runGame(new Random(0), new ArrayListPrinter());
     }
 
 }
