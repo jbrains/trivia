@@ -1,5 +1,6 @@
 package com.adaptionsoft.games.uglytrivia;
 
+import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -16,6 +17,8 @@ public class Game {
     
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
+
+	Printer printer;
     
     public  Game(){
     	for (int i = 0; i < 50; i++) {
