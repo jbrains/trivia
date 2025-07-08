@@ -12,11 +12,11 @@ public class GameRunner {
 	private static boolean notAWinner;
 
 	public static void main(String[] args) {
-		runGame(new Random());
+		runGame(new Random(), new ConsolePrinter());
 	}
 
-	public static void runGame(Random random) {
-		Game aGame = new Game(new ConsolePrinter());
+	public static void runGame(Random random, Printer printer) {
+		Game aGame = new Game(printer);
 
 		aGame.add("Chet");
 		aGame.add("Pat");
