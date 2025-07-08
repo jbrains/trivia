@@ -10,7 +10,7 @@ public class GameRunner {
 	private static boolean notAWinner;
 
 	public static void main(String[] args) {
-		runGame();
+		runGame(new Random());
 	}
 
 	private static void runGame(Random random) {
