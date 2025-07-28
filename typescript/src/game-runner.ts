@@ -1,8 +1,21 @@
 import {Game} from './game';
+import {RandomInput} from './input'
+import {ConsoleOutput} from './output'
 
 export class GameRunner {
+    constructor(
+        private input = new RandomInput(),
+        private output = new ConsoleOutput()
+    ) {
+    }
+
     public static main(): void {
-        const game = new Game();
+        new GameRunner().run();
+    }
+
+    public run() {
+
+        const game = new Game(this.output);
         game.add("Chet");
         game.add("Pat");
         game.add("Sue");
@@ -10,14 +23,14 @@ export class GameRunner {
         let notAWinner;
         do {
 
-            game.roll(Math.floor(Math.random() * 6) + 1);
-        
-            if (Math.floor(Math.random() * 10) == 7) {
-            notAWinner = game.wrongAnswer();
+            game.roll(this.input.die());
+
+            if (!this.input.responseIsCorrect()) {
+                notAWinner = game.wrongAnswer();
             } else {
-            notAWinner = game.wasCorrectlyAnswered();
+                notAWinner = game.wasCorrectlyAnswered();
             }
-        
+
         } while (notAWinner);
     }
 }
