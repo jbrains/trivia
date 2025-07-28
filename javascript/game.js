@@ -1,6 +1,24 @@
 exports = typeof window !== "undefined" && window !== null ? window : global;
 
-exports.Game = function() {
+function ConsoleOutput() {
+  this.write = function(message) {
+    console.log(message);
+  };
+}
+
+function RandomInput() {
+  this.die = function() {
+    return Math.floor(Math.random() * 6) + 1;
+  };
+
+  this.responseIsCorrect = function() {
+    return Math.floor(Math.random() * 10) !== 7;
+  };
+}
+
+exports.Game = function(output) {
+  this.output = output || new ConsoleOutput();
+  var self = this;
   var players          = new Array();
   var places           = new Array(6);
   var purses           = new Array(6);
@@ -57,12 +75,12 @@ exports.Game = function() {
 
   this.add = function(playerName){
     players.push(playerName);
-    places[this.howManyPlayers()] = 0;
-    purses[this.howManyPlayers()] = 0;
-    inPenaltyBox[this.howManyPlayers()] = false;
+    places[this.howManyPlayers() - 1] = 0;
+    purses[this.howManyPlayers() - 1] = 0;
+    inPenaltyBox[this.howManyPlayers() - 1] = false;
 
-    console.log(playerName + " was added");
-    console.log("They are player number " + players.length);
+    this.output.write(playerName + " was added");
+    this.output.write("They are player number " + players.length);
 
     return true;
   };
@@ -74,34 +92,34 @@ exports.Game = function() {
 
   var askQuestion = function(){
     if(currentCategory() == 'Pop')
-      console.log(popQuestions.shift());
+      self.output.write(popQuestions.shift());
     if(currentCategory() == 'Science')
-      console.log(scienceQuestions.shift());
+      self.output.write(scienceQuestions.shift());
     if(currentCategory() == 'Sports')
-      console.log(sportsQuestions.shift());
+      self.output.write(sportsQuestions.shift());
     if(currentCategory() == 'Rock')
-      console.log(rockQuestions.shift());
+      self.output.write(rockQuestions.shift());
   };
 
   this.roll = function(roll){
-    console.log(players[currentPlayer] + " is the current player");
-    console.log("They have rolled a " + roll);
+    self.output.write(players[currentPlayer] + " is the current player");
+    self.output.write("They have rolled a " + roll);
 
     if(inPenaltyBox[currentPlayer]){
       if(roll % 2 != 0){
         isGettingOutOfPenaltyBox = true;
 
-        console.log(players[currentPlayer] + " is getting out of the penalty box");
+        self.output.write(players[currentPlayer] + " is getting out of the penalty box");
         places[currentPlayer] = places[currentPlayer] + roll;
         if(places[currentPlayer] > 11){
           places[currentPlayer] = places[currentPlayer] - 12;
         }
 
-        console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
-        console.log("The category is " + currentCategory());
+        self.output.write(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
+        self.output.write("The category is " + currentCategory());
         askQuestion();
       }else{
-        console.log(players[currentPlayer] + " is not getting out of the penalty box");
+        self.output.write(players[currentPlayer] + " is not getting out of the penalty box");
         isGettingOutOfPenaltyBox = false;
       }
     }else{
@@ -111,8 +129,8 @@ exports.Game = function() {
         places[currentPlayer] = places[currentPlayer] - 12;
       }
 
-      console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
-      console.log("The category is " + currentCategory());
+      self.output.write(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
+      self.output.write("The category is " + currentCategory());
       askQuestion();
     }
   };
@@ -120,9 +138,9 @@ exports.Game = function() {
   this.wasCorrectlyAnswered = function(){
     if(inPenaltyBox[currentPlayer]){
       if(isGettingOutOfPenaltyBox){
-        console.log('Answer was correct!!!!');
+        self.output.write('Answer was correct!!!!');
         purses[currentPlayer] += 1;
-        console.log(players[currentPlayer] + " now has " +
+        self.output.write(players[currentPlayer] + " now has " +
                     purses[currentPlayer]  + " Gold Coins.");
 
         var winner = didPlayerWin();
@@ -142,10 +160,10 @@ exports.Game = function() {
 
     }else{
 
-      console.log("Answer was corrent!!!!");
+      self.output.write("Answer was corrent!!!!");
 
       purses[currentPlayer] += 1;
-      console.log(players[currentPlayer] + " now has " +
+      self.output.write(players[currentPlayer] + " now has " +
                   purses[currentPlayer]  + " Gold Coins.");
 
       var winner = didPlayerWin();
@@ -159,8 +177,8 @@ exports.Game = function() {
   };
 
   this.wrongAnswer = function(){
-		console.log('Question was incorrectly answered');
-		console.log(players[currentPlayer] + " was sent to the penalty box");
+		self.output.write('Question was incorrectly answered');
+		self.output.write(players[currentPlayer] + " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
 
     currentPlayer += 1;
@@ -170,22 +188,31 @@ exports.Game = function() {
   };
 };
 
-var notAWinner = false;
+function GameRunner(input, output) {
+  this.input = input || new RandomInput();
+  this.output = output || new ConsoleOutput();
 
-var game = new Game();
+  this.run = function() {
+    var game = new Game(this.output);
+    game.add('Chet');
+    game.add('Pat');
+    game.add('Sue');
 
-game.add('Chet');
-game.add('Pat');
-game.add('Sue');
+    var notAWinner;
+    do {
+      game.roll(this.input.die());
 
-do{
+      if (!this.input.responseIsCorrect()) {
+        notAWinner = game.wrongAnswer();
+      } else {
+        notAWinner = game.wasCorrectlyAnswered();
+      }
+    } while (notAWinner);
+  };
+}
 
-  game.roll(Math.floor(Math.random()*6) + 1);
+exports.GameRunner = GameRunner;
 
-  if(Math.floor(Math.random()*10) == 7){
-    notAWinner = game.wrongAnswer();
-  }else{
-    notAWinner = game.wasCorrectlyAnswered();
-  }
-
-}while(notAWinner);
+if (require.main === module) {
+  new GameRunner().run();
+}
