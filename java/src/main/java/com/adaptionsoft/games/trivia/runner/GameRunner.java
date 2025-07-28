@@ -1,36 +1,45 @@
 
 package com.adaptionsoft.games.trivia.runner;
-import java.util.Random;
 
 import com.adaptionsoft.games.uglytrivia.Game;
-
+import com.adaptionsoft.games.trivia.Input;
+import com.adaptionsoft.games.trivia.Output;
+import com.adaptionsoft.games.trivia.RandomInput;
+import com.adaptionsoft.games.trivia.ConsoleOutput;
 
 public class GameRunner {
+    private final Input input;
+    private final Output output;
 
-	private static boolean notAWinner;
+    public GameRunner() {
+        this(new RandomInput(), new ConsoleOutput());
+    }
 
-	public static void main(String[] args) {
-		Game aGame = new Game();
-		
-		aGame.add("Chet");
-		aGame.add("Pat");
-		aGame.add("Sue");
-		
-		Random rand = new Random();
-	
-		do {
-			
-			aGame.roll(rand.nextInt(5) + 1);
-			
-			if (rand.nextInt(9) == 7) {
-				notAWinner = aGame.wrongAnswer();
-			} else {
-				notAWinner = aGame.wasCorrectlyAnswered();
-			}
-			
-			
-			
-		} while (notAWinner);
-		
-	}
+    public GameRunner(Input input, Output output) {
+        this.input = input;
+        this.output = output;
+    }
+
+    public void run() {
+        Game aGame = new Game(output);
+        
+        aGame.add("Chet");
+        aGame.add("Pat");
+        aGame.add("Sue");
+        
+        boolean notAWinner;
+        do {
+            aGame.roll(input.die());
+            
+            if (!input.responseIsCorrect()) {
+                notAWinner = aGame.wrongAnswer();
+            } else {
+                notAWinner = aGame.wasCorrectlyAnswered();
+            }
+        } while (notAWinner);
+    }
+
+    public static void main(String[] args) {
+        new GameRunner().run();
+    }
 }
