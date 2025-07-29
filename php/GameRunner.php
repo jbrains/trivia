@@ -1,27 +1,44 @@
 <?php
 
-include __DIR__.'/Game.php';
+include_once __DIR__.'/Game.php';
+include_once __DIR__.'/RandomInput.php';
 
-$notAWinner;
-
-  $aGame = new Game();
-  
-  $aGame->add("Chet");
-  $aGame->add("Pat");
-  $aGame->add("Sue");
-  
-  
-  do {
+class GameRunner {
+    private $input;
+    private $output;
     
-    $aGame->roll(rand(0,5) + 1);
-    
-    if (rand(0,9) == 7) {
-      $notAWinner = $aGame->wrongAnswer();
-    } else {
-      $notAWinner = $aGame->wasCorrectlyAnswered();
+    function __construct($input, $output) {
+        $this->input = $input;
+        $this->output = $output;
     }
     
+    function run() {
+        $notAWinner;
+        
+        $aGame = new Game($this->output);
+        
+        $aGame->add("Chet");
+        $aGame->add("Pat");
+        $aGame->add("Sue");
+        
+        do {
+            $aGame->roll($this->input->die());
+            
+            if (!$this->input->responseIsCorrect()) {
+                $notAWinner = $aGame->wrongAnswer();
+            } else {
+                $notAWinner = $aGame->wasCorrectlyAnswered();
+            }
+        } while ($notAWinner);
+    }
     
-    
-  } while ($notAWinner);
+    static function main() {
+        $runner = new GameRunner(new RandomInput(), new ConsoleOutput());
+        $runner->run();
+    }
+}
+
+if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
+    GameRunner::main();
+}
   
