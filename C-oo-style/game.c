@@ -1,8 +1,12 @@
 #include "game.h"
+#include "input.h"
+#include "output.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <stdarg.h>
 
 typedef char Question[255];
 
@@ -28,16 +32,26 @@ struct Game
 
   int current_player;
   bool is_getting_out_of_penalty_box;
+  
+  print_func_t print_func;
+  die_func_t die_func;
+  response_func_t response_func;
 };
 
 static void ask_question (struct Game *game);
-static void create_rock_question ();
+static void create_rock_question (int index);
 static const char *current_category (struct Game *game);
 
 static bool did_player_win (struct Game *game);
 
 struct Game *
 game_new ()
+{
+  return game_new_with_deps(default_print, default_die, default_response);
+}
+
+struct Game *
+game_new_with_deps (print_func_t print_func, die_func_t die_func, response_func_t response_func)
 {
   int i;
   struct Game *game;
@@ -50,6 +64,10 @@ game_new ()
   game->science_question = science_questions;
   game->sports_question = sports_questions;
   game->rock_question = rock_questions;
+  
+  game->print_func = print_func;
+  game->die_func = die_func;
+  game->response_func = response_func;
 
   for (i = 0; i < 50; i++)
     {
@@ -82,8 +100,8 @@ game_add (struct Game * game, const char *player_name)
   game->purses[game_how_many_players (game)] = 0;
   game->in_penalty_box[game_how_many_players (game)] = false;
 
-  printf ("%s was added\n", player_name);
-  printf ("They are player number %d\n", ++game->player_num);
+  game->print_func ("%s was added\n", player_name);
+  game->print_func ("They are player number %d\n", ++game->player_num);
 
   return true;
 }
@@ -97,8 +115,8 @@ game_how_many_players (struct Game *game)
 void
 game_roll (struct Game *game, int roll)
 {
-  printf ("%s is the current player\n", game->players[game->current_player]);
-  printf ("They have rolled a %d\n", roll);
+  game->print_func ("%s is the current player\n", game->players[game->current_player]);
+  game->print_func ("They have rolled a %d\n", roll);
 
   if (game->in_penalty_box[game->current_player])
     {
@@ -106,7 +124,7 @@ game_roll (struct Game *game, int roll)
 	{
 	  game->is_getting_out_of_penalty_box = true;
 
-	  printf ("%s is getting out of the penalty box\n",
+	  game->print_func ("%s is getting out of the penalty box\n",
 		  game->players[game->current_player]);
 	  game->places[game->current_player] =
 	    game->places[game->current_player] + roll;
@@ -114,15 +132,15 @@ game_roll (struct Game *game, int roll)
 	    game->places[game->current_player] =
 	      game->places[game->current_player] - 12;
 
-	  printf ("%s's new location is %d\n",
+	  game->print_func ("%s's new location is %d\n",
 		  game->players[game->current_player],
 		  game->places[game->current_player]);
-	  printf ("The category is %s\n", current_category (game));
+	  game->print_func ("The category is %s\n", current_category (game));
 	  ask_question (game);
 	}
       else
 	{
-	  printf ("%s is not getting out of the penalty box\n",
+	  game->print_func ("%s is not getting out of the penalty box\n",
 		  game->players[game->current_player]);
 	  game->is_getting_out_of_penalty_box = false;
 	}
@@ -135,10 +153,10 @@ game_roll (struct Game *game, int roll)
 	game->places[game->current_player] =
 	  game->places[game->current_player] - 12;
 
-      printf ("%s's new location is %d\n",
+      game->print_func ("%s's new location is %d\n",
 	      game->players[game->current_player],
 	      game->places[game->current_player]);
-      printf ("The category is %s\n", current_category (game));
+      game->print_func ("The category is %s\n", current_category (game));
       ask_question (game);
     }
 
@@ -149,19 +167,23 @@ ask_question (struct Game *game)
 {
   if (!strcmp (current_category (game), "Pop"))
     {
-      printf ("%s\n", *(++game->pop_question));
+      game->print_func ("%s\n", *game->pop_question);
+      game->pop_question++;
     }
   if (!strcmp (current_category (game), "Science"))
     {
-      printf ("%s\n", *(++game->science_question));
+      game->print_func ("%s\n", *game->science_question);
+      game->science_question++;
     }
   if (!strcmp (current_category (game), "Sports"))
     {
-      printf ("%s\n", *(++game->sports_question));
+      game->print_func ("%s\n", *game->sports_question);
+      game->sports_question++;
     }
   if (!strcmp (current_category (game), "Rock"))
     {
-      printf ("%s\n", *(++game->rock_question));
+      game->print_func ("%s\n", *game->rock_question);
+      game->rock_question++;
     }
 }
 
@@ -197,9 +219,9 @@ game_was_correctly_answered (struct Game * game)
     {
       if (game->is_getting_out_of_penalty_box)
 	{
-	  printf ("Answer was correct!!!!\n");
+	  game->print_func ("Answer was correct!!!!\n");
 	  game->purses[game->current_player]++;
-	  printf ("%s now has %d Gold Coins.\n",
+	  game->print_func ("%s now has %d Gold Coins.\n",
 		  game->players[game->current_player],
 		  game->purses[game->current_player]);
 	  bool winner = did_player_win (game);
@@ -223,9 +245,9 @@ game_was_correctly_answered (struct Game * game)
   else
     {
 
-      printf ("Answer was corrent!!!!\n");
+      game->print_func ("Answer was corrent!!!!\n");
       game->purses[game->current_player]++;
-      printf ("%s now has %d Gold Coins.\n",
+      game->print_func ("%s now has %d Gold Coins.\n",
 	      game->players[game->current_player],
 	      game->purses[game->current_player]);
 
@@ -241,8 +263,8 @@ game_was_correctly_answered (struct Game * game)
 bool
 game_wrong_answer (struct Game * game)
 {
-  printf ("Question was incorrectly answered\n");
-  printf ("%s was sent to the penalty box\n",
+  game->print_func ("Question was incorrectly answered\n");
+  game->print_func ("%s was sent to the penalty box\n",
 	  game->players[game->current_player]);
   game->in_penalty_box[game->current_player] = true;
 
@@ -257,4 +279,16 @@ bool
 did_player_win (struct Game * game)
 {
   return !(game->purses[game->current_player] == 6);
+}
+
+int
+game_roll_die (struct Game *game)
+{
+  return game->die_func();
+}
+
+bool
+game_is_response_correct (struct Game *game)
+{
+  return game->response_func();
 }

@@ -1,32 +1,27 @@
-#include <stdlib.h>
-#include <time.h>
 #include "game.h"
+#include "game_runner.h"
 
-static bool not_a_winner;
-
-int
-main ()
+void
+run_game (struct Game *a_game)
 {
-  struct Game *a_game = game_new ();
+  bool not_a_winner;
 
   game_add (a_game, "Chet");
   game_add (a_game, "Pat");
   game_add (a_game, "Sue");
 
-	srand ((unsigned)time(0));
+  do
+    {
+      game_roll (a_game, game_roll_die (a_game));
 
-      do
+      if (!game_is_response_correct (a_game))
 	{
-	  game_roll (a_game, rand () % 5 + 1);
-
-	  if (rand () % 9 == 7)
-	    {
-	      not_a_winner = game_wrong_answer (a_game);
-	    }
-	  else
-	    {
-	      not_a_winner = game_was_correctly_answered (a_game);
-	    }
+	  not_a_winner = game_wrong_answer (a_game);
 	}
-      while (not_a_winner);
-  }
+      else
+	{
+	  not_a_winner = game_was_correctly_answered (a_game);
+	}
+    }
+  while (not_a_winner);
+}
