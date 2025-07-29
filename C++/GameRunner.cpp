@@ -1,24 +1,22 @@
 ﻿#include <stdlib.h>
-#include "Game.h"
+#include "GameRunner.h"
+#include "RandomInput.h"
 
-static bool notAWinner;
+GameRunner::GameRunner(Input* input, ostream& output) : input(input), output(output) {}
 
-int main()
-{
-
-	srand(time(NULL));
-	Game aGame;
+void GameRunner::run() {
+	Game aGame(output);
 
 	aGame.add("Chet");
 	aGame.add("Pat");
 	aGame.add("Sue");
 
+	bool notAWinner;
 	do
 	{
+		aGame.roll(input->die());
 
-		aGame.roll(rand() % 5 + 1);
-
-		if (rand() % 9 == 7)
+		if (!input->responseIsCorrect())
 		{
 			notAWinner = aGame.wrongAnswer();
 		}

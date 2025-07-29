@@ -1,5 +1,5 @@
-FILES = GameRunner.cpp Game.cpp Game.h
-TEST_FILES = Game.cpp Game.h
+FILES = main.cpp GameRunner.cpp Game.cpp
+TEST_FILES = GameTest.cpp Game.cpp GameRunner.cpp
 CC = g++
 OPTS = -std=c++17 -Wall -Wextra -Werror
 OUTOPTS = -o 
