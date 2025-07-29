@@ -5,12 +5,13 @@
 
 struct Game;
 
+
 void newGame ( void );
 bool is_playable ( void );
-void roll( int roll );
+void roll( int roll, write_func_t write_func );
 extern int not_a_winner;
 
-void was_correctly_answered (void );
-void wrong_answer (void );
+void was_correctly_answered ( write_func_t write_func );
+void wrong_answer ( write_func_t write_func );
 
 #endif /* GAME_H */
