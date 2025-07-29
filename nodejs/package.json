@@ -2,7 +2,7 @@
   "name": "trivia",
   "version": "1.0.0",
   "description": "Test with node.js =====================",
-  "main": "game.js",
+  "main": "src/game.js",
   "scripts": {
     "test": "mocha src/**/*.spec.js"
   },
