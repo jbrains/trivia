@@ -23,9 +23,10 @@ class Game{
 
 			unsigned int currentPlayer;
 			bool isGettingOutOfPenaltyBox;
+			ostream& output;
 
 public:
-	Game();
+	Game(ostream& output);
 	string createRockQuestion(int index);
 	bool isPlayable();
 	bool add(string playerName);
