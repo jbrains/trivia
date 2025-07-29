@@ -1,31 +1,28 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game.h"
+#include "input.h"
+#include "output.h"
 
-
-int
-main ()
+void run_game(die_func_t die_func, response_is_correct_func_t response_is_correct_func, write_func_t write_func)
 {
   newGame();
 
-  add ("Chet");
-  add ( "Pat");
-  add ( "Sue");
+  add("Chet", write_func);
+  add("Pat", write_func);
+  add("Sue", write_func);
 
-	srand ((unsigned)time(0));
+  do
+  {
+    roll(die_func(), write_func);
 
-      do
-	{
-	  roll ( rand () % 5 + 1);
-
-	  if (rand () % 9 == 7)
-	    {
-	      wrong_answer ();
-	    }
-	  else
-	    {
-	      was_correctly_answered ();
-	    }
-	}
-      while (not_a_winner);
-  }
+    if (!response_is_correct_func())
+    {
+      wrong_answer(write_func);
+    }
+    else
+    {
+      was_correctly_answered(write_func);
+    }
+  } while (not_a_winner);
+}

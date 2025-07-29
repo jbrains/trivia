@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
 
 typedef char Question[255];
 
@@ -19,8 +21,9 @@ Question *rock_question;
 extern  char *players[];
 bool is_getting_out_of_penalty_box;
 extern int not_a_winner;
-static void create_rock_question ();
+static void create_rock_question (int index);
 const char *current_category ( void );
+void ask_question ( write_func_t write_func );
 
 
 void newGame ( void )
@@ -29,10 +32,10 @@ void newGame ( void )
   player_num = 0;
   current_player = 0;
 
-  pop_question = pop_questions;
-  science_question = science_questions;
-  sports_question = sports_questions;
-  rock_question = rock_questions;
+  pop_question = pop_questions - 1;
+  science_question = science_questions - 1;
+  sports_question = sports_questions - 1;
+  rock_question = rock_questions - 1;
 
   for (i = 0; i < 50; i++)
     {
@@ -61,23 +64,23 @@ is_playable ( void )
 
 
 void
-ask_question ( void )
+ask_question ( write_func_t write_func )
 {
   if (!strcmp (current_category (), "Pop"))
     {
-      printf ("%s\n", *(++pop_question));
+      write_func (*(++pop_question));
     }
   if (!strcmp (current_category (), "Science"))
     {
-      printf ("%s\n", *(++science_question));
+      write_func (*(++science_question));
     }
   if (!strcmp (current_category (), "Sports"))
     {
-      printf ("%s\n", *(++sports_question));
+      write_func (*(++sports_question));
     }
   if (!strcmp (current_category (), "Rock"))
     {
-      printf ("%s\n", *(++rock_question));
+      write_func (*(++rock_question));
     }
 }
 
@@ -109,17 +112,19 @@ current_category ( void )
 
 extern int purses[6];
 void
-was_correctly_answered (void )
+was_correctly_answered ( write_func_t write_func )
 {
+  char message[256];
   if (in_penalty_box[current_player])
     {
       if (is_getting_out_of_penalty_box)
 	{
-	  printf ("Answer was correct!!!!\n");
+	  write_func ("Answer was correct!!!!");
 	  purses[current_player]++;
-	  printf ("%s now has %d Gold Coins.\n",
+	  sprintf (message, "%s now has %d Gold Coins.",
 		  players[current_player],
 		  purses[current_player]);
+	  write_func (message);
 	  bool winner = did_player_win ();
 	  current_player++;
 	  if (current_player == player_num)
@@ -141,11 +146,12 @@ was_correctly_answered (void )
   else
     {
 
-      printf ("Answer was corrent!!!!\n");
+      write_func ("Answer was corrent!!!!");
       purses[current_player]++;
-      printf ("%s now has %d Gold Coins.\n",
+      sprintf (message, "%s now has %d Gold Coins.",
 	      players[current_player],
 	      purses[current_player]);
+      write_func (message);
 
       bool winner = did_player_win ();
       current_player++;
@@ -156,11 +162,13 @@ was_correctly_answered (void )
 }
 
 void
-wrong_answer (void )
+wrong_answer ( write_func_t write_func )
 {
-  printf ("Question was incorrectly answered\n");
-  printf ("%s was sent to the penalty box\n",
+  char message[256];
+  write_func ("Question was incorrectly answered");
+  sprintf (message, "%s was sent to the penalty box",
 	  players[current_player]);
+  write_func (message);
   in_penalty_box[current_player] = true;
 
   current_player++;
