@@ -1,4 +1,8 @@
-var Game = function () {
+const RandomInput = require('./random-input');
+const ConsoleOutput = require('./console-output');
+
+var Game = function (output) {
+  this.output = output || new ConsoleOutput();
   var players = new Array();
   var places = new Array(6);
   var purses = new Array(6);
@@ -60,8 +64,8 @@ var Game = function () {
     purses[this.howManyPlayers() - 1] = 0;
     inPenaltyBox[this.howManyPlayers() - 1] = false;
 
-    console.log(playerName + " was added");
-    console.log("They are player number " + players.length);
+    this.output.write(playerName + " was added");
+    this.output.write("They are player number " + players.length);
 
     return true;
   };
@@ -71,36 +75,36 @@ var Game = function () {
   };
 
 
-  var askQuestion = function () {
+  var askQuestion = () => {
     if (currentCategory() == 'Pop')
-      console.log(popQuestions.shift());
+      this.output.write(popQuestions.shift());
     if (currentCategory() == 'Science')
-      console.log(scienceQuestions.shift());
+      this.output.write(scienceQuestions.shift());
     if (currentCategory() == 'Sports')
-      console.log(sportsQuestions.shift());
+      this.output.write(sportsQuestions.shift());
     if (currentCategory() == 'Rock')
-      console.log(rockQuestions.shift());
+      this.output.write(rockQuestions.shift());
   };
 
   this.roll = function (roll) {
-    console.log(players[currentPlayer] + " is the current player");
-    console.log("They have rolled a " + roll);
+    this.output.write(players[currentPlayer] + " is the current player");
+    this.output.write("They have rolled a " + roll);
 
     if (inPenaltyBox[currentPlayer]) {
       if (roll % 2 != 0) {
         isGettingOutOfPenaltyBox = true;
 
-        console.log(players[currentPlayer] + " is getting out of the penalty box");
+        this.output.write(players[currentPlayer] + " is getting out of the penalty box");
         places[currentPlayer] = places[currentPlayer] + roll;
         if (places[currentPlayer] > 11) {
           places[currentPlayer] = places[currentPlayer] - 12;
         }
 
-        console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
-        console.log("The category is " + currentCategory());
+        this.output.write(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
+        this.output.write("The category is " + currentCategory());
         askQuestion();
       } else {
-        console.log(players[currentPlayer] + " is not getting out of the penalty box");
+        this.output.write(players[currentPlayer] + " is not getting out of the penalty box");
         isGettingOutOfPenaltyBox = false;
       }
     } else {
@@ -110,8 +114,8 @@ var Game = function () {
         places[currentPlayer] = places[currentPlayer] - 12;
       }
 
-      console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
-      console.log("The category is " + currentCategory());
+      this.output.write(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
+      this.output.write("The category is " + currentCategory());
       askQuestion();
     }
   };
@@ -119,9 +123,9 @@ var Game = function () {
   this.wasCorrectlyAnswered = function () {
     if (inPenaltyBox[currentPlayer]) {
       if (isGettingOutOfPenaltyBox) {
-        console.log('Answer was correct!!!!');
+        this.output.write('Answer was correct!!!!');
         purses[currentPlayer] += 1;
-        console.log(players[currentPlayer] + " now has " +
+        this.output.write(players[currentPlayer] + " now has " +
             purses[currentPlayer] + " Gold Coins.");
 
         var winner = didPlayerWin();
@@ -140,10 +144,10 @@ var Game = function () {
 
     } else {
 
-      console.log("Answer was correct!!!!");
+      this.output.write("Answer was corrent!!!!");
 
       purses[currentPlayer] += 1;
-      console.log(players[currentPlayer] + " now has " +
+      this.output.write(players[currentPlayer] + " now has " +
           purses[currentPlayer] + " Gold Coins.");
 
       var winner = didPlayerWin();
@@ -157,8 +161,8 @@ var Game = function () {
   };
 
   this.wrongAnswer = function () {
-    console.log('Question was incorrectly answered');
-    console.log(players[currentPlayer] + " was sent to the penalty box");
+    this.output.write('Question was incorrectly answered');
+    this.output.write(players[currentPlayer] + " was sent to the penalty box");
     inPenaltyBox[currentPlayer] = true;
 
     currentPlayer += 1;
@@ -168,24 +172,27 @@ var Game = function () {
   };
 };
 
-var notAWinner = false;
+function runGame(input, output) {
+  var notAWinner = false;
+  var game = new Game(output);
 
-var game = new Game();
+  game.add('Chet');
+  game.add('Pat');
+  game.add('Sue');
 
-game.add('Chet');
-game.add('Pat');
-game.add('Sue');
+  do {
+    game.roll(input.die());
 
-do {
+    if (input.responseIsCorrect()) {
+      notAWinner = game.wasCorrectlyAnswered();
+    } else {
+      notAWinner = game.wrongAnswer();
+    }
+  } while (notAWinner);
+}
 
-  game.roll(Math.floor(Math.random() * 6) + 1);
+if (require.main === module) {
+  runGame(new RandomInput(), new ConsoleOutput())
+}
 
-  if (Math.floor(Math.random() * 10) == 7) {
-    notAWinner = game.wrongAnswer();
-  } else {
-    notAWinner = game.wasCorrectlyAnswered();
-  }
-
-} while (notAWinner);
-
-module.exports = Game;
+module.exports = runGame;
