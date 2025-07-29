@@ -4,23 +4,34 @@ namespace Trivia
 {
     public class GameRunner
     {
-        private static bool _notAWinner;
+        private bool _notAWinner;
+        private readonly IInput _input;
+        private readonly IOutput _output;
+        
+        public GameRunner(IInput input, IOutput output)
+        {
+            _input = input;
+            _output = output;
+        }
 
         public static void Main(string[] args)
         {
-            var aGame = new Game();
+            new GameRunner(new DefaultInput(), new DefaultOutput()).Run();
+        }
+
+        public void Run()
+        {
+            var aGame = new Game(_output);
 
             aGame.Add("Chet");
             aGame.Add("Pat");
             aGame.Add("Sue");
 
-            var rand = new Random();
-
             do
             {
-                aGame.Roll(rand.Next(5) + 1);
+                aGame.Roll(_input.Die());
 
-                if (rand.Next(9) == 7)
+                if (!_input.ResponseIsCorrect())
                 {
                     _notAWinner = aGame.WrongAnswer();
                 }
