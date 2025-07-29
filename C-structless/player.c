@@ -10,7 +10,7 @@ int current_player;
 int not_a_winner = 5;
 extern bool is_getting_out_of_penalty_box;
 extern const char *current_category ( void );
-extern void ask_question ( void );
+extern void ask_question ( write_func_t write_func );
 
 int player_num;
 
@@ -24,25 +24,31 @@ int places[6], purses[6];
 
 bool in_penalty_box[6];
 bool
-add ( const char *player_name)
+add ( const char *player_name, write_func_t write_func)
 {
+	char message[256];
 	players[how_many_players ()] = strdup (player_name);
 	places[how_many_players ()] = 0;
 	purses[how_many_players ()] = 0;
 	in_penalty_box[how_many_players ()] = false;
 
-	printf ("%s was added\n", player_name);
-	printf ("They are player number %d\n", ++player_num);
+	sprintf (message, "%s was added", player_name);
+	write_func (message);
+	sprintf (message, "They are player number %d", ++player_num);
+	write_func (message);
 
 	return true;
 }
 
 
 void
-roll ( int roll)
+roll ( int roll, write_func_t write_func)
 {
-  printf ("%s is the current player\n", players[current_player]);
-  printf ("They have rolled a %d\n", roll);
+  char message[256];
+  sprintf (message, "%s is the current player", players[current_player]);
+  write_func (message);
+  sprintf (message, "They have rolled a %d", roll);
+  write_func (message);
 
   if (in_penalty_box[current_player])
     {
@@ -50,24 +56,28 @@ roll ( int roll)
 	{
 	  is_getting_out_of_penalty_box = true;
 
-	  printf ("%s is getting out of the penalty box\n",
+	  sprintf (message, "%s is getting out of the penalty box",
 		  players[current_player]);
+	  write_func (message);
 	  places[current_player] =
 	    places[current_player] + roll;
 	  if (places[current_player] > 11)
 	    places[current_player] =
 	      places[current_player] - 12;
 
-	  printf ("%s's new location is %d\n",
+	  sprintf (message, "%s's new location is %d",
 		  players[current_player],
 		  places[current_player]);
-	  printf ("The category is %s\n", current_category ());
-	  ask_question ();
+	  write_func (message);
+	  sprintf (message, "The category is %s", current_category ());
+	  write_func (message);
+	  ask_question (write_func);
 	}
       else
 	{
-	  printf ("%s is not getting out of the penalty box\n",
+	  sprintf (message, "%s is not getting out of the penalty box",
 		  players[current_player]);
+	  write_func (message);
 	  is_getting_out_of_penalty_box = false;
 	}
     }
@@ -79,11 +89,13 @@ roll ( int roll)
 	places[current_player] =
 	  places[current_player] - 12;
 
-      printf ("%s's new location is %d\n",
+      sprintf (message, "%s's new location is %d",
 	      players[current_player],
 	      places[current_player]);
-      printf ("The category is %s\n", current_category ());
-      ask_question ();
+      write_func (message);
+      sprintf (message, "The category is %s", current_category ());
+      write_func (message);
+      ask_question (write_func);
     }
 }
 
