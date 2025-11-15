@@ -4,16 +4,21 @@
   "description": "Trivia kata in typescript",
   "main": "src/game-runner.ts",
   "scripts": {
-    "start": "ts-node src/game-runner.ts",
-    "test": "vitest"
+    "start": "tsx ./src/game-runner.ts",
+    "test": "vitest",
+    "golden-record": "tsx ./src/game-runner.ts > output_test.md",
+    "test-full": "pnpm golden-record && pnpm test"
   },
   "author": "Felix Blechschmitt",
   "license": "GPL-3.0",
   "dependencies": {
+    "seedrandom": "^3.0.5",
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "vitest": "^2.0.5"
   }
 }
