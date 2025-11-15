@@ -35,7 +35,7 @@ class Game {
 
     fun add(playerName: String): Boolean {
 
-
+        // Todo: Encapsulate into a Player object.
         players.add(playerName)
         places[howManyPlayers()] = 0
         purses[howManyPlayers()] = 0
@@ -43,7 +43,7 @@ class Game {
 
         println(playerName + " was added")
         println("They are player number " + players.size)
-        return true
+        return true // return value doesnt matter tbh.
     }
 
     fun howManyPlayers(): Int {
@@ -160,6 +160,6 @@ class Game {
     }
 
     private fun didPlayerWin(): Boolean {
-        return purses[currentPlayer] != 6
+        return purses[currentPlayer] != 6 // if false - game ends. wtf.
     }
 }

@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
     aGame.add("Sue")
 
     val rand = Random()
+    rand.setSeed(42)
 
     do {
 
