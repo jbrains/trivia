@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.adaptionsoft.games.trivia.SomeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-15T12:36:57" hostname="Jakubs-MacBook-Pro-2.local" time="0.014">
+<testsuite name="com.adaptionsoft.games.trivia.SomeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-15T12:50:08" hostname="Jakubs-MacBook-Pro-2.local" time="0.012">
   <properties/>
-  <testcase name="question_has_proper_text()" classname="com.adaptionsoft.games.trivia.SomeTest" time="0.014"/>
+  <testcase name="question_has_proper_text()" classname="com.adaptionsoft.games.trivia.SomeTest" time="0.012"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

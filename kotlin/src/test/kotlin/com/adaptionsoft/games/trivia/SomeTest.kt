@@ -17,10 +17,10 @@ class SomeTest {
     @Test
     fun question_has_proper_text() {
         val questions = listOf(
-            Question(Category.POP, 1),
-            Question(Category.SCIENCE, 2),
-            Question(Category.SPORTS, 3),
-            Question(Category.ROCK, 4),
+            Question(Category.Pop, 1),
+            Question(Category.Science, 2),
+            Question(Category.Sports, 3),
+            Question(Category.Rock, 4),
         )
 
         val texts = questions.map { it.toString() }

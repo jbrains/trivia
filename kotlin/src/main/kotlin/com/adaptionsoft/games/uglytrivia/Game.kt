@@ -8,20 +8,20 @@ class Game {
     internal var purses = IntArray(6)
     internal var inPenaltyBox = BooleanArray(6)
 
-    internal var popQuestions = LinkedList<Any>()
-    internal var scienceQuestions = LinkedList<Any>()
-    internal var sportsQuestions = LinkedList<Any>()
-    internal var rockQuestions = LinkedList<Any>()
+    internal var popQuestions = LinkedList<String>()
+    internal var scienceQuestions = LinkedList<String>()
+    internal var sportsQuestions = LinkedList<String>()
+    internal var rockQuestions = LinkedList<String>()
 
     internal var currentPlayer = 0
     internal var isGettingOutOfPenaltyBox: Boolean = false
 
     init {
         for (i in 0..49) {
-            popQuestions.addLast(Question(Category.POP, i).toString())
-            scienceQuestions.addLast(Question(Category.SCIENCE, i).toString())
-            sportsQuestions.addLast(Question(Category.SPORTS, i).toString())
-            rockQuestions.addLast(Question(Category.ROCK, i).toString())
+            popQuestions.addLast(Question(Category.Pop, i).toString())
+            scienceQuestions.addLast(Question(Category.Science, i).toString())
+            sportsQuestions.addLast(Question(Category.Sports, i).toString())
+            rockQuestions.addLast(Question(Category.Rock, i).toString())
         }
     }
 
@@ -62,7 +62,7 @@ class Game {
                         + "'s new location is "
                         + places[currentPlayer])
                 println("The category is " + currentCategory())
-                askQuestion()
+                println(askQuestion())
             } else {
                 println(players[currentPlayer].toString() + " is not getting out of the penalty box")
                 isGettingOutOfPenaltyBox = false
@@ -76,34 +76,31 @@ class Game {
             println(players[currentPlayer].toString()
                     + "'s new location is "
                     + places[currentPlayer])
-            println("The category is " + currentCategory())
-            askQuestion()
+            println("The category is " + currentCategory()) // todo: parse category
+            println(askQuestion())
         }
 
     }
 
-    private fun askQuestion() {
-        if (currentCategory() === "Pop")
-            println(popQuestions.removeFirst())
-        if (currentCategory() === "Science")
-            println(scienceQuestions.removeFirst())
-        if (currentCategory() === "Sports")
-            println(sportsQuestions.removeFirst())
-        if (currentCategory() === "Rock")
-            println(rockQuestions.removeFirst())
-    }
+    private fun askQuestion() =
+        when(currentCategory()) {
+            Category.Pop -> popQuestions.removeFirst()
+            Category.Science -> scienceQuestions.removeFirst()
+            Category.Sports -> sportsQuestions.removeFirst()
+            Category.Rock -> rockQuestions.removeFirst()
+        }
 
-    private fun currentCategory(): String {
-        if (places[currentPlayer] == 0) return "Pop"
-        if (places[currentPlayer] == 4) return "Pop"
-        if (places[currentPlayer] == 8) return "Pop"
-        if (places[currentPlayer] == 1) return "Science"
-        if (places[currentPlayer] == 5) return "Science"
-        if (places[currentPlayer] == 9) return "Science"
-        if (places[currentPlayer] == 2) return "Sports"
-        if (places[currentPlayer] == 6) return "Sports"
-        if (places[currentPlayer] == 10) return "Sports"
-        return "Rock"
+    private fun currentCategory(): Category {
+        if (places[currentPlayer] == 0) return Category.Pop
+        if (places[currentPlayer] == 4) return Category.Pop
+        if (places[currentPlayer] == 8) return Category.Pop
+        if (places[currentPlayer] == 1) return Category.Science
+        if (places[currentPlayer] == 5) return Category.Science
+        if (places[currentPlayer] == 9) return Category.Science
+        if (places[currentPlayer] == 2) return Category.Sports
+        if (places[currentPlayer] == 6) return Category.Sports
+        if (places[currentPlayer] == 10) return Category.Sports
+        return Category.Rock
     }
 
     fun wasCorrectlyAnswered(): Boolean {
