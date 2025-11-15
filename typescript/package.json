@@ -4,9 +4,9 @@
   "description": "Trivia kata in typescript",
   "main": "src/game-runner.ts",
   "scripts": {
-    "start": "tsx ./src/game-runner.ts",
+    "start": "tsx ./src/ai/game-runner.ts",
     "test": "vitest",
-    "golden-record": "tsx ./src/game-runner.ts > output_test.md",
+    "golden-record": "tsx ./src/ai/game-runner.ts > output_test.md",
     "test-full": "pnpm golden-record && pnpm test"
   },
   "author": "Felix Blechschmitt",
