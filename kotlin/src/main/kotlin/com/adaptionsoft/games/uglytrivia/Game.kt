@@ -18,15 +18,11 @@ class Game {
 
     init {
         for (i in 0..49) {
-            popQuestions.addLast("Pop Question " + i)
-            scienceQuestions.addLast("Science Question " + i)
-            sportsQuestions.addLast("Sports Question " + i)
-            rockQuestions.addLast(createRockQuestion(i))
+            popQuestions.addLast(Question(Category.POP, i).toString())
+            scienceQuestions.addLast(Question(Category.SCIENCE, i).toString())
+            sportsQuestions.addLast(Question(Category.SPORTS, i).toString())
+            rockQuestions.addLast(Question(Category.ROCK, i).toString())
         }
-    }
-
-    fun createRockQuestion(index: Int): String {
-        return "Rock Question " + index
     }
 
     fun isPlayable(): Boolean {

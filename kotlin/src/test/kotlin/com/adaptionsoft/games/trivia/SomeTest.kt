@@ -22,7 +22,7 @@ class SomeTest {
             Question(Category.SPORTS, 3),
             Question(Category.ROCK, 4),
         )
-        
+
         val texts = questions.map { it.toString() }
 
         assertEquals("Pop Question 1", texts[0])
