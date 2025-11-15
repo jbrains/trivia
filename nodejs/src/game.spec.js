@@ -1,9 +1,9 @@
-const Should = require('should');
-const Game = require('./game.js');
+const Should = require("should");
+const Game = require("./game.js");
 
 describe("The test environment", function () {
   it("should pass", function () {
-    (true).should.equal(true);
+    true.should.equal(true);
   });
 
   it("should access game", function () {
