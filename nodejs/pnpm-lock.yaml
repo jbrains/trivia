@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      seedrandom:
+        specifier: ^3.0.5
+        version: 3.0.5
     devDependencies:
       mocha:
         specifier: ^5.2.0
@@ -99,6 +103,9 @@ packages:
   path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
+
+  seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
 
   should-equal@2.0.0:
     resolution: {integrity: sha512-ZP36TMrK9euEuWQYBig9W55WPC7uo37qzAEmbjHz4gfyuXrEUgF8cUvQVO+w+d3OMfPvSRQJ22lSm8MQJ43LTA==}
@@ -205,6 +212,8 @@ snapshots:
       wrappy: 1.0.2
 
   path-is-absolute@1.0.1: {}
+
+  seedrandom@3.0.5: {}
 
   should-equal@2.0.0:
     dependencies:

@@ -4,11 +4,15 @@
   "description": "Test with node.js =====================",
   "main": "game.js",
   "scripts": {
-    "test": "mocha src/**/*.spec.js"
+    "test": "mocha src/**/*.spec.js",
+    "start": "node ./src/index.js",
+    "golden-record": "node ./src/index.js > output_test.md"
   },
   "author": "",
   "license": "GPL v3",
-  "dependencies": {},
+  "dependencies": {
+    "seedrandom": "^3.0.5"
+  },
   "devDependencies": {
     "mocha": "^5.2.0",
     "should": "^13.2.1"
