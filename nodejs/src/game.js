@@ -6,10 +6,18 @@ var Game = function () {
   var purses = new Array(6);
   var inPenaltyBox = new Array(6);
 
+  // Todo: Use QuestionsPool
   var popQuestions = new Array();
   var scienceQuestions = new Array();
   var sportsQuestions = new Array();
   var rockQuestions = new Array();
+
+  // const questions = new Map(
+  //   [Category.Pop, []],
+  //   [Category.Science, []],
+  //   [Category.Sports, []],
+  //   [Category.Rock, []]
+  // );
 
   var currentPlayer = 0;
   var isGettingOutOfPenaltyBox = false;
@@ -41,6 +49,7 @@ var Game = function () {
   };
 
   for (var i = 0; i < 50; i++) {
+    // Todo: Use QuestionsPool
     popQuestions.push(new Question(Category.Pop, i).toString());
     scienceQuestions.push(new Question(Category.Science, i).toString());
     sportsQuestions.push(new Question(Category.Sports, i).toString());
@@ -68,11 +77,15 @@ var Game = function () {
   };
 
   var askQuestion = function () {
+    // Todo: Use QuestionsPool
     if (currentCategory() == Category.Pop) console.log(popQuestions.shift());
+
     if (currentCategory() == Category.Science)
       console.log(scienceQuestions.shift());
+
     if (currentCategory() == Category.Sports)
       console.log(sportsQuestions.shift());
+
     if (currentCategory() == Category.Rock) console.log(rockQuestions.shift());
   };
 
