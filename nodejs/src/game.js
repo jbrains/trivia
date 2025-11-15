@@ -1,3 +1,5 @@
+const { Category, Question } = require("./core");
+
 var Game = function () {
   var players = new Array();
   var places = new Array(6);
@@ -17,28 +19,34 @@ var Game = function () {
   };
 
   var currentCategory = function () {
-    if (places[currentPlayer] == 0) return "Pop";
-    if (places[currentPlayer] == 4) return "Pop";
-    if (places[currentPlayer] == 8) return "Pop";
-    if (places[currentPlayer] == 1) return "Science";
-    if (places[currentPlayer] == 5) return "Science";
-    if (places[currentPlayer] == 9) return "Science";
-    if (places[currentPlayer] == 2) return "Sports";
-    if (places[currentPlayer] == 6) return "Sports";
-    if (places[currentPlayer] == 10) return "Sports";
-    return "Rock";
-  };
+    switch (places[currentPlayer]) {
+      case 0:
+      case 4:
+      case 8:
+        return Category.Pop;
 
-  this.createRockQuestion = function (index) {
-    return "Rock Question " + index;
+      case 1:
+      case 5:
+      case 9:
+        return Category.Science;
+
+      case 2:
+      case 6:
+      case 10:
+        return Category.Sports;
+
+      default:
+        return Category.Rock;
+    }
   };
 
   for (var i = 0; i < 50; i++) {
-    popQuestions.push("Pop Question " + i);
-    scienceQuestions.push("Science Question " + i);
-    sportsQuestions.push("Sports Question " + i);
-    rockQuestions.push(this.createRockQuestion(i));
+    popQuestions.push(new Question(Category.Pop, i).toString());
+    scienceQuestions.push(new Question(Category.Science, i).toString());
+    sportsQuestions.push(new Question(Category.Sports, i).toString());
+    rockQuestions.push(new Question(Category.Rock, i).toString());
   }
+
   this.isPlayable = function (howManyPlayers) {
     return howManyPlayers >= 2;
   };
@@ -60,10 +68,12 @@ var Game = function () {
   };
 
   var askQuestion = function () {
-    if (currentCategory() == "Pop") console.log(popQuestions.shift());
-    if (currentCategory() == "Science") console.log(scienceQuestions.shift());
-    if (currentCategory() == "Sports") console.log(sportsQuestions.shift());
-    if (currentCategory() == "Rock") console.log(rockQuestions.shift());
+    if (currentCategory() == Category.Pop) console.log(popQuestions.shift());
+    if (currentCategory() == Category.Science)
+      console.log(scienceQuestions.shift());
+    if (currentCategory() == Category.Sports)
+      console.log(sportsQuestions.shift());
+    if (currentCategory() == Category.Rock) console.log(rockQuestions.shift());
   };
 
   this.roll = function (roll) {

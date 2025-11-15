@@ -4,9 +4,10 @@
   "description": "Test with node.js =====================",
   "main": "game.js",
   "scripts": {
-    "test": "mocha src/**/*.spec.js",
     "start": "node ./src/index.js",
-    "golden-record": "node ./src/index.js > output_test.md"
+    "golden-record": "node ./src/index.js > output_test.md",
+    "test": "mocha src/**/*.spec.js",
+    "test-full": "pnpm golden-record && pnpm test"
   },
   "author": "",
   "license": "GPL v3",
