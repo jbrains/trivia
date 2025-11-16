@@ -1,3 +1,5 @@
+require("seedrandom")("42", { global: true });
+
 // Game.ts
 export type Logger = (...args: any[]) => void;
 

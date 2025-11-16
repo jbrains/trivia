@@ -1,3 +1,5 @@
+require("seedrandom")("42", { global: true });
+
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import { GameRunner } from "./game-runner";
@@ -18,10 +20,10 @@ describe("Golden Record snapshots", () => {
   });
 });
 
-// describe("player 1 is always Na", () => {
+// describe("player 1 is always NaN", () => {
 //   it("should match", () => {
 //     const game = new Game();
-//     game.coins()
+//     game.coins[0];
 //     // expect(actual).toBe(expected);
 //   });
 // });
