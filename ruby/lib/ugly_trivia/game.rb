@@ -152,3 +152,25 @@ module UglyTrivia
     end
   end
 end
+
+# ... ... ...
+if __FILE__ == $PROGRAM_NAME
+  playing = true
+  
+  game = UglyTrivia::Game.new
+  game.add("Chet")
+  game.add("Pat")
+  game.add("Sue")
+
+  while playing
+    game.roll(rand(1..5))
+       
+    if rand(0...9) == 7
+      playing = !game.wrong_answer
+    else
+      playing = !game.was_correctly_answered
+    end
+  end
+
+  puts "Winner is: #{game.who_won}"
+end
