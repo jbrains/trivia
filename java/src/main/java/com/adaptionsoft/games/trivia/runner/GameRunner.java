@@ -15,6 +15,11 @@ public class GameRunner {
 		aGame.add("Chet");
 		aGame.add("Pat");
 		aGame.add("Sue");
+
+		if (!aGame.isPlayable()) {
+        	System.out.println("At least two players are required");
+        return;
+    	}
 		
 		Random rand = new Random();
 	

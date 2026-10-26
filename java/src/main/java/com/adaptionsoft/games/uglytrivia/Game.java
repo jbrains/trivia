@@ -22,13 +22,10 @@ public class Game {
 			popQuestions.addLast("Pop Question " + i);
 			scienceQuestions.addLast(("Science Question " + i));
 			sportsQuestions.addLast(("Sports Question " + i));
-			rockQuestions.addLast(createRockQuestion(i));
+			rockQuestions.addLast("Rock Question " + i);
     	}
     }
 
-	public String createRockQuestion(int index){
-		return "Rock Question " + index;
-	}
 	
 	public boolean isPlayable() {
 		return (howManyPlayers() >= 2);
@@ -43,7 +40,7 @@ public class Game {
 	    inPenaltyBox[howManyPlayers()] = false;
 	    
 	    System.out.println(playerName + " was added");
-	    System.out.println("They are player number " + players.size());
+	    System.out.println("They are player number " + howManyPlayers());
 		return true;
 	}
 	
@@ -124,12 +121,12 @@ public class Game {
 				
 				boolean winner = didPlayerWin();
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
+				if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 				
 				return winner;
 			} else {
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
+				if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 				return true;
 			}
 			
@@ -146,7 +143,7 @@ public class Game {
 			
 			boolean winner = didPlayerWin();
 			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
+			if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 			
 			return winner;
 		}
@@ -158,7 +155,7 @@ public class Game {
 		inPenaltyBox[currentPlayer] = true;
 		
 		currentPlayer++;
-		if (currentPlayer == players.size()) currentPlayer = 0;
+		if (currentPlayer == howManyPlayers()) currentPlayer = 0;
 		return true;
 	}
 
